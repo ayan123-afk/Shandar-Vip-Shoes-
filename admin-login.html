@@ -2,150 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Shandar VIP Shoes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Admin Login | Shandar VIP</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .login-wrapper {
-            width: 100%;
-            max-width: 450px;
-            padding: 2rem;
-        }
-        .login-card {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 2.5rem;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .logo img {
-            height: 70px;
-        }
-        h2 {
-            color: #00f0ff;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-        .input-group label {
-            display: block;
-            color: #cccccc;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        .input-group input:focus {
-            outline: none;
-            border-color: #00f0ff;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-        }
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
-        }
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
-        }
-        .error {
-            color: #ff4444;
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .info-text {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-            font-size: 0.85rem;
-        }
+        body { background: #0d0d0d; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+        .login-card { background: #1a1a1a; padding: 2rem; border-radius: 10px; width: 350px; border: 1px solid #00f0ff; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #333; border: none; color: white; }
+        button { width: 100%; padding: 10px; background: #00f0ff; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="login-wrapper">
-        <div class="login-card">
-            <div class="logo">
-                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP Shoes">
-            </div>
-            <h2><i class="fas fa-shield-alt"></i> Admin Access</h2>
-            <div class="input-group">
-                <label><i class="fas fa-envelope"></i> Email Address</label>
-                <input type="email" id="email" placeholder="admin@shandarvip.com" autocomplete="email">
-            </div>
-            <div class="input-group">
-                <label><i class="fas fa-lock"></i> Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
-            </div>
-            <button class="btn-login" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</button>
-            <div id="errorMsg" class="error"></div>
-            <div class="info-text">
-                <i class="fas fa-info-circle"></i> Secure admin panel for store management
-            </div>
-        </div>
+    <div class="login-card">
+        <h2>Admin Login</h2>
+        <input type="email" id="email" placeholder="Admin Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
     </div>
     <script>
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
-            if (!email || !password) {
-                document.getElementById('errorMsg').innerText = 'Please enter email and password';
-                return;
-            }
-            
-            const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
-            if (error) {
-                document.getElementById('errorMsg').innerText = error.message;
-            } else {
-                window.location.href = 'admin-dashboard.html';
-            }
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+            else window.location.href = 'admin-dashboard.html';
         }
-        
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
     </script>
 </body>
 </html>
