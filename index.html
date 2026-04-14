@@ -10,7 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ---------- RESET & GLOBAL ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -26,9 +25,8 @@
             --text: #ffffff;
             --gray: #a0a0a0;
             --gray-light: #c0c0c0;
-            --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
-            --transition-smooth: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         body {
@@ -37,42 +35,28 @@
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
             line-height: 1.5;
-            font-weight: 400;
         }
 
-        /* ---------- ANIMATIONS ---------- */
+        /* Animations */
         @keyframes fadeSlideUp {
             0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes fadeSlideRight {
-            0% { opacity: 0; transform: translateX(-30px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes fadeSlideLeft {
-            0% { opacity: 0; transform: translateX(30px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes scaleIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
         @keyframes modalFadeIn {
             from { opacity: 0; transform: scale(0.96); }
             to { opacity: 1; transform: scale(1); }
         }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-        /* ---------- TYPOGRAPHY ---------- */
+        /* Typography */
         .hero-title {
             font-family: 'Playfair Display', serif;
             font-weight: 800;
             letter-spacing: -0.02em;
         }
-
         .title {
             font-family: 'Playfair Display', serif;
             font-size: 3.2rem;
@@ -80,49 +64,35 @@
             text-transform: uppercase;
             border-left: 5px solid var(--accent);
             padding-left: 1.8rem;
-            letter-spacing: 1px;
             font-weight: 800;
         }
+        .title span { color: var(--accent); }
 
-        .title span {
-            color: var(--accent);
-            font-weight: 900;
-        }
-
-        /* ---------- NAVIGATION ---------- */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(16px);
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
             padding: 1.2rem 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border);
-            transition: 0.25s;
         }
-
         .logo img {
             height: 48px;
-            transition: var(--transition-smooth);
+            transition: var(--transition);
             cursor: pointer;
-            filter: drop-shadow(0 0 4px rgba(0,240,255,0.3));
         }
-
-        .logo img:hover {
-            transform: scale(1.02);
-            filter: brightness(1.05);
-        }
-
+        .logo img:hover { transform: scale(1.02); filter: brightness(1.05); }
         .nav-links {
             display: flex;
             gap: 3rem;
             list-style: none;
         }
-
         .nav-links a {
             color: var(--text);
             text-decoration: none;
@@ -135,25 +105,17 @@
             padding-bottom: 6px;
             border-bottom: 1px solid transparent;
         }
-
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active-link {
             color: var(--accent);
             border-bottom-color: var(--accent);
         }
-
         .cart-icon {
             position: relative;
             cursor: pointer;
             font-size: 1.6rem;
             transition: 0.3s;
-            color: var(--text);
         }
-
-        .cart-icon:hover {
-            color: var(--accent);
-            transform: scale(1.02);
-        }
-
+        .cart-icon:hover { color: var(--accent); transform: scale(1.02); }
         .cart-badge {
             position: absolute;
             top: -10px;
@@ -168,10 +130,46 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-family: monospace;
         }
 
-        /* ---------- HERO SECTION ---------- */
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: 0.3s;
+        }
+        .menu-toggle:hover { color: var(--accent); }
+
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 70%;
+                height: calc(100vh - 80px);
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 2rem;
+                transition: 0.4s ease;
+                border-right: 1px solid var(--accent);
+                z-index: 999;
+            }
+            .nav-links.active {
+                left: 0;
+            }
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.5rem 0;
+                display: block;
+            }
+        }
+
+        /* Hero */
         .hero {
             height: 100vh;
             display: flex;
@@ -179,110 +177,108 @@
             justify-content: center;
             background: radial-gradient(circle at 70% 25%, #0c0c0c 0%, #000000 95%);
             position: relative;
-            overflow: hidden;
             padding: 0 8%;
         }
-
         .hero-title {
             font-size: 7vw;
             line-height: 0.92;
             text-transform: uppercase;
-            font-weight: 800;
             text-align: center;
-            letter-spacing: -0.02em;
             animation: fadeSlideUp 1s ease-out;
         }
-
         .hero-title span {
             color: transparent;
             -webkit-text-stroke: 1.2px var(--accent);
             text-shadow: 0 0 12px rgba(0,240,255,0.2);
         }
-
         .hero-desc {
             position: absolute;
             bottom: 10%;
             left: 8%;
             max-width: 460px;
-            font-size: 1rem;
             color: var(--gray);
-            font-weight: 400;
-            letter-spacing: 0.5px;
             border-left: 2px solid var(--accent);
             padding-left: 1.5rem;
-            animation: fadeSlideRight 0.8s ease-out 0.2s backwards;
+            animation: slideInRight 0.8s ease-out 0.2s backwards;
         }
-
         .hero button {
             position: absolute;
             bottom: 10%;
             right: 8%;
-            animation: fadeSlideLeft 0.8s ease-out 0.2s backwards;
+            animation: slideInRight 0.8s ease-out 0.2s backwards;
         }
 
-        /* ---------- SECTIONS ---------- */
+        /* Sections */
         section {
             padding: 130px 8% 100px;
             display: none;
             min-height: 100vh;
         }
+        section.active { display: block; animation: fadeSlideUp 0.7s ease-out forwards; }
 
-        section.active {
-            display: block;
-            animation: fadeSlideUp 0.7s ease-out forwards;
-        }
-
-        /* ---------- PRODUCT GRID ---------- */
+        /* Product Grid Enhanced */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 3rem;
         }
-
         .product-card {
             background: var(--card);
             border: 1px solid var(--border);
-            transition: var(--transition-smooth);
+            transition: var(--transition);
             overflow: hidden;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeSlideUp 0.6s ease-out forwards;
+            position: relative;
         }
-
         .product-card:nth-child(1) { animation-delay: 0.1s; }
         .product-card:nth-child(2) { animation-delay: 0.2s; }
         .product-card:nth-child(3) { animation-delay: 0.3s; }
         .product-card:nth-child(4) { animation-delay: 0.4s; }
-
         .product-card:hover {
             border-color: var(--accent);
             transform: translateY(-10px);
-            box-shadow: 0 25px 40px -12px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 25px 40px -12px rgba(0, 240, 255, 0.2);
         }
-
         .img-container {
             width: 100%;
             height: 440px;
             overflow: hidden;
             background: #050505;
             cursor: pointer;
+            position: relative;
         }
-
+        .img-container::after {
+            content: 'Quick View';
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            background: var(--accent);
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            opacity: 0;
+        }
+        .product-card:hover .img-container::after {
+            bottom: 0;
+            opacity: 1;
+        }
         .product-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.4, 1);
         }
-
-        .product-card:hover img {
-            transform: scale(1.08);
-        }
-
+        .product-card:hover img { transform: scale(1.08); }
         .product-info {
             padding: 2rem 1.8rem;
         }
-
         .product-info h3 {
             font-size: 1.5rem;
             text-transform: uppercase;
@@ -290,68 +286,62 @@
             font-weight: 700;
             letter-spacing: 1px;
         }
-
         .product-info .price {
             color: var(--accent);
             font-size: 1.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
         }
-
         .button-group {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
         }
-
         .btn-outline {
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.2rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             flex: 1;
             text-align: center;
         }
-
         .btn-outline:hover {
             background: var(--accent);
             color: #000;
         }
-
         .btn-primary {
             background: var(--accent);
             color: #000;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.2rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             flex: 1;
+            text-align: center;
         }
-
         .btn-primary:hover {
             background: #ffffff;
             transform: scale(1.02);
         }
 
-        /* ---------- MODAL (VIEW PRODUCT) ---------- */
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
- backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(16px);
             z-index: 2000;
             display: flex;
             align-items: center;
@@ -360,23 +350,19 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
         .modal-container {
             max-width: 1100px;
             width: 90%;
             background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
             border: 1px solid var(--accent);
-            border-radius: 0;
             overflow: hidden;
             animation: modalFadeIn 0.4s ease-out;
             position: relative;
         }
-
         .modal-close {
             position: absolute;
             top: 20px;
@@ -387,92 +373,71 @@
             transition: 0.3s;
             z-index: 10;
         }
-
         .modal-close:hover {
             color: var(--accent);
             transform: rotate(90deg);
         }
-
         .modal-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             padding: 2.5rem;
         }
-
         .modal-image {
             width: 100%;
             height: 500px;
             overflow: hidden;
             background: #000;
         }
-
         .modal-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .modal-details {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-
         .modal-details h2 {
             font-family: 'Playfair Display', serif;
             font-size: 2.2rem;
             margin-bottom: 1rem;
             text-transform: uppercase;
         }
-
         .modal-price {
             color: var(--accent);
             font-size: 2rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
         }
-
         .modal-description {
             color: var(--gray-light);
             line-height: 1.7;
             margin-bottom: 2rem;
             font-size: 1rem;
         }
-
         .modal-sku {
             color: var(--gray);
             font-size: 0.8rem;
             margin-bottom: 1rem;
             letter-spacing: 1px;
         }
-
         .modal-actions {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-
-        .modal-actions .btn {
-            flex: 1;
-            text-align: center;
-            padding: 1rem;
-        }
-
         @media (max-width: 768px) {
             .modal-content {
                 grid-template-columns: 1fr;
                 padding: 1.5rem;
             }
-            .modal-image {
-                height: 300px;
-            }
-            .modal-details h2 {
-                font-size: 1.6rem;
-            }
+            .modal-image { height: 280px; }
+            .modal-details h2 { font-size: 1.6rem; }
         }
 
-        /* ---------- CART & FORMS ---------- */
+        /* Cart & Forms */
         .cart-wrapper {
             max-width: 1280px;
             margin: 0 auto;
@@ -480,7 +445,6 @@
             grid-template-columns: 1fr 360px;
             gap: 3rem;
         }
-
         .cart-item {
             display: flex;
             gap: 1.8rem;
@@ -488,14 +452,11 @@
             border-bottom: 1px solid var(--border);
             align-items: center;
         }
-
         .cart-item img {
             width: 100px;
             height: 100px;
             object-fit: cover;
-            background: #111;
         }
-
         .form-dark input, .form-dark textarea {
             width: 100%;
             background: var(--card);
@@ -506,132 +467,104 @@
             outline: none;
             transition: 0.2s;
         }
-
         .form-dark input:focus, .form-dark textarea:focus {
             border-color: var(--accent);
         }
 
-        /* ---------- ABOUT ---------- */
+        /* About & Contact */
         .story-flex {
             display: flex;
             gap: 4rem;
             align-items: center;
             margin-bottom: 5rem;
         }
-
         .story-text {
             flex: 1;
             font-size: 1.1rem;
             color: var(--gray);
             line-height: 1.7;
         }
-
         .values-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 4rem;
-            padding-top: 2rem;
             border-top: 1px solid var(--border);
+            padding-top: 3rem;
         }
-
         .value-card {
             background: var(--card);
             padding: 2rem;
             text-align: center;
             border: 1px solid var(--border);
-            transition: all 0.4s ease;
+            transition: var(--transition);
         }
-
         .value-card:hover {
             border-color: var(--accent);
             transform: translateY(-8px);
         }
-
         .value-card i {
             font-size: 2.5rem;
             color: var(--accent);
             margin-bottom: 1rem;
         }
-
-        /* ---------- CONTACT ENHANCED ---------- */
         .contact-enhanced {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
         }
-
         .contact-info-card {
-            background: linear-gradient(135deg, var(--card) 0%, #050505 100%);
+            background: var(--card);
             border: 1px solid var(--border);
             padding: 2.8rem;
-            transition: all 0.5s ease;
+            transition: var(--transition);
         }
-
         .contact-info-card:hover {
             border-color: var(--accent);
             transform: translateY(-6px);
         }
-
         .contact-info-card i {
             font-size: 2.2rem;
             color: var(--accent);
             margin-bottom: 1.2rem;
         }
-
-        .social-links-enhanced {
+        .social-links {
             display: flex;
             gap: 1.2rem;
             margin-top: 2rem;
         }
-
-        .social-links-enhanced a {
+        .social-links a {
             width: 44px;
             height: 44px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.05);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--gray);
-            transition: all 0.3s ease;
+            transition: 0.3s;
             text-decoration: none;
         }
-
-        .social-links-enhanced a:hover {
+        .social-links a:hover {
             background: var(--accent);
             color: #000;
         }
-
         .form-container {
-            background: linear-gradient(135deg, var(--card) 0%, #050505 100%);
+            background: var(--card);
             border: 1px solid var(--border);
             padding: 2.8rem;
         }
-
-        .form-container:hover {
-            border-color: var(--accent);
-        }
-
-        /* ---------- FOOTER ---------- */
         footer {
             padding: 80px 8% 40px;
             border-top: 1px solid var(--border);
-            background: #000000;
-            margin-top: 2rem;
+            background: #000;
         }
-
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 4rem;
         }
-
-        .footer-logo img {
-            height: 54px;
-            margin-bottom: 1.5rem;
-        }
-
+        .footer-logo img { height: 54px; margin-bottom: 1.5rem; }
         .footer-bottom {
             margin-top: 4rem;
             padding-top: 2rem;
@@ -640,15 +573,12 @@
             color: var(--gray);
             font-size: 0.75rem;
         }
-
         @media (max-width: 1024px) {
-            .contact-enhanced, .values-grid { grid-template-columns: 1fr; }
-            .cart-wrapper { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 900px) {
-            .nav-links { display: none; }
+            .contact-enhanced, .values-grid, .cart-wrapper { grid-template-columns: 1fr; }
             .story-flex { flex-direction: column; }
+        }
+        @media (max-width: 560px) {
+            .title { font-size: 2rem; }
             .hero-title { font-size: 15vw; }
         }
     </style>
@@ -659,42 +589,41 @@
     <div class="logo" onclick="showSection('home')">
         <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="SHANDAR VIP">
     </div>
-    <ul class="nav-links">
-        <li><a onclick="showSection('home')">Home</a></li>
-        <li><a onclick="showSection('shop')">Drops</a></li>
-        <li><a onclick="showSection('about')">The Story</a></li>
-        <li><a onclick="showSection('contact')">Connect</a></li>
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links" id="navLinks">
+        <li><a onclick="showSection('home'); closeMobileMenu()">Home</a></li>
+        <li><a onclick="showSection('shop'); closeMobileMenu()">Drops</a></li>
+        <li><a onclick="showSection('about'); closeMobileMenu()">The Story</a></li>
+        <li><a onclick="showSection('contact'); closeMobileMenu()">Connect</a></li>
     </ul>
-    <div class="cart-icon" onclick="showSection('cart')">
+    <div class="cart-icon" onclick="showSection('cart'); closeMobileMenu()">
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="cart-badge" id="cart-count">0</span>
     </div>
 </nav>
 
-<!-- Modal for View Product -->
+<!-- Product Modal -->
 <div id="productModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-close" onclick="closeModal()">&times;</div>
         <div class="modal-content">
-            <div class="modal-image">
-                <img id="modalImage" src="" alt="Product">
-            </div>
+            <div class="modal-image"><img id="modalImage" src="" alt="Product"></div>
             <div class="modal-details">
                 <h2 id="modalName"></h2>
                 <div class="modal-price" id="modalPrice"></div>
                 <div class="modal-sku" id="modalSku"></div>
-                <div class="modal-description" id="modalDescription">
-                    Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort.
-                </div>
+                <div class="modal-description" id="modalDescription">Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort.</div>
                 <div class="modal-actions">
-                    <button class="btn-primary" id="modalAddToCartBtn">Add to Bag</button>
+                    <button class="btn-primary" id="modalAddToCartBtn" style="width:100%">Add to Bag</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- SPA SECTIONS -->
+<!-- Sections -->
 <section id="home" class="active" style="padding:0;">
     <div class="hero">
         <h1 class="hero-title">SHANDAR<br><span>VIP SHOES</span></h1>
@@ -719,12 +648,12 @@
             <p>The vision is to expand nationwide and become a leading footwear brand. Each pair tells a story of precision, luxury, and the relentless pursuit of perfection.</p>
         </div>
         <div class="story-image">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="luxury sneaker" style="width:100%; filter: grayscale(0.2);">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="luxury" style="width:100%; filter: grayscale(0.2);">
         </div>
     </div>
     <div class="values-grid">
-        <div class="value-card"><i class="fa fa-gem"></i><h3>Premium Quality</h3><p>Finest materials sourced globally for durability and comfort.</p></div>
-        <div class="value-card"><i class="fa fa-paintbrush"></i><h3>Modern Design</h3><p>Contemporary aesthetics meeting timeless elegance.</p></div>
+        <div class="value-card"><i class="fa fa-gem"></i><h3>Premium Quality</h3><p>Finest materials for durability and comfort.</p></div>
+        <div class="value-card"><i class="fa fa-paintbrush"></i><h3>Modern Design</h3><p>Contemporary aesthetics meet timeless elegance.</p></div>
         <div class="value-card"><i class="fa fa-heart"></i><h3>Customer First</h3><p>Your satisfaction is our priority.</p></div>
     </div>
 </section>
@@ -740,7 +669,7 @@
             <i class="fa fa-phone-alt"></i>
             <h3>Direct Line</h3>
             <p>+92 311 9333294</p>
-            <div class="social-links-enhanced">
+            <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
@@ -797,27 +726,37 @@
 
 <script>
     let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
-    let currentProductData = null;
+    let currentProduct = null;
+
+    // Mobile menu functions
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+    function closeMobileMenu() {
+        document.getElementById('navLinks').classList.remove('active');
+    }
+    document.getElementById('menuToggle')?.addEventListener('click', toggleMobileMenu);
 
     function showSection(id) {
         document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        closeMobileMenu();
     }
 
     // Modal Functions
     function openModal(product) {
-        currentProductData = product;
+        currentProduct = product;
         document.getElementById('modalImage').src = product.image_url;
         document.getElementById('modalName').innerText = product.name;
         document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
-        document.getElementById('modalSku').innerHTML = `SKU: ${product.id || 'VIP-' + Math.floor(Math.random() * 10000)}`;
+        document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase() || 'SHAN001'}`;
         const descElem = document.getElementById('modalDescription');
         descElem.innerHTML = product.description || 'Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort. Made with premium materials and precision engineering.';
         document.getElementById('productModal').classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Update modal add to cart button
         const modalBtn = document.getElementById('modalAddToCartBtn');
         modalBtn.onclick = () => {
             addToCart(product.id, product.name, product.price, product.image_url);
@@ -828,34 +767,34 @@
     function closeModal() {
         document.getElementById('productModal').classList.remove('active');
         document.body.style.overflow = '';
-        currentProductData = null;
+        currentProduct = null;
     }
-
-    // Close modal on overlay click
-    document.getElementById('productModal').addEventListener('click', (e) => {
+    document.getElementById('productModal')?.addEventListener('click', (e) => {
         if (e.target === document.getElementById('productModal')) closeModal();
     });
 
     async function loadProducts() {
         const { data, error } = await _supabase.from('products').select('*');
-        if (error) return;
+        if (error) return console.warn(error);
         const container = document.getElementById('product-list');
         if (container && data) {
-            container.innerHTML = data.map((p, idx) => `
+            container.innerHTML = data.map((p, idx) => {
+                const productJson = JSON.stringify(p).replace(/</g, '\\u003c');
+                return `
                 <div class="product-card" style="animation-delay: ${idx * 0.1}s">
-                    <div class="img-container" onclick="openModal(${JSON.stringify(p).replace(/</g, '\\u003c')})">
+                    <div class="img-container" onclick="openModal(${productJson})">
                         <img src="${p.image_url}" alt="${p.name}">
                     </div>
                     <div class="product-info">
                         <h3>${p.name}</h3>
                         <p class="price">Rs. ${parseFloat(p.price).toLocaleString()}</p>
                         <div class="button-group">
-                            <button class="btn-outline" onclick="event.stopPropagation(); openModal(${JSON.stringify(p).replace(/</g, '\\u003c')})">View</button>
+                            <button class="btn-outline" onclick="event.stopPropagation(); openModal(${productJson})">View</button>
                             <button class="btn-primary" onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image_url}')">Add to bag</button>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
     }
 
@@ -865,7 +804,6 @@
         updateCart();
         Swal.fire({ icon: 'success', title: 'Added to Bag', text: `${name} added.`, background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', timer: 1500 });
     };
-
     window.removeItem = function(id) { cart = cart.filter(i => i.id !== id); updateCart(); };
 
     function updateCart() {
