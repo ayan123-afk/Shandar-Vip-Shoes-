@@ -2,414 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Admin Login | Shandar VIP</title>
+    <title>VIP Admin | Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: radial-gradient(circle at 30% 10%, #0a0a0a 0%, #000000 100%);
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Animated background elements */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .login-container {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 450px;
-            padding: 1.5rem;
-        }
-
-        .login-card {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 2.5rem;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 240, 255, 0.1);
-            transition: all 0.4s ease;
-        }
-
-        .login-card:hover {
-            border-color: rgba(0, 240, 255, 0.8);
-            box-shadow: 0 30px 60px -12px rgba(0, 240, 255, 0.2);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo img {
-            height: 60px;
-            margin-bottom: 1rem;
-        }
-
-        .logo h2 {
-            font-family: 'Playfair Display', 'Inter', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-        }
-
-        .logo p {
-            color: #a0a0a0;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #00f0ff;
-            font-size: 1.1rem;
-            opacity: 0.7;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 2.8rem;
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: white;
-            font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #00f0ff;
-            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
-            background: rgba(30, 30, 30, 0.9);
-        }
-
-        .input-group input::placeholder {
-            color: #666;
-            font-weight: 400;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #00f0ff 0%, #00c4d4 100%);
-            border: none;
-            border-radius: 12px;
-            color: #000;
-            font-weight: 800;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            margin-top: 0.5rem;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.4);
-            background: linear-gradient(135deg, #00ffff 0%, #00d4e0 100%);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 1.5rem 0;
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .divider span {
-            margin: 0 1rem;
-        }
-
-        .footer-text {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-            font-size: 0.75rem;
-        }
-
-        .footer-text a {
-            color: #00f0ff;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .footer-text a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            background: rgba(255, 50, 50, 0.1);
-            border: 1px solid rgba(255, 50, 50, 0.3);
-            border-radius: 10px;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            color: #ff6b6b;
-            font-size: 0.85rem;
-            text-align: center;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* Loading state */
-        .login-btn.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .login-btn.loading::after {
-            content: ' ...';
-        }
-
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 1.8rem;
-            }
-            .logo img {
-                height: 45px;
-            }
-            .logo h2 {
-                font-size: 1.5rem;
-            }
-        }
+        body { background: #000; color: #fff; font-family: 'Outfit', sans-serif; display: flex; margin: 0; }
+        .sidebar { width: 280px; background: #0d0d0d; height: 100vh; padding: 2.5rem; border-right: 1px solid #222; position: fixed; }
+        .main { margin-left: 280px; padding: 4rem; width: 100%; }
+        .nav-link { padding: 1rem 0; color: #666; cursor: pointer; display: block; text-decoration: none; font-weight: bold; }
+        .nav-link:hover { color: #00f0ff; }
+        .card { background: #0d0d0d; border: 1px solid #222; padding: 2.5rem; border-radius: 8px; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid #1a1a1a; }
+        input, textarea { background: #000; border: 1px solid #333; padding: 1rem; color: #fff; margin-bottom: 1rem; width: 100%; }
+        button { background: #00f0ff; color: #000; border: none; padding: 1rem 2rem; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="logo">
-                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
-                <h2>Admin Portal</h2>
-                <p>Secure access to management dashboard</p>
-            </div>
-
-            <div id="errorMessage" class="error-message"></div>
-
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="email" placeholder="Admin Email Address" autocomplete="email">
-            </div>
-
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-            </div>
-
-            <button class="login-btn" onclick="login()">
-                <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login
-            </button>
-
-            <div class="divider">
-                <span>Secure Authentication</span>
-            </div>
-
-            <div class="footer-text">
-                <p>Protected by <strong>Shandar VIP Security</strong></p>
-                <p><a href="#" onclick="showDemoCredentials()">Demo Credentials</a> | <a href="../index.html">Back to Store</a></p>
+    <div class="sidebar">
+        <h2 style="color: #00f0ff; font-family: 'Syncopate'; font-size: 1.2rem;">ADMIN PANEL</h2><br><br>
+        <div class="nav-link" onclick="show('orders')">Manage Orders</div>
+        <div class="nav-link" onclick="show('inventory')">Drop Product</div>
+        <div class="nav-link" onclick="show('msgs')">Messages</div>
+        <div class="nav-link" onclick="logout()" style="color: #ff3e3e; margin-top: 3rem;">Logout</div>
+    </div>
+    <div class="main">
+        <div id="orders-sec">
+            <h2>Customer Orders</h2>
+            <div class="card"><table id="orders-table"></table></div>
+        </div>
+        <div id="inventory-sec" style="display:none">
+            <h2>Add New Release</h2>
+            <div class="card">
+                <input id="p-name" placeholder="Shoe Name">
+                <input id="p-price" placeholder="Price (Numbers Only)">
+                <textarea id="p-desc" placeholder="Product Description (Detailed)"></textarea>
+                <input id="p-img" placeholder="PostImage URL">
+                <button onclick="saveProduct()">Save Product Drop</button>
             </div>
         </div>
+        <div id="msgs-sec" style="display:none">
+            <h2>Transmissions</h2>
+            <div id="msg-list"></div>
+        </div>
     </div>
-
     <script>
-        // Check if already logged in
-        (function checkExistingSession() {
-            const isLoggedIn = localStorage.getItem('shandar_admin_logged_in');
-            if (isLoggedIn === 'true') {
-                // Redirect to dashboard if already logged in
-                window.location.href = 'dashboard.html';
-            }
-        })();
-
-        async function login() {
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const loginBtn = document.querySelector('.login-btn');
-
-            // Clear previous error
-            errorDiv.classList.remove('show');
-            errorDiv.innerHTML = '';
-
-            // Validate inputs
-            if (!email) {
-                showError('Please enter admin email address');
-                return;
-            }
-            if (!password) {
-                showError('Please enter password');
-                return;
-            }
-
-            // Show loading state
-            loginBtn.classList.add('loading');
-            loginBtn.disabled = true;
-
-            try {
-                // Check if Supabase is initialized
-                if (typeof _supabase === 'undefined' || !_supabase) {
-                    showError('Database connection error. Please check config.js');
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                    return;
-                }
-
-                // Attempt authentication with Supabase
-                const { data, error } = await _supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                if (error) {
-                    console.error('Login error:', error);
-                    
-                    // Show user-friendly error message
-                    if (error.message.includes('Invalid login credentials')) {
-                        showError('Invalid email or password. Please try again.');
-                    } else if (error.message.includes('Email not confirmed')) {
-                        showError('Please verify your email address before logging in.');
-                    } else {
-                        showError('Login failed: ' + error.message);
-                    }
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                    return;
-                }
-
-                if (data && data.user) {
-                    // Store admin session in localStorage
-                    localStorage.setItem('shandar_admin_logged_in', 'true');
-                    localStorage.setItem('shandar_admin_email', data.user.email);
-                    localStorage.setItem('shandar_admin_user_id', data.user.id);
-                    
-                    // Show success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Welcome Back!',
-                        text: 'Redirecting to dashboard...',
-                        background: '#0a0a0a',
-                        color: '#fff',
-                        confirmButtonColor: '#00f0ff',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    
-                    // Redirect to dashboard after short delay
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                } else {
-                    showError('Authentication failed. Please try again.');
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                }
-            } catch (err) {
-                console.error('Unexpected error:', err);
-                showError('An unexpected error occurred. Please try again.');
-                loginBtn.classList.remove('loading');
-                loginBtn.disabled = false;
-            }
+        function show(id) {
+            document.querySelectorAll('.main > div').forEach(d => d.style.display = 'none');
+            document.getElementById(id + '-sec').style.display = 'block';
+            if(id === 'orders') loadOrders();
+            if(id === 'msgs') loadMsgs();
         }
 
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> ' + message;
-            errorDiv.classList.add('show');
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                errorDiv.classList.remove('show');
-            }, 5000);
+        async function saveProduct() {
+            const { error } = await _supabase.from('products').insert([{
+                name: document.getElementById('p-name').value,
+                price: document.getElementById('p-price').value,
+                description: document.getElementById('p-desc').value,
+                image_url: document.getElementById('p-img').value
+            }]);
+            if (!error) { alert('New Release Successful'); window.location.reload(); }
         }
 
-        function showDemoCredentials() {
-            Swal.fire({
-                title: 'Demo Credentials',
-                html: '<p style="color:#ccc;">For testing purposes:</p>' +
-                      '<p style="color:#00f0ff; margin:10px 0;"><strong>Email:</strong> admin@shandarvip.com</p>' +
-                      '<p style="color:#00f0ff;"><strong>Password:</strong> admin123</p>' +
-                      '<p style="color:#888; margin-top:15px; font-size:12px;">Note: Use your actual Supabase credentials</p>',
-                background: '#0a0a0a',
-                color: '#fff',
-                confirmButtonColor: '#00f0ff',
-                confirmButtonText: 'Got it'
-            });
+        async function loadOrders() {
+            const { data } = await _supabase.from('orders').select('*').order('created_at', {ascending: false});
+            document.getElementById('orders-table').innerHTML = `<tr><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr>` + 
+                data.map(o => `<tr><td>${o.customer_name}</td><td>${o.phone}</td><td>Rs. ${parseFloat(o.total_price).toLocaleString()}</td><td>${o.status}</td></tr>`).join('');
         }
 
-        // Allow Enter key to submit
-        document.getElementById('email')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
-        document.getElementById('password')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
+        async function loadMsgs() {
+            const { data } = await _supabase.from('contacts').select('*');
+            document.getElementById('msg-list').innerHTML = data.map(m => `<div class="card"><b>${m.name}:</b> ${m.message}</div>`).join('');
+        }
+
+        async function logout() { await _supabase.auth.signOut(); window.location.href = 'admin-login.html'; }
+        window.onload = loadOrders;
     </script>
 </body>
 </html>
