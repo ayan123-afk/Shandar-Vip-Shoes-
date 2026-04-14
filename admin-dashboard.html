@@ -2,82 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard | Shandar VIP</title>
+    <title>Admin Dashboard | Shandar VIP Shoes</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --bg: #050505; --side: #0d0d0d; --accent: #00f0ff; --text: #ffffff; }
-        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; }
+        :root { --accent: #00f0ff; --bg: #050505; --card: #111; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; display: flex; }
         
-        /* Sidebar */
-        .sidebar { width: 250px; background: var(--side); height: 100vh; position: fixed; padding: 20px; border-right: 1px solid #222; }
-        .sidebar img { width: 100%; margin-bottom: 30px; }
-        .menu-item { padding: 15px; cursor: pointer; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
-        .menu-item:hover, .menu-item.active { background: var(--accent); color: black; }
+        .sidebar { width: 260px; background: #000; height: 100vh; position: fixed; padding: 30px 20px; border-right: 1px solid #222; }
+        .sidebar img { width: 100%; margin-bottom: 40px; }
+        .nav-link { padding: 15px; cursor: pointer; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: var(--accent); color: black; font-weight: bold; }
         
-        /* Main Content */
-        .main { margin-left: 290px; padding: 40px; width: 100%; }
-        .section { display: none; }
-        .section.active { display: block; }
+        .main { margin-left: 300px; padding: 40px; width: calc(100% - 300px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         
-        .card { background: #111; padding: 20px; border-radius: 10px; border: 1px solid #222; margin-bottom: 30px; }
-        table { width: 100%; border-collapse: collapse; }
+        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #222; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { text-align: left; padding: 12px; border-bottom: 1px solid #222; }
-        th { color: var(--accent); }
+        th { color: var(--accent); text-transform: uppercase; font-size: 12px; }
         
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
-        .btn { background: var(--accent); color: black; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 5px; }
-        .logout { background: #ff4d4d; color: white; width: 100%; margin-top: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
+        .btn { background: var(--accent); color: black; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        .btn-del { background: #ff4d4d; color: white; padding: 5px 10px; font-size: 12px; }
+        .logout { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d; margin-top: 50px; width: 100%; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png">
-        <div class="menu-item active" onclick="showTab('products')"><i class="fas fa-box"></i> Products</div>
-        <div class="menu-item" onclick="showTab('orders')"><i class="fas fa-shopping-cart"></i> Orders</div>
-        <div class="menu-item" onclick="showTab('messages')"><i class="fas fa-envelope"></i> Messages</div>
+        <div class="nav-link active" onclick="showTab('products', this)"><i class="fas fa-shoe-prints"></i> Products</div>
+        <div class="nav-link" onclick="showTab('orders', this)"><i class="fas fa-shopping-cart"></i> Orders</div>
+        <div class="nav-link" onclick="showTab('messages', this)"><i class="fas fa-envelope"></i> Messages</div>
         <button class="btn logout" onclick="logout()">Logout</button>
     </div>
 
     <div class="main">
-        <!-- Products Section -->
-        <div id="products" class="section active">
-            <h1>Inventory</h1>
+        <!-- Products -->
+        <div id="products" class="tab-content active">
+            <h1>Inventory Management</h1>
             <div class="card">
-                <h3>Add New Product</h3>
-                <input type="text" id="pName" placeholder="Product Name">
-                <input type="number" id="pPrice" placeholder="Price (PKR)">
-                <input type="text" id="pImg" placeholder="Image URL (PostImage link)">
+                <h3>Add New Shoe</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <input type="text" id="pName" placeholder="Shoe Name">
+                    <input type="number" id="pPrice" placeholder="Price (PKR)">
+                </div>
+                <input type="text" id="pImg" placeholder="Image URL (PostImage direct link)">
                 <textarea id="pDesc" placeholder="Description"></textarea>
-                <button class="btn" onclick="addProduct()">Add Product</button>
+                <button class="btn" onclick="addProduct()">Save to Store</button>
             </div>
             <div class="card">
-                <table id="productTable">
+                <table id="pTable">
                     <thead><tr><th>Name</th><th>Price</th><th>Action</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Orders Section -->
-        <div id="orders" class="section">
+        <!-- Orders -->
+        <div id="orders" class="tab-content">
             <h1>Customer Orders</h1>
             <div class="card">
-                <table id="orderTable">
-                    <thead><tr><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+                <table id="oTable">
+                    <thead><tr><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Messages Section -->
-        <div id="messages" class="section">
-            <h1>Contact Messages</h1>
+        <!-- Messages -->
+        <div id="messages" class="tab-content">
+            <h1>Customer Inquiries</h1>
             <div class="card">
-                <table id="messageTable">
-                    <thead><tr><th>Name</th><th>Message</th><th>Contact</th></tr></thead>
+                <table id="mTable">
+                    <thead><tr><th>Name</th><th>Message</th><th>Email</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
@@ -85,43 +86,28 @@
     </div>
 
     <script>
-        // --- AUTH GUARD ---
-        async function checkAuth() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
+        // AUTH PROTECTION
+        async function checkUser() {
+            const { data } = await supabase.auth.getSession();
+            if (!data.session) {
                 window.location.href = 'admin-login.html';
             }
         }
-        checkAuth();
+        checkUser();
 
         async function logout() {
             await supabase.auth.signOut();
             window.location.href = 'admin-login.html';
         }
 
-        // --- TAB NAVIGATION ---
-        function showTab(tabId) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-
-            if(tabId === 'products') loadProducts();
-            if(tabId === 'orders') loadOrders();
-            if(tabId === 'messages') loadMessages();
-        }
-
-        // --- DATABASE LOGIC ---
-        async function loadProducts() {
-            const { data } = await supabase.from('products').select('*');
-            const tbody = document.querySelector('#productTable tbody');
-            tbody.innerHTML = data.map(p => `
-                <tr>
-                    <td>${p.name}</td>
-                    <td>Rs ${p.price}</td>
-                    <td><button onclick="deleteProduct(${p.id})" style="color:red; background:none; border:none; cursor:pointer;">Delete</button></td>
-                </tr>
-            `).join('');
+        function showTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+            if(id === 'products') loadProducts();
+            if(id === 'orders') loadOrders();
+            if(id === 'messages') loadMessages();
         }
 
         async function addProduct() {
@@ -135,38 +121,42 @@
             else { alert("Product Added!"); loadProducts(); }
         }
 
-        async function deleteProduct(id) {
-            await supabase.from('products').delete().eq('id', id);
-            loadProducts();
-        }
-
-        async function loadOrders() {
-            const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-            const tbody = document.querySelector('#orderTable tbody');
-            tbody.innerHTML = data.map(o => `
-                <tr>
-                    <td>${o.customer_name}<br><small>${o.phone}</small></td>
-                    <td>Rs ${o.total_price}</td>
-                    <td>${o.status}</td>
-                    <td>${o.status === 'pending' ? `<button class="btn" onclick="markDelivered(${o.id})">Mark Delivered</button>` : 'Done'}</td>
-                </tr>
+        async function loadProducts() {
+            const { data } = await supabase.from('products').select('*');
+            document.querySelector('#pTable tbody').innerHTML = data.map(p => `
+                <tr><td>${p.name}</td><td>Rs ${p.price}</td>
+                <td><button class="btn btn-del" onclick="deleteItem('products', ${p.id})">Delete</button></td></tr>
             `).join('');
         }
 
-        async function markDelivered(id) {
+        async function loadOrders() {
+            const { data } = await supabase.from('orders').select('*').order('created_at', {ascending: false});
+            document.querySelector('#oTable tbody').innerHTML = data.map(o => `
+                <tr><td>${o.customer_name}</td><td>${o.phone}</td><td>Rs ${o.total_price}</td><td>${o.status}</td>
+                <td><button class="btn" onclick="updateOrder(${o.id})">Delivered</button></td></tr>
+            `).join('');
+        }
+
+        async function updateOrder(id) {
             await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
             loadOrders();
         }
 
         async function loadMessages() {
             const { data } = await supabase.from('contacts').select('*');
-            const tbody = document.querySelector('#messageTable tbody');
-            tbody.innerHTML = data.map(m => `
+            document.querySelector('#mTable tbody').innerHTML = data.map(m => `
                 <tr><td>${m.name}</td><td>${m.message}</td><td>${m.email}</td></tr>
             `).join('');
         }
 
-        // Initial Load
+        async function deleteItem(table, id) {
+            if(confirm('Are you sure?')) {
+                await supabase.from(table).delete().eq('id', id);
+                loadProducts();
+            }
+        }
+
+        // Load default
         loadProducts();
     </script>
 </body>
