@@ -2,29 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VIP Admin | Dashboard</title>
+    <title>VIP Admin | Shandar Shoes</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: 'Outfit', sans-serif; display: flex; margin: 0; }
-        .sidebar { width: 280px; background: #0d0d0d; height: 100vh; padding: 2.5rem; border-right: 1px solid #222; position: fixed; }
-        .main { margin-left: 280px; padding: 4rem; width: 100%; }
-        .nav-link { padding: 1rem 0; color: #666; cursor: pointer; display: block; text-decoration: none; font-weight: bold; }
-        .nav-link:hover { color: #00f0ff; }
-        .card { background: #0d0d0d; border: 1px solid #222; padding: 2.5rem; border-radius: 8px; margin-bottom: 2rem; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid #1a1a1a; }
-        input, textarea { background: #000; border: 1px solid #333; padding: 1rem; color: #fff; margin-bottom: 1rem; width: 100%; }
-        button { background: #00f0ff; color: #000; border: none; padding: 1rem 2rem; font-weight: bold; cursor: pointer; }
+        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; margin: 0; }
+        .sidebar { width: 260px; background: #0d0d0d; height: 100vh; padding: 2rem; border-right: 1px solid #222; position: fixed; }
+        .main { margin-left: 260px; padding: 3rem; width: 100%; }
+        .nav-item { padding: 1rem; color: #888; cursor: pointer; text-decoration: none; display: block; }
+        .nav-item:hover { color: #00f0ff; }
+        .card { background: #0d0d0d; border: 1px solid #222; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #1a1a1a; }
+        input, textarea { background: #000; border: 1px solid #333; padding: 10px; color: #fff; margin-bottom: 10px; width: 100%; }
+        button { background: #00f0ff; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2 style="color: #00f0ff; font-family: 'Syncopate'; font-size: 1.2rem;">ADMIN PANEL</h2><br><br>
-        <div class="nav-link" onclick="show('orders')">Manage Orders</div>
-        <div class="nav-link" onclick="show('inventory')">Drop Product</div>
-        <div class="nav-link" onclick="show('msgs')">Messages</div>
-        <div class="nav-link" onclick="logout()" style="color: #ff3e3e; margin-top: 3rem;">Logout</div>
+        <h2 style="color: #00f0ff;">SHANDAR ADMIN</h2><br>
+        <div class="nav-item" onclick="show('orders')">Manage Orders</div>
+        <div class="nav-item" onclick="show('inventory')">Add Product</div>
+        <div class="nav-item" onclick="show('msgs')">Messages</div>
+        <div class="nav-item" onclick="logout()" style="color: red; margin-top: 2rem;">Logout</div>
     </div>
     <div class="main">
         <div id="orders-sec">
@@ -35,14 +35,14 @@
             <h2>Add New Release</h2>
             <div class="card">
                 <input id="p-name" placeholder="Shoe Name">
-                <input id="p-price" placeholder="Price (Numbers Only)">
-                <textarea id="p-desc" placeholder="Product Description (Detailed)"></textarea>
+                <input id="p-price" placeholder="Price (PKR)">
+                <textarea id="p-desc" placeholder="Product Description"></textarea>
                 <input id="p-img" placeholder="PostImage URL">
-                <button onclick="saveProduct()">Save Product Drop</button>
+                <button onclick="saveProduct()">Save Drop</button>
             </div>
         </div>
         <div id="msgs-sec" style="display:none">
-            <h2>Transmissions</h2>
+            <h2>Messages</h2>
             <div id="msg-list"></div>
         </div>
     </div>
@@ -61,13 +61,13 @@
                 description: document.getElementById('p-desc').value,
                 image_url: document.getElementById('p-img').value
             }]);
-            if (!error) { alert('New Release Successful'); window.location.reload(); }
+            if (!error) alert('New Release Saved');
         }
 
         async function loadOrders() {
             const { data } = await _supabase.from('orders').select('*').order('created_at', {ascending: false});
             document.getElementById('orders-table').innerHTML = `<tr><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr>` + 
-                data.map(o => `<tr><td>${o.customer_name}</td><td>${o.phone}</td><td>Rs. ${parseFloat(o.total_price).toLocaleString()}</td><td>${o.status}</td></tr>`).join('');
+                data.map(o => `<tr><td>${o.customer_name}</td><td>${o.phone}</td><td>Rs. ${o.total_price}</td><td>${o.status}</td></tr>`).join('');
         }
 
         async function loadMsgs() {
