@@ -2,387 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Shandar VIP Shoes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Admin Dashboard | Shandar VIP</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0d0d0d;
-            color: #ffffff;
-        }
-        .admin-header {
-            background: linear-gradient(135deg, #0a0a0a, #121212);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #00f0ff;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .admin-header img {
-            height: 50px;
-        }
-        .logout-btn {
-            background: #ff4444;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 30px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .logout-btn:hover {
-            background: #ff6666;
-            transform: scale(1.02);
-        }
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem 2rem;
-            background: #111;
-            border-bottom: 1px solid #222;
-        }
-        .tab-btn {
-            padding: 12px 28px;
-            background: transparent;
-            border: none;
-            color: #aaa;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 30px;
-            transition: all 0.3s;
-        }
-        .tab-btn i {
-            margin-right: 8px;
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            color: #0d0d0d;
-        }
-        .tab-btn:hover:not(.active) {
-            background: #222;
-            color: white;
-        }
-        .dashboard-content {
-            padding: 2rem;
-        }
-        .card {
-            background: #1a1a1a;
-            border-radius: 20px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2a2a2a;
-        }
-        .card h3 {
-            color: #00f0ff;
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 10px;
-            color: white;
-            font-size: 0.95rem;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #00f0ff;
-        }
-        .full-width {
-            grid-column: span 2;
-        }
-        .btn-add {
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
-            width: 100%;
-        }
-        .products-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        .product-item {
-            background: #222;
-            border-radius: 15px;
-            padding: 1rem;
-            position: relative;
-        }
-        .product-item img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .product-item h4 {
-            margin: 0.8rem 0 0.5rem;
-        }
-        .product-price {
-            color: #00ff9f;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        .delete-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #ff4444;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        th {
-            color: #00f0ff;
-        }
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .status-pending {
-            background: #ff8800;
-            color: #0d0d0d;
-        }
-        .status-delivered {
-            background: #00ff9f;
-            color: #0d0d0d;
-        }
-        .deliver-btn {
-            background: #00f0ff;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        .message-item {
-            background: #222;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border-left: 3px solid #00f0ff;
-        }
-        @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .full-width {
-                grid-column: span 1;
-            }
-            .tabs {
-                flex-wrap: wrap;
-            }
-            .dashboard-content {
-                padding: 1rem;
-            }
-        }
+        body { background: #f4f4f4; font-family: sans-serif; display: flex; }
+        .sidebar { width: 250px; background: #0d0d0d; color: white; height: 100vh; padding: 20px; }
+        .main { flex: 1; padding: 40px; overflow-y: auto; height: 100vh; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .nav-item { padding: 10px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; }
+        .nav-item:hover { background: #00f0ff; color: black; }
+        .status-btn { padding: 5px 10px; background: #00ff9f; border: none; cursor: pointer; border-radius: 3px; }
     </style>
 </head>
 <body>
-    <div class="admin-header">
-        <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Logo">
-        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    <div class="sidebar">
+        <h3>Shandar Admin</h3><br>
+        <div class="nav-item" onclick="show('products')">Products</div>
+        <div class="nav-item" onclick="show('orders')">Orders</div>
+        <div class="nav-item" onclick="show('messages')">Messages</div>
+        <div class="nav-item" onclick="logout()">Logout</div>
     </div>
-    <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('products')"><i class="fas fa-box"></i> Products</button>
-        <button class="tab-btn" onclick="showTab('orders')"><i class="fas fa-shopping-cart"></i> Orders</button>
-        <button class="tab-btn" onclick="showTab('messages')"><i class="fas fa-envelope"></i> Messages</button>
-    </div>
-    <div class="dashboard-content" id="dashboardContent">
-        <div class="loading">Loading...</div>
+    <div class="main">
+        <div id="products-sec" class="content">
+            <h2>Add Product</h2>
+            <div class="card">
+                <input type="text" id="p-name" placeholder="Name">
+                <input type="text" id="p-desc" placeholder="Description">
+                <input type="number" id="p-price" placeholder="Price">
+                <input type="text" id="p-img" placeholder="PostImage URL">
+                <button onclick="addProduct()" style="margin-top:10px;">Save Product</button>
+            </div>
+            <div id="p-list"></div>
+        </div>
+
+        <div id="orders-sec" class="content" style="display:none">
+            <h2>Manage Orders</h2>
+            <div id="o-list"></div>
+        </div>
+
+        <div id="messages-sec" class="content" style="display:none">
+            <h2>Contact Messages</h2>
+            <div id="m-list"></div>
+        </div>
     </div>
 
     <script>
-        let currentUser = null;
-
-        async function checkAuth() {
-            const { data: { user } } = await window.supabaseClient.auth.getUser();
-            if (!user) {
-                window.location.href = 'admin-login.html';
-            } else {
-                currentUser = user;
-                showTab('products');
-            }
+        function show(id) {
+            document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+            document.getElementById(id + '-sec').style.display = 'block';
+            if(id === 'orders') loadOrders();
+            if(id === 'messages') loadMessages();
         }
 
-        async function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (tab === 'products') await renderProducts();
-            else if (tab === 'orders') await renderOrders();
-            else if (tab === 'messages') await renderMessages();
+        async function addProduct() {
+            const payload = {
+                name: document.getElementById('p-name').value,
+                description: document.getElementById('p-desc').value,
+                price: document.getElementById('p-price').value,
+                image_url: document.getElementById('p-img').value
+            };
+            const { error } = await _supabase.from('products').insert([payload]);
+            if (error) alert(error.message); else alert('Product added!');
         }
 
-        async function renderProducts() {
-            const { data: products } = await window.supabaseClient.from('products').select('*').order('created_at', { ascending: false });
-            
-            const html = `
-                <div class="card">
-                    <h3><i class="fas fa-plus-circle"></i> Add New Product</h3>
-                    <div class="form-grid">
-                        <input type="text" id="prodName" placeholder="Product Name">
-                        <input type="number" id="prodPrice" placeholder="Price (PKR)">
-                        <input type="text" id="prodImage" placeholder="Image URL (PostImage)" class="full-width">
-                        <textarea id="prodDesc" rows="3" placeholder="Product Description" class="full-width"></textarea>
-                    </div>
-                    <button class="btn-add" onclick="addProduct()"><i class="fas fa-save"></i> Add Product</button>
-                </div>
-                
-                <div class="card">
-                    <h3><i class="fas fa-database"></i> All Products (${products.length})</h3>
-                    <div class="products-list">
-                        ${products.map(p => `
-                            <div class="product-item">
-                                <img src="${p.image_url}" onerror="this.src='https://via.placeholder.com/300'">
-                                <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
-                                <h4>${p.name}</h4>
-                                <p style="font-size: 0.8rem; color: #aaa;">${p.description.substring(0, 60)}...</p>
-                                <div class="product-price">₨ ${p.price.toLocaleString()}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('dashboardContent').innerHTML = html;
-        }
-
-        window.addProduct = async () => {
-            const name = document.getElementById('prodName').value;
-            const description = document.getElementById('prodDesc').value;
-            const price = parseFloat(document.getElementById('prodPrice').value);
-            const image_url = document.getElementById('prodImage').value;
-            
-            if (!name || !description || !price || !image_url) {
-                alert('Please fill all fields');
-                return;
-            }
-            
-            const { error } = await window.supabaseClient.from('products').insert([{ name, description, price, image_url }]);
-            if (error) {
-                alert('Error: ' + error.message);
-            } else {
-                alert('Product added successfully!');
-                renderProducts();
-            }
-        };
-
-        window.deleteProduct = async (id) => {
-            if (confirm('Are you sure you want to delete this product?')) {
-                const { error } = await window.supabaseClient.from('products').delete().eq('id', id);
-                if (!error) {
-                    alert('Product deleted');
-                    renderProducts();
-                } else {
-                    alert('Error deleting product');
-                }
-            }
-        };
-
-        async function renderOrders() {
-            const { data: orders } = await window.supabaseClient.from('orders').select('*').order('created_at', { ascending: false });
-            
-            const html = `
-                <div class="card">
-                    <h3><i class="fas fa-truck"></i> Customer Orders</h3>
-                    ${orders.length === 0 ? '<p>No orders yet.</p>' : `
-                        <table>
-                            <thead>
-                                <tr><th>Order #</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Date</th><th>Action</th></tr>
-                            </thead>
-                            <tbody>
-                                ${orders.map(o => `
-                                    <tr>
-                                        <td>${o.order_number}</td>
-                                        <td>${o.customer_name}</td>
-                                        <td>${o.customer_phone}</td>
-                                        <td style="color:#00ff9f;">₨ ${o.total_amount.toLocaleString()}</td>
-                                        <td><span class="status-badge status-${o.status}">${o.status}</span></td>
-                                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                                        <td>${o.status === 'pending' ? `<button class="deliver-btn" onclick="updateOrderStatus(${o.id}, 'delivered')"><i class="fas fa-check"></i> Mark Delivered</button>` : '<i class="fas fa-check-circle" style="color:#00ff9f;"></i> Completed'}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    `}
-                </div>
-            `;
-            document.getElementById('dashboardContent').innerHTML = html;
-        }
-
-        window.updateOrderStatus = async (id, status) => {
-            const { error } = await window.supabaseClient.from('orders').update({ status }).eq('id', id);
-            if (!error) {
-                alert('Order status updated!');
-                renderOrders();
-            } else {
-                alert('Error updating status');
-            }
-        };
-
-        async function renderMessages() {
-            const { data: messages } = await window.supabaseClient.from('contacts').select('*').order('created_at', { ascending: false });
-            
-            const html = `
-                <div class="card">
-                    <h3><i class="fas fa-inbox"></i> Contact Messages (${messages.length})</h3>
-                    ${messages.length === 0 ? '<p>No messages yet.</p>' : messages.map(m => `
-                        <div class="message-item">
-                            <strong><i class="fas fa-user"></i> ${m.name}</strong> 
-                            (<a href="mailto:${m.email}" style="color:#00f0ff;">${m.email}</a> | ${m.phone})
-                            <br>
-                            <small style="color:#aaa;">${new Date(m.created_at).toLocaleString()}</small>
-                            <p style="margin-top: 0.8rem; background: #1a1a1a; padding: 0.8rem; border-radius: 8px;">${m.message}</p>
-                        </div>
+        async function loadOrders() {
+            const { data } = await _supabase.from('orders').select('*').order('created_at', { ascending: false });
+            document.getElementById('o-list').innerHTML = `
+                <table>
+                    <tr><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr>
+                    ${data.map(o => `
+                        <tr>
+                            <td>${o.customer_name}<br>${o.phone}</td>
+                            <td>Rs. ${o.total_price}</td>
+                            <td>${o.status}</td>
+                            <td>${o.status === 'pending' ? `<button class="status-btn" onclick="markDelivered('${o.id}')">Delivered</button>` : '✓'}</td>
+                        </tr>
                     `).join('')}
-                </div>
+                </table>
             `;
-            document.getElementById('dashboardContent').innerHTML = html;
+        }
+
+        async function markDelivered(id) {
+            await _supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
+            loadOrders();
+        }
+
+        async function loadMessages() {
+            const { data } = await _supabase.from('contacts').select('*');
+            document.getElementById('m-list').innerHTML = data.map(m => `
+                <div class="card">
+                    <h4>${m.name} (${m.email})</h4>
+                    <p>${m.message}</p>
+                    <small>${m.created_at}</small>
+                </div>
+            `).join('');
         }
 
         async function logout() {
-            await window.supabaseClient.auth.signOut();
+            await _supabase.auth.signOut();
             window.location.href = 'admin-login.html';
         }
 
-        checkAuth();
+        // Check Auth
+        async function checkUser() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) window.location.href = 'admin-login.html';
+        }
+        checkUser();
     </script>
 </body>
 </html>
