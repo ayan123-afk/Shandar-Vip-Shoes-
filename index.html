@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shandar VIP Shoes | Premium Footwear</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --secondary: #1a1a1a;
+            --neon-blue: #00f0ff;
+            --neon-green: #00ff9f;
+            --white: #ffffff;
+            --gray: #cccccc;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--white); overflow-x: hidden; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
+
+        /* Navbar */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(13, 13, 13, 0.8); backdrop-filter: blur(10px);
+            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass);
+        }
+        .logo img { height: 50px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; transition: 0.3s; cursor: pointer; }
+        .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.2rem; }
+        .cart-count { 
+            position: absolute; top: -10px; right: -10px; 
+            background: var(--neon-green); color: black; font-size: 10px; 
+            padding: 2px 6px; border-radius: 50%; font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover; background-position: center; padding: 0 5%;
+        }
+        .hero-content h1 { font-size: 4rem; margin-bottom: 1rem; color: var(--white); }
+        .hero-content p { font-size: 1.2rem; color: var(--gray); margin-bottom: 2rem; }
+        .btn {
+            padding: 12px 30px; border-radius: 5px; text-decoration: none; font-weight: bold;
+            transition: 0.3s; border: none; cursor: pointer; display: inline-block;
+        }
+        .btn-primary { background: var(--neon-blue); color: black; box-shadow: 0 0 15px var(--neon-blue); }
+        .btn-outline { border: 2px solid var(--neon-green); color: var(--neon-green); margin-left: 10px; }
+        .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+
+        /* Sections Styling */
+        section { padding: 80px 5%; min-height: 100vh; display: none; animation: fadeIn 0.5s ease; }
+        section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+        .section-title span { color: var(--neon-blue); }
+
+        /* Products Grid */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+        .product-card {
+            background: var(--secondary); border: 1px solid var(--glass); padding: 1.5rem;
+            border-radius: 15px; transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .product-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; transition: 0.5s; }
+        .product-card:hover img { transform: scale(1.05); }
+        .product-info { margin-top: 1rem; }
+        .product-price { color: var(--neon-green); font-size: 1.3rem; font-weight: bold; }
+        .add-to-cart { width: 100%; margin-top: 1rem; background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 10px; cursor: pointer; transition: 0.3s; }
+        .add-to-cart:hover { background: var(--neon-blue); color: black; }
+
+        /* Why Choose Us */
+        .features { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem; margin-top: 50px; }
+        .feature-box { text-align: center; width: 200px; }
+        .feature-box i { font-size: 3rem; color: var(--neon-blue); margin-bottom: 1rem; }
+
+        /* Contact Form */
+        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        input, textarea {
+            width: 100%; padding: 15px; background: var(--secondary); border: 1px solid var(--glass);
+            color: white; margin-bottom: 1rem; border-radius: 5px;
+        }
+        input:focus { border-color: var(--neon-blue); outline: none; }
+
+        /* Cart & Modal Styles */
+        #cart-modal {
+            position: fixed; right: -400px; top: 0; width: 400px; height: 100vh;
+            background: var(--secondary); z-index: 2000; padding: 2rem; transition: 0.4s;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+        #cart-modal.open { right: 0; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--glass); padding-bottom: 0.5rem; }
+
+        /* Footer */
+        footer { background: var(--secondary); padding: 50px 5%; border-top: 1px solid var(--glass); text-align: center; }
+        .footer-logo img { height: 60px; margin-bottom: 1rem; }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .contact-container { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            #cart-modal { width: 100%; right: -100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP Shoes"></div>
+        <ul class="nav-links">
+            <li><a onclick="showSection('home')">Home</a></li>
+            <li><a onclick="showSection('shop')">Shop</a></li>
+            <li><a onclick="showSection('about')">About</a></li>
+            <li><a onclick="showSection('contact')">Contact</a></li>
+        </ul>
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="active" style="padding:0">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Step Into <span style="color: var(--neon-blue);">Premium Style</span></h1>
+                <p>Experience comfort, durability, and modern fashion in every step. Walk with confidence. Walk with style.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary" onclick="showSection('shop')">Shop Now</button>
+                    <button class="btn btn-outline" onclick="showSection('about')">Explore Collection</button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="padding: 80px 5%;">
+            <h2 class="section-title">Why Choose <span>Us</span></h2>
+            <div class="features">
+                <div class="feature-box"><i class="fas fa-gem"></i><h3>Premium Quality</h3></div>
+                <div class="feature-box"><i class="fas fa-bolt"></i><h3>Fast Delivery</h3></div>
+                <div class="feature-box"><i class="fas fa-wallet"></i><h3>Affordable</h3></div>
+                <div class="feature-box"><i class="fas fa-headset"></i><h3>24/7 Support</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP SECTION -->
+    <section id="shop">
+        <h2 class="section-title">Featured <span>Collection</span></h2>
+        <div class="products-grid" id="product-list">
+            <!-- Products Loaded dynamically -->
+            <p>Loading premium footwear...</p>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <h2 class="section-title">Our <span>Story</span></h2>
+        <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: var(--gray);">
+            <p><strong>Owner: Muhammad Khurshid Alam</strong></p><br>
+            <p>Shandar VIP Shoes is a premium footwear brand built with passion, dedication, and vision. It started from a small idea and has grown into a trusted name in the footwear industry. Led by Muhammad Khurshid Alam, the brand focuses on quality, trust, and customer satisfaction.</p><br>
+            <p>Every product is designed with attention to detail, durability, and comfort. Our mission is to provide premium footwear for everyone, expanding nationwide to become a leading name in footwear.</p>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <h2 class="section-title">Get In <span>Touch</span></h2>
+        <div class="contact-container">
+            <div>
+                <h3>Contact Details</h3><br>
+                <p><i class="fas fa-phone"></i> 0311-9333294</p><br>
+                <p><i class="fas fa-envelope"></i> shahzainalam4@gmail.com</p><br>
+                <p><i class="fas fa-map-marker-alt"></i> Sector 11/2, Orangi Town, Iqbal Market, Karachi, Pakistan</p><br>
+                <h3>Working Hours</h3>
+                <p>Mon - Sat: 10:00 AM - 9:00 PM</p>
+            </div>
+            <form id="contactForm">
+                <input type="text" id="cName" placeholder="Your Name" required>
+                <input type="email" id="cEmail" placeholder="Your Email" required>
+                <input type="text" id="cPhone" placeholder="Phone Number" required>
+                <textarea id="cMessage" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- CHECKOUT SECTION -->
+    <section id="checkout">
+        <h2 class="section-title">Complete <span>Order</span></h2>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div id="order-summary" style="margin-bottom: 2rem; background: var(--secondary); padding: 1rem;"></div>
+            <form id="checkoutForm">
+                <input type="text" id="oName" placeholder="Full Name" required>
+                <input type="email" id="oEmail" placeholder="Email Address" required>
+                <input type="text" id="oPhone" placeholder="Phone Number" required>
+                <textarea id="oAddress" placeholder="Delivery Address" required></textarea>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Place Order (COD)</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- CART MODAL -->
+    <div id="cart-modal">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Your Cart</h2>
+            <i class="fas fa-times" onclick="toggleCart()" style="cursor: pointer;"></i>
+        </div>
+        <div id="cart-items-list"></div>
+        <div style="margin-top: 2rem; border-top: 1px solid var(--gray); padding-top: 1rem;">
+            <h3>Total: Rs <span id="cart-total-price">0</span></h3><br>
+            <button class="btn btn-primary" style="width: 100%;" onclick="goToCheckout()">Checkout Now</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo"><img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt=""></div>
+        <p>&copy; 2024 Shandar VIP Shoes. Owned by Muhammad Khurshid Alam.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('shandar_cart')) || [];
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+            if(id === 'shop') fetchProducts();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('open');
+            renderCart();
+        }
+
+        async function fetchProducts() {
+            const { data, error } = await supabase.from('products').select('*');
+            const container = document.getElementById('product-list');
+            if (error) { container.innerHTML = "Error loading products."; return; }
+            
+            container.innerHTML = data.map(p => `
+                <div class="product-card">
+                    <img src="${p.image_url}" alt="${p.name}">
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p style="color: #888; font-size: 0.9rem; margin: 5px 0;">${p.description}</p>
+                        <p class="product-price">Rs ${p.price}</p>
+                        <button class="add-to-cart" onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(id, name, price) {
+            const item = cart.find(i => i.id === id);
+            if(item) item.qty++;
+            else cart.push({id, name, price, qty: 1});
+            updateCart();
+        }
+
+        function updateCart() {
+            localStorage.setItem('shandar_cart', JSON.stringify(cart));
+            document.getElementById('cart-count').innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items-list');
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                total += item.price * item.qty;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <small>Qty: ${item.qty} x Rs ${item.price}</small>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" style="background:none; border:none; color: #ff4d4d; cursor:pointer;">Remove</button>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('cart-total-price').innerText = total;
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCart();
+            renderCart();
+        }
+
+        function goToCheckout() {
+            if(cart.length === 0) return alert("Cart is empty!");
+            toggleCart();
+            showSection('checkout');
+            const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            document.getElementById('order-summary').innerHTML = `<h3>Total Items: ${cart.length}</h3><h3>Total Payable: Rs ${total}</h3>`;
+        }
+
+        // Handle Order Submission
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            const orderData = {
+                customer_name: document.getElementById('oName').value,
+                email: document.getElementById('oEmail').value,
+                phone: document.getElementById('oPhone').value,
+                address: document.getElementById('oAddress').value,
+                total_price: total,
+                status: 'pending'
+            };
+
+            const { data, error } = await supabase.from('orders').insert([orderData]).select();
+            if(error) return alert("Error placing order.");
+
+            const orderId = data[0].id;
+            const items = cart.map(i => ({ order_id: orderId, product_id: i.id, quantity: i.qty, price: i.price }));
+            
+            await supabase.from('order_items').insert(items);
+            
+            alert("Order placed successfully! We will contact you soon.");
+            cart = [];
+            updateCart();
+            showSection('home');
+        });
+
+        // Handle Contact Form
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const contactData = {
+                name: document.getElementById('cName').value,
+                email: document.getElementById('cEmail').value,
+                phone: document.getElementById('cPhone').value,
+                message: document.getElementById('cMessage').value
+            };
+            const { error } = await supabase.from('contacts').insert([contactData]);
+            if(error) alert("Error sending message.");
+            else {
+                alert("Message sent! We'll get back to you.");
+                e.target.reset();
+            }
+        });
+
+        // Initialize
+        updateCart();
+    </script>
+</body>
+</html>
