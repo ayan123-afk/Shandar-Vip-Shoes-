@@ -49,6 +49,10 @@
             from { opacity: 0; transform: translateX(50px); }
             to { opacity: 1; transform: translateX(0); }
         }
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(0, 240, 255, 0.3); }
+            50% { border-color: rgba(0, 240, 255, 1); }
+        }
 
         /* Typography */
         .hero-title {
@@ -215,7 +219,7 @@
         }
         section.active { display: block; animation: fadeSlideUp 0.7s ease-out forwards; }
 
-        /* Product Grid - Improved Sizing & Design */
+        /* Product Grid - Enhanced */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -230,7 +234,6 @@
             transform: translateY(30px);
             animation: fadeSlideUp 0.6s ease-out forwards;
             position: relative;
-            border-radius: 0px;
         }
         .product-card:nth-child(1) { animation-delay: 0.1s; }
         .product-card:nth-child(2) { animation-delay: 0.2s; }
@@ -311,7 +314,6 @@
             font-size: 0.7rem;
             flex: 1;
             text-align: center;
-            border-radius: 0;
         }
         .btn-outline:hover {
             background: var(--accent);
@@ -330,14 +332,13 @@
             font-size: 0.7rem;
             flex: 1;
             text-align: center;
-            border-radius: 0;
         }
         .btn-primary:hover {
             background: #ffffff;
             transform: scale(1.02);
         }
 
-        /* Modal - Enhanced & Working */
+        /* Modal - Fully Functional */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -491,7 +492,7 @@
             border-color: var(--accent);
         }
 
-        /* About & Contact */
+        /* About Section - Refined */
         .story-flex {
             display: flex;
             gap: 4rem;
@@ -503,6 +504,22 @@
             font-size: 1.1rem;
             color: var(--gray);
             line-height: 1.7;
+        }
+        .story-text b {
+            color: var(--text);
+            font-weight: 800;
+        }
+        .story-image {
+            flex: 1;
+        }
+        .story-image img {
+            width: 100%;
+            filter: grayscale(0.2) contrast(1.1);
+            transition: 0.5s;
+        }
+        .story-image img:hover {
+            filter: grayscale(0) contrast(1.2);
+            transform: scale(1.02);
         }
         .values-grid {
             display: grid;
@@ -528,6 +545,12 @@
             color: var(--accent);
             margin-bottom: 1rem;
         }
+        .value-card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Contact Section - Premium */
         .contact-enhanced {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -547,6 +570,16 @@
             font-size: 2.2rem;
             color: var(--accent);
             margin-bottom: 1.2rem;
+        }
+        .contact-info-card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.8rem;
+        }
+        .divider-light {
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            margin: 1.5rem 0;
         }
         .social-links {
             display: flex;
@@ -568,23 +601,70 @@
         .social-links a:hover {
             background: var(--accent);
             color: #000;
+            transform: translateY(-3px);
         }
         .form-container {
             background: var(--card);
             border: 1px solid var(--border);
             padding: 2.8rem;
+            transition: var(--transition);
         }
+        .form-container:hover {
+            border-color: var(--accent);
+        }
+
+        /* Footer with Newsletter */
         footer {
             padding: 80px 8% 40px;
             border-top: 1px solid var(--border);
             background: #000;
+            margin-top: 2rem;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 4rem;
         }
-        .footer-logo img { height: 54px; margin-bottom: 1.5rem; }
+        .footer-logo img {
+            height: 54px;
+            margin-bottom: 1.5rem;
+        }
+        .footer-grid p {
+            color: var(--gray);
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 0.6rem;
+        }
+        .footer-grid p:hover {
+            color: var(--accent);
+        }
+        .newsletter {
+            margin-top: 2rem;
+        }
+        .newsletter h4 {
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .newsletter-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .newsletter-input input {
+            flex: 1;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: white;
+            outline: none;
+        }
+        .newsletter-input button {
+            background: var(--accent);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+        }
         .footer-bottom {
             margin-top: 4rem;
             padding-top: 2rem;
@@ -592,15 +672,60 @@
             text-align: center;
             color: var(--gray);
             font-size: 0.75rem;
+            letter-spacing: 1px;
         }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 99;
+            font-size: 1.2rem;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: #fff;
+        }
+
         @media (max-width: 1024px) {
-            .contact-enhanced, .values-grid, .cart-wrapper { grid-template-columns: 1fr; }
-            .story-flex { flex-direction: column; }
+            .contact-enhanced, .values-grid, .cart-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .story-flex {
+                flex-direction: column;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
         }
         @media (max-width: 560px) {
-            .title { font-size: 2rem; }
-            .hero-title { font-size: 15vw; }
-            .product-grid { grid-template-columns: 1fr; }
+            .title {
+                font-size: 2rem;
+            }
+            .hero-title {
+                font-size: 15vw;
+            }
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -667,14 +792,16 @@
             <p>Every product is designed with attention to detail, durability, and customer satisfaction. The brand focuses on delivering high-quality shoes, modern designs, and comfortable footwear at affordable pricing.</p>
             <br>
             <p>The vision is to expand nationwide and become a leading footwear brand. Each pair tells a story of precision, luxury, and the relentless pursuit of perfection.</p>
+            <br>
+            <p>With a commitment to excellence, Shandar VIP Shoes blends traditional craftsmanship with contemporary aesthetics. We believe that footwear is not just an accessory—it's a statement of identity.</p>
         </div>
         <div class="story-image">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="luxury" style="width:100%; filter: grayscale(0.2);">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="luxury sneaker">
         </div>
     </div>
     <div class="values-grid">
-        <div class="value-card"><i class="fa fa-gem"></i><h3>Premium Quality</h3><p>Finest materials for durability and comfort.</p></div>
-        <div class="value-card"><i class="fa fa-paintbrush"></i><h3>Modern Design</h3><p>Contemporary aesthetics meet timeless elegance.</p></div>
+        <div class="value-card"><i class="fa fa-gem"></i><h3>Premium Quality</h3><p>Finest materials sourced globally for durability and comfort.</p></div>
+        <div class="value-card"><i class="fa fa-paintbrush"></i><h3>Modern Design</h3><p>Contemporary aesthetics meeting timeless elegance.</p></div>
         <div class="value-card"><i class="fa fa-heart"></i><h3>Customer First</h3><p>Your satisfaction is our priority.</p></div>
     </div>
 </section>
@@ -685,11 +812,16 @@
         <div class="contact-info-card">
             <i class="fa fa-map-marker-alt"></i>
             <h3>Headquarters</h3>
-            <p>Sector 11/2, Orangi Town, Iqbal Market, Karachi, Pakistan</p>
-            <div style="margin: 1.5rem 0;"></div>
+            <p>Sector 11/2, Orangi Town,</p>
+            <p>Iqbal Market, Karachi, Pakistan</p>
+            <div class="divider-light"></div>
             <i class="fa fa-phone-alt"></i>
             <h3>Direct Line</h3>
             <p>+92 311 9333294</p>
+            <div class="divider-light"></div>
+            <i class="fa fa-envelope"></i>
+            <h3>Email Support</h3>
+            <p>care@shandarvip.com</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -701,8 +833,8 @@
             <form id="contact-form">
                 <input type="text" id="c-name" placeholder="FULL NAME" required>
                 <input type="email" id="c-email" placeholder="EMAIL ADDRESS" required>
-                <input type="tel" id="c-phone" placeholder="PHONE" required>
-                <textarea id="c-message" rows="4" placeholder="MESSAGE" required></textarea>
+                <input type="tel" id="c-phone" placeholder="PHONE NUMBER" required>
+                <textarea id="c-message" rows="4" placeholder="YOUR MESSAGE" required></textarea>
                 <button class="btn-primary" style="width:100%">Transmit Message</button>
             </form>
         </div>
@@ -714,7 +846,7 @@
     <div class="cart-wrapper">
         <div id="cart-items" class="form-dark" style="background: transparent; padding:0;"></div>
         <div class="form-dark" style="background: var(--card); padding: 2rem;">
-            <h3>Summary</h3><br>
+            <h3 style="margin-bottom: 1rem;">Summary</h3>
             <div style="display:flex; justify-content:space-between; margin-bottom: 2rem;">
                 <span>Total</span>
                 <span id="cart-total" style="color:var(--accent); font-weight:900;">Rs. 0</span>
@@ -738,21 +870,43 @@
 
 <footer>
     <div class="footer-grid">
-        <div class="footer-logo"><img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png"><p>Premium footwear for the bold. Walk with Shandar VIP.</p></div>
-        <div><h4>Navigation</h4><p onclick="showSection('shop')">Shop</p><p onclick="showSection('about')">Story</p><p onclick="showSection('contact')">Contact</p></div>
-        <div><h4>Legal</h4><p>Terms of Service</p><p>Privacy Policy</p></div>
+        <div class="footer-logo">
+            <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="SHANDAR VIP">
+            <p>Premium footwear for the bold. Walk with confidence. Walk with Shandar VIP.</p>
+            <div class="newsletter">
+                <h4>Join the Elite</h4>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Your email" id="newsletterEmail">
+                    <button onclick="subscribeNewsletter()"><i class="fa fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 1rem;">Navigation</h4>
+            <p onclick="showSection('shop')">Shop Drops</p>
+            <p onclick="showSection('about')">The Story</p>
+            <p onclick="showSection('contact')">Connect</p>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 1rem;">Legal</h4>
+            <p>Terms of Service</p>
+            <p>Privacy Policy</p>
+            <p>Return Policy</p>
+        </div>
     </div>
-    <div class="footer-bottom">&copy; 2024 SHANDAR VIP SHOES. OWNED BY MUHAMMAD KHURSHID ALAM.</div>
+    <div class="footer-bottom">&copy; 2024 SHANDAR VIP SHOES. OWNED BY MUHAMMAD KHURSHID ALAM. ALL RIGHTS RESERVED.</div>
 </footer>
+
+<div class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-arrow-up"></i>
+</div>
 
 <script>
     let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
-    let currentProduct = null;
 
     // Mobile menu functions
     function toggleMobileMenu() {
-        const navLinks = document.getElementById('navLinks');
-        navLinks.classList.toggle('active');
+        document.getElementById('navLinks').classList.toggle('active');
     }
     function closeMobileMenu() {
         document.getElementById('navLinks').classList.remove('active');
@@ -768,18 +922,14 @@
 
     // Modal Functions - Fully Working
     function openModal(product) {
-        currentProduct = product;
-        const modal = document.getElementById('productModal');
         document.getElementById('modalImage').src = product.image_url;
         document.getElementById('modalName').innerText = product.name;
         document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
-        const skuCode = product.id ? `VIP-${product.id.slice(-6).toUpperCase()}` : 'VIP-SH001';
-        document.getElementById('modalSku').innerHTML = `SKU: ${skuCode}`;
-        const descElem = document.getElementById('modalDescription');
-        descElem.innerHTML = product.description || 'Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort. Made with premium materials and precision engineering.';
+        document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase()}`;
+        document.getElementById('modalDescription').innerHTML = product.description || 'Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort. Made with premium materials and precision engineering.';
         
+        const modal = document.getElementById('productModal');
         const modalBtn = document.getElementById('modalAddToCartBtn');
-        // Remove previous listeners to avoid duplicates
         const newBtn = modalBtn.cloneNode(true);
         modalBtn.parentNode.replaceChild(newBtn, modalBtn);
         newBtn.onclick = () => {
@@ -792,18 +942,14 @@
     }
 
     function closeModal() {
-        const modal = document.getElementById('productModal');
-        modal.classList.remove('active');
+        document.getElementById('productModal').classList.remove('active');
         document.body.style.overflow = '';
-        currentProduct = null;
     }
-    
-    // Close modal when clicking overlay
+
     document.getElementById('productModal')?.addEventListener('click', (e) => {
         if (e.target === document.getElementById('productModal')) closeModal();
     });
     
-    // Escape key to close modal
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) {
             closeModal();
@@ -820,7 +966,6 @@
         const container = document.getElementById('product-list');
         if (container && data && data.length > 0) {
             container.innerHTML = data.map((p, idx) => {
-                // Create a safe JSON string for the product
                 const productData = {
                     id: p.id,
                     name: p.name,
@@ -855,7 +1000,11 @@
         updateCart();
         Swal.fire({ icon: 'success', title: 'Added to Bag', text: `${name} added.`, background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', timer: 1500 });
     };
-    window.removeItem = function(id) { cart = cart.filter(i => i.id !== id); updateCart(); };
+
+    window.removeItem = function(id) { 
+        cart = cart.filter(i => i.id !== id); 
+        updateCart(); 
+    };
 
     function updateCart() {
         localStorage.setItem('vip_cart', JSON.stringify(cart));
@@ -863,27 +1012,77 @@
         const container = document.getElementById('cart-items');
         let total = 0;
         if (!container) return;
-        if (cart.length === 0) container.innerHTML = `<div style="padding: 2rem; background: var(--card); text-align: center; color: var(--gray);">Your bag is empty.</div>`;
-        else container.innerHTML = cart.map(i => { total += i.price * i.qty; return `<div class="cart-item"><img src="${i.img}"><div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div><i class="fa fa-trash" style="cursor:pointer" onclick="removeItem('${i.id}')"></i></div>`; }).join('');
+        if (cart.length === 0) {
+            container.innerHTML = `<div style="padding: 2rem; background: var(--card); text-align: center; color: var(--gray);">Your bag is empty.</div>`;
+        } else {
+            container.innerHTML = cart.map(i => { 
+                total += i.price * i.qty; 
+                return `<div class="cart-item"><img src="${i.img}"><div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div><i class="fa fa-trash" style="cursor:pointer" onclick="removeItem('${i.id}')"></i></div>`; 
+            }).join('');
+        }
         document.getElementById('cart-total').innerText = 'Rs. ' + total.toLocaleString();
     }
 
     document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const payload = { name: document.getElementById('c-name').value, email: document.getElementById('c-email').value, phone: document.getElementById('c-phone').value, message: document.getElementById('c-message').value };
+        const payload = {
+            name: document.getElementById('c-name').value,
+            email: document.getElementById('c-email').value,
+            phone: document.getElementById('c-phone').value,
+            message: document.getElementById('c-message').value
+        };
         const { error } = await _supabase.from('contacts').insert([payload]);
-        if (!error) { Swal.fire({ icon: 'success', title: 'Transmitted', text: 'Mr. Khurshid will review your message.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' }); e.target.reset(); }
-        else Swal.fire({ icon: 'error', title: 'Error', text: 'Could not send message.', background: '#111' });
+        if (!error) {
+            Swal.fire({ icon: 'success', title: 'Transmitted', text: 'Mr. Khurshid will review your message.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' });
+            e.target.reset();
+        } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Could not send message.', background: '#111' });
+        }
     });
 
     document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (cart.length === 0) return Swal.fire({ icon: 'warning', title: 'Empty Bag', text: 'Add items first.', background: '#111' });
         const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const { data, error } = await _supabase.from('orders').insert([{ customer_name: document.getElementById('o-name').value, phone: document.getElementById('o-phone').value, address: document.getElementById('o-address').value, total_price: total }]).select();
-        if (data && data.length) { await _supabase.from('order_items').insert(cart.map(i => ({ order_id: data[0].id, product_id: i.id, quantity: i.qty, price_at_time: i.price }))); Swal.fire({ icon: 'success', title: 'Order Confirmed', text: 'VIP shipment initialized.', background: '#0a0a0a', confirmButtonColor: '#00f0ff' }); cart = []; updateCart(); showSection('home'); e.target.reset(); }
-        else Swal.fire({ icon: 'error', title: 'Error', text: 'Order failed.', background: '#111' });
+        const { data, error } = await _supabase.from('orders').insert([{
+            customer_name: document.getElementById('o-name').value,
+            phone: document.getElementById('o-phone').value,
+            address: document.getElementById('o-address').value,
+            total_price: total
+        }]).select();
+        if (data && data.length) {
+            await _supabase.from('order_items').insert(cart.map(i => ({
+                order_id: data[0].id,
+                product_id: i.id,
+                quantity: i.qty,
+                price_at_time: i.price
+            })));
+            Swal.fire({ icon: 'success', title: 'Order Confirmed', text: 'VIP shipment initialized.', background: '#0a0a0a', confirmButtonColor: '#00f0ff' });
+            cart = [];
+            updateCart();
+            showSection('home');
+            e.target.reset();
+        } else {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Order failed.', background: '#111' });
+        }
     });
+
+    window.subscribeNewsletter = function() {
+        const email = document.getElementById('newsletterEmail').value;
+        if (email && email.includes('@')) {
+            Swal.fire({ icon: 'success', title: 'Subscribed!', text: 'You will receive exclusive updates.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' });
+            document.getElementById('newsletterEmail').value = '';
+        } else {
+            Swal.fire({ icon: 'warning', title: 'Email Required', text: 'Please enter a valid email.', background: '#111' });
+        }
+    };
+
+    // Back to top button visibility
+    window.onscroll = function() {
+        const btn = document.getElementById('backToTop');
+        if (window.scrollY > 300) btn.classList.add('show');
+        else btn.classList.remove('show');
+    };
 
     window.onload = () => { 
         if (typeof _supabase !== 'undefined' && _supabase) {
