@@ -1,31 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>Admin Login | Shandar VIP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access | Shandar VIP Shoes</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #0d0d0d; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; }
-        .login-card { background: #1a1a1a; padding: 2rem; border-radius: 10px; width: 350px; border: 1px solid #00f0ff; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; }
-        button { width: 100%; padding: 12px; background: #00f0ff; border: none; font-weight: bold; cursor: pointer; }
+        :root {
+            --bg: #0d0d0d;
+            --secondary: #1a1a1a;
+            --neon-blue: #00f0ff;
+            --white: #ffffff;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: var(--secondary);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo img { height: 60px; margin-bottom: 20px; }
+        h2 { margin-bottom: 30px; font-weight: 300; letter-spacing: 2px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--neon-blue); }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: var(--neon-blue);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-login:hover { box-shadow: 0 0 15px var(--neon-blue); transform: translateY(-2px); }
+        #msg { margin-top: 15px; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <h2 style="text-align: center;">Admin Login</h2>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="pass" placeholder="Password">
-        <button onclick="login()">Login</button>
+
+    <div class="login-container">
+        <div class="logo"><img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png"></div>
+        <h2>ADMIN PANEL</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Admin Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-login">Secure Login</button>
+        </form>
+        <div id="msg"></div>
     </div>
+
     <script>
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) alert(error.message);
-            else window.location.href = "admin-dashboard.html";
+        // REDIRECT IF ALREADY LOGGED IN
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'admin-dashboard.html';
+            }
         }
+        checkSession();
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('msg');
+
+            msg.innerHTML = "Authenticating...";
+            
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                msg.style.color = "#ff4d4d";
+                msg.innerHTML = error.message;
+            } else {
+                msg.style.color = "#00ff9f";
+                msg.innerHTML = "Login Successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
