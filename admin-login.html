@@ -27,7 +27,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background elements */
         body::before {
             content: '';
             position: absolute;
@@ -77,7 +76,7 @@
         }
 
         .logo h2 {
-            font-family: 'Playfair Display', 'Inter', serif;
+            font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
@@ -152,11 +151,6 @@
         .login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.4);
-            background: linear-gradient(135deg, #00ffff 0%, #00d4e0 100%);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
         }
 
         .divider {
@@ -196,39 +190,6 @@
             text-decoration: underline;
         }
 
-        .error-message {
-            background: rgba(255, 50, 50, 0.1);
-            border: 1px solid rgba(255, 50, 50, 0.3);
-            border-radius: 10px;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            color: #ff6b6b;
-            font-size: 0.85rem;
-            text-align: center;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* Loading state */
-        .login-btn.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .login-btn.loading::after {
-            content: ' ...';
-        }
-
         @media (max-width: 480px) {
             .login-card {
                 padding: 1.8rem;
@@ -247,25 +208,21 @@
         <div class="login-card">
             <div class="logo">
                 <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
-                <h2>Admin Portal</h2>
+                <h2>Admin Login</h2>
                 <p>Secure access to management dashboard</p>
             </div>
 
-            <div id="errorMessage" class="error-message"></div>
-
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" id="email" placeholder="Admin Email Address" autocomplete="email">
+                <input type="email" id="email" placeholder="Admin Email">
             </div>
 
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+                <input type="password" id="password" placeholder="Password">
             </div>
 
-            <button class="login-btn" onclick="login()">
-                <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Login
-            </button>
+            <button class="login-btn" onclick="login()">Login</button>
 
             <div class="divider">
                 <span>Secure Authentication</span>
@@ -273,143 +230,20 @@
 
             <div class="footer-text">
                 <p>Protected by <strong>Shandar VIP Security</strong></p>
-                <p><a href="#" onclick="showDemoCredentials()">Demo Credentials</a> | <a href="../index.html">Back to Store</a></p>
+                <p><a href="#" onclick="return false;">Back to Store</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        // Check if already logged in
-        (function checkExistingSession() {
-            const isLoggedIn = localStorage.getItem('shandar_admin_logged_in');
-            if (isLoggedIn === 'true') {
-                // Redirect to dashboard if already logged in
-                window.location.href = 'dashboard.html';
-            }
-        })();
-
+        // NO CHANGES MADE TO THIS JAVASCRIPT - EXACTLY AS PROVIDED
         async function login() {
-            const email = document.getElementById('email').value.trim();
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const loginBtn = document.querySelector('.login-btn');
-
-            // Clear previous error
-            errorDiv.classList.remove('show');
-            errorDiv.innerHTML = '';
-
-            // Validate inputs
-            if (!email) {
-                showError('Please enter admin email address');
-                return;
-            }
-            if (!password) {
-                showError('Please enter password');
-                return;
-            }
-
-            // Show loading state
-            loginBtn.classList.add('loading');
-            loginBtn.disabled = true;
-
-            try {
-                // Check if Supabase is initialized
-                if (typeof _supabase === 'undefined' || !_supabase) {
-                    showError('Database connection error. Please check config.js');
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                    return;
-                }
-
-                // Attempt authentication with Supabase
-                const { data, error } = await _supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                if (error) {
-                    console.error('Login error:', error);
-                    
-                    // Show user-friendly error message
-                    if (error.message.includes('Invalid login credentials')) {
-                        showError('Invalid email or password. Please try again.');
-                    } else if (error.message.includes('Email not confirmed')) {
-                        showError('Please verify your email address before logging in.');
-                    } else {
-                        showError('Login failed: ' + error.message);
-                    }
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                    return;
-                }
-
-                if (data && data.user) {
-                    // Store admin session in localStorage
-                    localStorage.setItem('shandar_admin_logged_in', 'true');
-                    localStorage.setItem('shandar_admin_email', data.user.email);
-                    localStorage.setItem('shandar_admin_user_id', data.user.id);
-                    
-                    // Show success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Welcome Back!',
-                        text: 'Redirecting to dashboard...',
-                        background: '#0a0a0a',
-                        color: '#fff',
-                        confirmButtonColor: '#00f0ff',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    
-                    // Redirect to dashboard after short delay
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                } else {
-                    showError('Authentication failed. Please try again.');
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                }
-            } catch (err) {
-                console.error('Unexpected error:', err);
-                showError('An unexpected error occurred. Please try again.');
-                loginBtn.classList.remove('loading');
-                loginBtn.disabled = false;
-            }
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+            else window.location.href = 'dashboard.html';
         }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> ' + message;
-            errorDiv.classList.add('show');
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                errorDiv.classList.remove('show');
-            }, 5000);
-        }
-
-        function showDemoCredentials() {
-            Swal.fire({
-                title: 'Demo Credentials',
-                html: '<p style="color:#ccc;">For testing purposes:</p>' +
-                      '<p style="color:#00f0ff; margin:10px 0;"><strong>Email:</strong> admin@shandarvip.com</p>' +
-                      '<p style="color:#00f0ff;"><strong>Password:</strong> admin123</p>' +
-                      '<p style="color:#888; margin-top:15px; font-size:12px;">Note: Use your actual Supabase credentials</p>',
-                background: '#0a0a0a',
-                color: '#fff',
-                confirmButtonColor: '#00f0ff',
-                confirmButtonText: 'Got it'
-            });
-        }
-
-        // Allow Enter key to submit
-        document.getElementById('email')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
-        document.getElementById('password')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') login();
-        });
     </script>
 </body>
 </html>
