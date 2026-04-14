@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; display: flex; }
+        .sidebar { width: 250px; background: #0d0d0d; color: white; height: 100vh; padding: 20px; position: fixed; }
+        .main { margin-left: 270px; padding: 20px; width: 100%; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+        .btn { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; }
+        .btn-add { background: #00ff9f; color: black; }
+        .btn-status { background: #00f0ff; color: black; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Shandar Admin</h3>
+        <p onclick="showTab('prod-tab')" style="cursor:pointer">Products</p>
+        <p onclick="showTab('order-tab')" style="cursor:pointer">Orders</p>
+        <p onclick="showTab('msg-tab')" style="cursor:pointer">Messages</p>
+        <br>
+        <button onclick="supabase.auth.signOut().then(()=>window.location.href='admin-login.html')">Logout</button>
+    </div>
+
+    <div class="main">
+        <!-- PRODUCTS -->
+        <div id="prod-tab" class="tab-content active">
+            <div class="card">
+                <h2>Add Product</h2>
+                <input type="text" id="pName" placeholder="Product Name">
+                <input type="text" id="pPrice" placeholder="Price (e.g. 2500)">
+                <input type="text" id="pImage" placeholder="Image URL (PostImage Link)">
+                <textarea id="pDesc" placeholder="Description"></textarea>
+                <button class="btn btn-add" onclick="addProduct()">Save Product</button>
+            </div>
+            <div class="card">
+                <h2>Current Inventory</h2>
+                <table id="prod-table"><thead><tr><th>Name</th><th>Price</th><th>Action</th></tr></thead><tbody></tbody></table>
+            </div>
+        </div>
+
+        <!-- ORDERS -->
+        <div id="order-tab" class="tab-content">
+            <div class="card">
+                <h2>Customer Orders</h2>
+                <table id="order-table"><thead><tr><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table>
+            </div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div id="msg-tab" class="tab-content">
+            <div class="card">
+                <h2>Contact Messages</h2>
+                <table id="msg-table"><thead><tr><th>Name</th><th>Message</th><th>Date</th></tr></thead><tbody></tbody></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(id === 'prod-tab') loadProducts();
+            if(id === 'order-tab') loadOrders();
+            if(id === 'msg-tab') loadMessages();
+        }
+
+        async function addProduct() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const image_url = document.getElementById('pImage').value;
+            const description = document.getElementById('pDesc').value;
+
+            const { error } = await supabase.from('products').insert([{ name, price, image_url, description }]);
+            if(error) alert(error.message);
+            else { alert("Product Added!"); loadProducts(); }
+        }
+
+        async function loadProducts() {
+            const { data } = await supabase.from('products').select('*');
+            document.querySelector('#prod-table tbody').innerHTML = data.map(p => `
+                <tr><td>${p.name}</td><td>${p.price}</td><td><button onclick="deleteProd(${p.id})">Delete</button></td></tr>
+            `).join('');
+        }
+
+        async function loadOrders() {
+            const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+            document.querySelector('#order-table tbody').innerHTML = data.map(o => `
+                <tr>
+                    <td>${o.customer_name}<br><small>${o.phone}</small></td>
+                    <td>Rs ${o.total_price}</td>
+                    <td>${o.status}</td>
+                    <td><button class="btn btn-status" onclick="updateOrder(${o.id})">Mark Delivered</button></td>
+                </tr>
+            `).join('');
+        }
+
+        async function updateOrder(id) {
+            await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
+            loadOrders();
+        }
+
+        async function loadMessages() {
+            const { data } = await supabase.from('contacts').select('*');
+            document.querySelector('#msg-table tbody').innerHTML = data.map(m => `
+                <tr><td>${m.name}<br>${m.email}</td><td>${m.message}</td><td>${new Date(m.created_at).toLocaleDateString()}</td></tr>
+            `).join('');
+        }
+
+        // Initial Load
+        loadProducts();
+    </script>
+</body>
+</html>
