@@ -2,51 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Login | Shandar VIP</title>
+    <title>Admin Login | Shandar VIP Shoes</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <style>
-        body { background: #0d0d0d; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .login-card { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #00f0ff; width: 100%; max-width: 350px; text-align: center; }
+        body { background: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-box { background: #111; padding: 40px; border-radius: 15px; border: 1px solid #00f0ff; width: 350px; text-align: center; box-shadow: 0 0 20px rgba(0,240,255,0.2); }
         img { height: 60px; margin-bottom: 20px; }
         input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #00f0ff; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; margin-top: 10px; }
-        #errorMsg { color: #ff4d4d; font-size: 14px; margin-top: 10px; }
+        button { width: 100%; padding: 12px; background: #00f0ff; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; transition: 0.3s; }
+        button:hover { background: #00ff9f; transform: scale(1.02); }
+        #msg { color: #ff4d4d; margin-top: 15px; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="login-card">
+    <div class="login-box">
         <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png">
-        <h2>Admin Portal</h2>
-        <input type="email" id="email" placeholder="Admin Email">
+        <h2>Admin Login</h2>
+        <input type="email" id="email" placeholder="Email">
         <input type="password" id="pass" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <div id="errorMsg"></div>
+        <button onclick="handleLogin()">Login to Dashboard</button>
+        <div id="msg"></div>
     </div>
 
     <script>
-        // Check if user is already logged in
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.location.href = 'admin-dashboard.html';
-            }
-        }
-        checkSession();
-
-        async function login() {
+        async function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('pass').value;
-            const errorMsg = document.getElementById('errorMsg');
+            const msg = document.getElementById('msg');
+
+            msg.style.color = "white";
+            msg.innerText = "Checking...";
 
             const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
             if (error) {
-                errorMsg.innerText = error.message;
+                msg.style.color = "#ff4d4d";
+                msg.innerText = error.message;
             } else {
                 window.location.href = 'admin-dashboard.html';
             }
         }
+
+        // Redirect if already logged in
+        window.onload = async () => {
+            const { data } = await supabase.auth.getSession();
+            if (data.session) window.location.href = 'admin-dashboard.html';
+        };
     </script>
 </body>
 </html>
