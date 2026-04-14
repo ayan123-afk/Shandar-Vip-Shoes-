@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP Admin | Shandar Shoes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin Login | Shandar VIP</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,456 +16,234 @@
         }
 
         body {
-            background: #000000;
+            background: radial-gradient(circle at 30% 10%, #0a0a0a 0%, #000000 100%);
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
             display: flex;
-            margin: 0;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            position: relative;
             overflow-x: hidden;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
-            height: 100vh;
-            padding: 2rem 1.5rem;
-            border-right: 1px solid rgba(0, 240, 255, 0.15);
-            position: fixed;
-            left: 0;
-            top: 0;
-            overflow-y: auto;
-            z-index: 100;
-            transition: all 0.3s ease;
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
         }
 
-        .sidebar h2 {
-            color: #00f0ff;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 450px;
+            padding: 1.5rem;
+        }
+
+        .login-card {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 240, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .login-card:hover {
+            border-color: rgba(0, 240, 255, 0.8);
+            box-shadow: 0 30px 60px -12px rgba(0, 240, 255, 0.2);
+        }
+
+        .logo {
+            text-align: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .sidebar h2 i {
-            font-size: 1.3rem;
+        .logo img {
+            height: 60px;
+            margin-bottom: 1rem;
         }
 
-        .nav-item {
-            padding: 0.9rem 1rem;
-            margin: 0.3rem 0;
-            color: #a0a0a0;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .nav-item i {
-            width: 24px;
-            font-size: 1.1rem;
-        }
-
-        .nav-item:hover {
-            background: rgba(0, 240, 255, 0.1);
-            color: #00f0ff;
-            transform: translateX(5px);
-        }
-
-        .nav-item.logout {
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 1.5rem;
-            color: #ff6b6b;
-        }
-
-        .nav-item.logout:hover {
-            background: rgba(255, 107, 107, 0.1);
-            color: #ff6b6b;
-        }
-
-        /* Main Content */
-        .main {
-            margin-left: 280px;
-            padding: 2rem 2.5rem;
-            width: calc(100% - 280px);
-            min-height: 100vh;
-            background: #000000;
-        }
-
-        /* Section Headers */
-        .main > div h2 {
+        .logo h2 {
+            font-family: 'Inter', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            padding-left: 1rem;
-            border-left: 4px solid #00f0ff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Card Styles */
-        .card {
-            background: linear-gradient(135deg, #0a0a0a 0%, #080808 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.1);
-        }
-
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 1rem 0.8rem;
-            background: rgba(0, 240, 255, 0.05);
-            color: #00f0ff;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             letter-spacing: 1px;
         }
 
-        td {
-            padding: 1rem 0.8rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #c0c0c0;
-            font-size: 0.9rem;
-        }
-
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Status Badge */
-        .status-badge {
-            background: rgba(0, 240, 255, 0.15);
-            color: #00f0ff;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .logo p {
             color: #a0a0a0;
             font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
         }
 
-        input, textarea {
-            background: #0d0d0d;
-            border: 1px solid #2a2a2a;
-            padding: 12px 16px;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            border-radius: 12px;
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00f0ff;
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        .input-group input {
             width: 100%;
+            padding: 1rem 1rem 1rem 2.8rem;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             outline: none;
         }
 
-        input:focus, textarea:focus {
+        .input-group input:focus {
             border-color: #00f0ff;
             box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
+            background: rgba(30, 30, 30, 0.9);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .input-group input::placeholder {
+            color: #666;
+            font-weight: 400;
         }
 
-        button {
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
             background: linear-gradient(135deg, #00f0ff 0%, #00c4d4 100%);
-            color: #000000;
             border: none;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 0.9rem;
             border-radius: 12px;
+            color: #000;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             margin-top: 0.5rem;
         }
 
-        button:hover {
+        .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -8px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.4);
         }
 
-        /* Messages Card */
-        .msg-card {
-            background: #0d0d0d;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .msg-card:hover {
-            border-color: rgba(0, 240, 255, 0.3);
-            transform: translateX(5px);
-        }
-
-        .msg-card b {
-            color: #00f0ff;
-            font-size: 1rem;
+        .divider {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 0.5rem;
-        }
-
-        .msg-card p {
-            color: #b0b0b0;
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-
-        .msg-meta {
-            font-size: 0.7rem;
-            color: #666;
-            margin-top: 0.5rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        /* Empty State */
-        .empty-state {
             text-align: center;
-            padding: 3rem;
+            margin: 1.5rem 0;
             color: #666;
+            font-size: 0.8rem;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .divider span {
+            margin: 0 1rem;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
+        .footer-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+            font-size: 0.75rem;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 4px;
+        .footer-text a {
+            color: #00f0ff;
+            text-decoration: none;
+            transition: 0.3s;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00f0ff;
+        .footer-text a:hover {
+            text-decoration: underline;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 80px;
-                padding: 1rem 0.5rem;
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.8rem;
             }
-            .sidebar h2 span, .sidebar .nav-item span {
-                display: none;
+            .logo img {
+                height: 45px;
             }
-            .sidebar h2 i {
-                margin: 0 auto;
+            .logo h2 {
+                font-size: 1.5rem;
             }
-            .nav-item {
-                justify-content: center;
-                padding: 0.8rem;
-            }
-            .main {
-                margin-left: 80px;
-                width: calc(100% - 80px);
-                padding: 1.5rem;
-            }
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main > div {
-            animation: fadeIn 0.4s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>
-            <i class="fas fa-crown"></i>
-            <span>SHANDAR VIP</span>
-        </h2>
-        <div class="nav-item" onclick="show('orders')">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Manage Orders</span>
-        </div>
-        <div class="nav-item" onclick="show('inventory')">
-            <i class="fas fa-plus-circle"></i>
-            <span>Add Product</span>
-        </div>
-        <div class="nav-item" onclick="show('msgs')">
-            <i class="fas fa-envelope"></i>
-            <span>Messages</span>
-        </div>
-        <div class="nav-item logout" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </div>
-    </div>
-    <div class="main">
-        <div id="orders-sec">
-            <h2><i class="fas fa-shopping-cart"></i> Customer Orders</h2>
-            <div class="card">
-                <table id="orders-table">
-                    <tr><td colspan="4" style="text-align:center; color:#666;">Loading orders...</td></tr>
-                </table>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
+                <h2>Admin Login</h2>
+                <p>Secure access to management dashboard</p>
             </div>
-        </div>
-        <div id="inventory-sec" style="display:none">
-            <h2><i class="fas fa-plus-circle"></i> Add New Release</h2>
-            <div class="card">
-                <div class="form-group">
-                    <label><i class="fas fa-tag"></i> Shoe Name</label>
-                    <input id="p-name" placeholder="e.g., Shandar VIP Elite">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-rupee-sign"></i> Price (PKR)</label>
-                    <input id="p-price" placeholder="e.g., 12999">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-align-left"></i> Product Description</label>
-                    <textarea id="p-desc" placeholder="Describe the product..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-image"></i> Image URL</label>
-                    <input id="p-img" placeholder="https://...">
-                </div>
-                <button onclick="saveProduct()">
-                    <i class="fas fa-save"></i> Save Drop
-                </button>
+
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Admin Email">
             </div>
-        </div>
-        <div id="msgs-sec" style="display:none">
-            <h2><i class="fas fa-envelope"></i> Customer Messages</h2>
-            <div id="msg-list"></div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+
+            <button class="login-btn" onclick="login()">Login</button>
+
+            <div class="divider">
+                <span>Secure Authentication</span>
+            </div>
+
+            <div class="footer-text">
+                <p>Protected by <strong>Shandar VIP Security</strong></p>
+                <p><a href="#" onclick="return false;">Back to Store</a></p>
+            </div>
         </div>
     </div>
 
     <script>
         // NO CHANGES MADE TO THIS JAVASCRIPT - EXACTLY AS PROVIDED
-        function show(id) {
-            document.querySelectorAll('.main > div').forEach(d => d.style.display = 'none');
-            document.getElementById(id + '-sec').style.display = 'block';
-            if(id === 'orders') loadOrders();
-            if(id === 'msgs') loadMsgs();
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+            else window.location.href = 'dashboard.html';
         }
-
-        async function saveProduct() {
-            const { error } = await _supabase.from('products').insert([{
-                name: document.getElementById('p-name').value,
-                price: document.getElementById('p-price').value,
-                description: document.getElementById('p-desc').value,
-                image_url: document.getElementById('p-img').value
-            }]);
-            if (!error) {
-                alert('New Release Saved');
-                document.getElementById('p-name').value = '';
-                document.getElementById('p-price').value = '';
-                document.getElementById('p-desc').value = '';
-                document.getElementById('p-img').value = '';
-            } else {
-                alert('Error: ' + error.message);
-            }
-        }
-
-        async function loadOrders() {
-            const { data } = await _supabase.from('orders').select('*').order('created_at', {ascending: false});
-            if (data && data.length > 0) {
-                document.getElementById('orders-table').innerHTML = `
-                    <thead>
-                        <tr><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th></tr>
-                    </thead>
-                    <tbody>
-                        ${data.map(o => `
-                            <tr>
-                                <td><i class="fas fa-user"></i> ${o.customer_name || 'N/A'}</td>
-                                <td><i class="fas fa-phone"></i> ${o.phone || 'N/A'}</td>
-                                <td><i class="fas fa-rupee-sign"></i> ${parseFloat(o.total_price).toLocaleString()}</td>
-                                <td><span class="status-badge"><i class="fas fa-clock"></i> ${o.status || 'Pending'}</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                `;
-            } else {
-                document.getElementById('orders-table').innerHTML = '<tr><td colspan="4" style="text-align:center; padding:3rem;"><i class="fas fa-inbox"></i><br>No orders found</td></tr>';
-            }
-        }
-
-        async function loadMsgs() {
-            const { data } = await _supabase.from('contacts').select('*');
-            if (data && data.length > 0) {
-                document.getElementById('msg-list').innerHTML = data.map(m => `
-                    <div class="msg-card">
-                        <b><i class="fas fa-user-circle"></i> ${m.name || 'Anonymous'}</b>
-                        <p><i class="fas fa-envelope-open-text"></i> ${m.message || 'No message'}</p>
-                        <div class="msg-meta">
-                            <span><i class="fas fa-envelope"></i> ${m.email || 'No email'}</span>
-                            <span><i class="fas fa-phone"></i> ${m.phone || 'No phone'}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                document.getElementById('msg-list').innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><br>No messages yet</div>';
-            }
-        }
-
-        async function logout() { 
-            await _supabase.auth.signOut(); 
-            window.location.href = 'admin-login.html'; 
-        }
-        
-        window.onload = loadOrders;
     </script>
 </body>
 </html>
