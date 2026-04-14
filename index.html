@@ -2,994 +2,362 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shandar VIP Shoes | Premium Footwear Brand</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shandar VIP Shoes | Premium Footwear</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ============================================
-           SHANDAR VIP SHOES - PREMIUM E-COMMERCE CSS
-           Modern UI/UX | Glassmorphism | Neon Effects
-        ============================================ */
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #0d0d0d;
+            --secondary: #1a1a1a;
+            --neon-blue: #00f0ff;
+            --neon-green: #00ff9f;
+            --white: #ffffff;
+            --gray: #cccccc;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0d0d0d;
-            color: #ffffff;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--white); overflow-x: hidden; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
+
+        /* Navbar */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(13, 13, 13, 0.8); backdrop-filter: blur(10px);
+            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass);
+        }
+        .logo img { height: 50px; cursor: pointer; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; transition: 0.3s; cursor: pointer; }
+        .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        .cart-icon { position: relative; cursor: pointer; font-size: 1.2rem; }
+        .cart-count { 
+            position: absolute; top: -10px; right: -10px; 
+            background: var(--neon-green); color: black; font-size: 0.7rem;
+            padding: 2px 6px; border-radius: 50%; font-weight: bold;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #00ff9f, #00f0ff);
-        }
-
-        /* Selection Color */
-        ::selection {
-            background: #00f0ff;
-            color: #0d0d0d;
-        }
-
-        /* ========== NAVBAR ========== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(13, 13, 13, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-            z-index: 1000;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            padding: 0.7rem 5%;
-            background: rgba(13, 13, 13, 0.98);
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
-        }
-
-        .logo img {
-            height: 55px;
-            width: auto;
-            filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.3));
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links li {
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.3s;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links li::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #00f0ff, #00ff9f);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links li:hover::after {
-            width: 100%;
-        }
-
-        .nav-links li:hover {
-            color: #00f0ff;
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.6rem;
-            transition: transform 0.3s;
-        }
-
-        .cart-icon:hover {
-            transform: scale(1.1);
-            color: #00f0ff;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            color: #0d0d0d;
-            border-radius: 50%;
-            padding: 2px 7px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        /* ========== HERO SECTION ========== */
+        /* Hero Section */
         .hero {
-            min-height: 100vh;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+            url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center; padding: 0 10%;
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-        }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #00f0ff, #00ff9f, #00f0ff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            color: #cccccc;
-            margin-bottom: 1rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        /* ========== BUTTONS ========== */
+        .hero-content h1 { font-size: 4rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-content h1 span { color: var(--neon-blue); }
+        .hero-content p { font-size: 1.2rem; color: var(--gray); margin-bottom: 2rem; }
         .btn {
-            padding: 14px 32px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase; transition: 0.3s; text-decoration: none; display: inline-block;
         }
+        .btn-primary { background: var(--neon-blue); color: black; box-shadow: 0 0 15px var(--neon-blue); margin-right: 1rem; }
+        .btn-secondary { border: 2px solid var(--neon-blue); color: var(--white); background: transparent; }
+        .btn:hover { transform: translateY(-3px); opacity: 0.9; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            color: #0d0d0d;
-        }
+        /* Sections Visibility */
+        section { padding: 80px 5%; display: none; min-height: 100vh; }
+        section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #00f0ff;
-            color: #00f0ff;
-        }
-
-        .btn-outline:hover {
-            background: rgba(0, 240, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
-        }
-
-        /* ========== SECTIONS ========== */
-        .section {
-            padding: 5rem 5%;
-        }
-
-        .section-dark {
-            background: #0a0a0a;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #00f0ff, #00ff9f);
-            border-radius: 3px;
-        }
-
-        /* ========== FEATURES GRID ========== */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: rgba(26, 26, 26, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0, 240, 255, 0.1);
-            cursor: default;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: #00f0ff;
-            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #00f0ff;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* ========== PRODUCTS GRID ========== */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        /* Shop Grid */
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+        .section-title span { color: var(--neon-green); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
         .product-card {
-            background: linear-gradient(135deg, #1a1a1a, #141414);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
+            background: var(--secondary); border-radius: 15px; padding: 1.5rem;
+            border: 1px solid var(--glass); transition: 0.4s; position: relative; overflow: hidden;
         }
+        .product-card:hover { border-color: var(--neon-blue); transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2); }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem; }
+        .product-card h3 { margin-bottom: 0.5rem; }
+        .product-card .price { color: var(--neon-green); font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; }
+        
+        /* About Section */
+        .about-container { display: flex; align-items: center; gap: 4rem; }
+        .about-text { flex: 1; line-height: 1.8; color: var(--gray); }
+        .about-image { flex: 1; }
+        .about-image img { width: 100%; border-radius: 20px; box-shadow: 0 0 20px var(--neon-blue); }
 
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(135deg, #00f0ff, #00ff9f);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s;
+        /* Contact Section */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .contact-info i { color: var(--neon-blue); margin-right: 15px; font-size: 1.2rem; }
+        .contact-info div { margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        input, textarea {
+            width: 100%; padding: 12px; background: var(--secondary); border: 1px solid var(--glass);
+            color: white; border-radius: 5px; outline: none;
         }
+        input:focus { border-color: var(--neon-blue); }
 
-        .product-card:hover::before {
-            opacity: 1;
-        }
+        /* Cart & Checkout */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--secondary); margin-bottom: 1rem; border-radius: 10px; }
+        .checkout-container { max-width: 600px; margin: 0 auto; }
 
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-        }
+        /* Footer */
+        footer { background: #050505; padding: 50px 5% 20px; border-top: 1px solid var(--glass); margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .footer-logo img { height: 60px; margin-bottom: 1rem; }
+        .footer-bottom { text-align: center; border-top: 1px solid var(--glass); padding-top: 20px; color: var(--gray); font-size: 0.9rem; }
 
-        .product-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .product-card:hover img {
-            transform: scale(1.08);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-info p {
-            color: #aaaaaa;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 1rem;
-        }
-
-        .price {
-            color: #00ff9f;
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .product-card .btn {
-            width: 100%;
-            padding: 10px;
-        }
-
-        /* ========== MODAL ========== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a1a, #141414);
-            padding: 2rem;
-            border-radius: 25px;
-            max-width: 550px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-content img {
-            border-radius: 15px;
-            margin: 1rem 0;
-        }
-
-        /* ========== FORMS ========== */
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 14px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #00f0ff;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #00f0ff;
-            font-weight: 500;
-        }
-
-        /* ========== FOOTER ========== */
-        .footer {
-            background: #080808;
-            padding: 4rem 5% 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(0, 240, 255, 0.1);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .footer-section h4 {
-            color: #00f0ff;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p {
-            color: #aaaaaa;
-            line-height: 1.6;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-icons a {
-            color: #ffffff;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: #00f0ff;
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #666;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 992px) {
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 2fr));
-            }
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .nav-links {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section {
-                padding: 3rem 1.5rem;
-            }
-            
-            .hero-content h1 {
-                font-size: 1.8rem;
-            }
-        }
-
-        /* ========== LOADING SPINNER ========== */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #1a1a1a;
-            border-top-color: #00f0ff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== ANIMATIONS ========== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate {
-            animation: fadeInUp 0.6s ease forwards;
+            .hero-content h1 { font-size: 2.5rem; }
+            .about-container, .contact-grid { grid-template-columns: 1fr; flex-direction: column; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="logo" onclick="navigateTo('home')">
-            <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP Shoes Logo">
+
+    <nav>
+        <div class="logo" onclick="showSection('home')">
+            <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP Shoes">
         </div>
         <ul class="nav-links">
-            <li data-page="home"><i class="fas fa-home"></i> Home</li>
-            <li data-page="shop"><i class="fas fa-store"></i> Shop</li>
-            <li data-page="about"><i class="fas fa-info-circle"></i> About</li>
-            <li data-page="contact"><i class="fas fa-envelope"></i> Contact</li>
+            <li><a onclick="showSection('home')">Home</a></li>
+            <li><a onclick="showSection('shop')">Shop</a></li>
+            <li><a onclick="showSection('about')">About</a></li>
+            <li><a onclick="showSection('contact')">Contact</a></li>
         </ul>
-        <div class="cart-icon" id="cartIcon">
+        <div class="cart-icon" onclick="showSection('cart')">
             <i class="fas fa-shopping-bag"></i>
-            <span class="cart-count" id="cartCount">0</span>
+            <span class="cart-count" id="cart-count">0</span>
         </div>
     </nav>
 
-    <main id="app">
-        <div class="loading"><div class="spinner"></div></div>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" style="height: 50px; margin-bottom: 1rem;">
-                <p>Premium footwear brand delivering quality, comfort, and style since 2024.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+    <!-- SPA Sections -->
+    
+    <section id="home" class="active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Step Into <span>Premium Style</span></h1>
+                <p>Experience comfort, durability, and modern fashion with Shandar VIP Shoes. Walk with confidence. Walk with style.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary" onclick="showSection('shop')">Shop Now</button>
+                    <button class="btn btn-secondary" onclick="showSection('about')">Explore Story</button>
                 </div>
             </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <p>Shop Collection</p>
-                <p>About Us</p>
-                <p>Contact Support</p>
-                <p>Privacy Policy</p>
+        </div>
+    </section>
+
+    <section id="shop">
+        <h2 class="section-title">Our <span>Collection</span></h2>
+        <div class="product-grid" id="product-list">
+            <!-- Dynamic Products -->
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">The <span>Brand Story</span></h2>
+        <div class="about-container">
+            <div class="about-text">
+                <p><strong>Owner: Muhammad Khurshid Alam</strong></p><br>
+                <p>Shandar VIP Shoes is a premium footwear brand built with passion, dedication, and vision. It started from a small idea and has grown into a trusted name in the footwear industry.</p><br>
+                <p>The brand focuses on delivering high-quality shoes, modern designs, and comfortable footwear at affordable pricing. Every product is designed with attention to detail, durability, and customer satisfaction.</p><br>
+                <p>Our mission is to provide premium footwear for everyone, expanding nationwide to become a leading name in Pakistan.</p>
             </div>
-            <div class="footer-section">
-                <h4>Contact Info</h4>
-                <p><i class="fas fa-phone"></i> 0311-9333294</p>
-                <p><i class="fas fa-envelope"></i> shahzainalam4@gmail.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Sector 11/2, Orangi Town, Karachi</p>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80" alt="Brand Vision">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Get In <span>Touch</span></h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Contact Details</h3>
+                <p>We are always ready to help you anytime.</p><br>
+                <div><i class="fas fa-phone"></i> 0311-9333294</div>
+                <div><i class="fas fa-envelope"></i> shahzainalam4@gmail.com</div>
+                <div><i class="fas fa-location-dot"></i> Sector 11/2, Orangi Town, Iqbal Market, Karachi, Pakistan</div>
+                <div><i class="fas fa-clock"></i> Mon – Sat: 10:00 AM – 9:00 PM (Sunday Closed)</div>
+            </div>
+            <form id="contact-form">
+                <div class="form-group"><input type="text" id="c-name" placeholder="Full Name" required></div>
+                <div class="form-group"><input type="email" id="c-email" placeholder="Email Address" required></div>
+                <div class="form-group"><input type="tel" id="c-phone" placeholder="Phone Number" required></div>
+                <div class="form-group"><textarea id="c-message" rows="5" placeholder="Your Message" required></textarea></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="cart">
+        <h2 class="section-title">Your <span>Bag</span></h2>
+        <div id="cart-items-container">
+            <!-- Cart Items -->
+        </div>
+        <div id="cart-summary" style="text-align: right; margin-top: 2rem;">
+            <h3>Total: Rs. <span id="cart-total">0</span></h3><br>
+            <button class="btn btn-primary" onclick="showSection('checkout')">Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <section id="checkout">
+        <h2 class="section-title">Order <span>Checkout</span></h2>
+        <div class="checkout-container">
+            <form id="checkout-form">
+                <div class="form-group"><input type="text" id="o-name" placeholder="Full Name" required></div>
+                <div class="form-group"><input type="email" id="o-email" placeholder="Email" required></div>
+                <div class="form-group"><input type="tel" id="o-phone" placeholder="Phone (e.g. 03xx-xxxxxxx)" required></div>
+                <div class="form-group"><textarea id="o-address" placeholder="Shipping Address" required></textarea></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Place Order</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-logo">
+                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
+                <p>Premium quality shoes for those who walk with confidence.</p>
+            </div>
+            <div>
+                <h3>Links</h3><br>
+                <p onclick="showSection('home')" style="cursor:pointer">Home</p>
+                <p onclick="showSection('shop')" style="cursor:pointer">Shop</p>
+                <p onclick="showSection('about')" style="cursor:pointer">About</p>
+            </div>
+            <div>
+                <h3>Follow Us</h3><br>
+                <div style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-whatsapp"></i>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Shandar VIP Shoes | Led by Muhammad Khurshid Alam | All Rights Reserved</p>
+            &copy; 2024 Shandar VIP Shoes. Owned by Muhammad Khurshid Alam. Developed for Excellence.
         </div>
     </footer>
 
-    <!-- Cart Modal -->
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color: #00f0ff; margin-bottom: 1rem;"><i class="fas fa-shopping-bag"></i> Your Cart</h2>
-            <div id="cartItems" style="max-height: 300px; overflow-y: auto;"></div>
-            <hr style="margin: 1rem 0; border-color: #333;">
-            <h3>Total: <span style="color: #00ff9f;" id="cartTotal">0</span> PKR</h3>
-            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button class="btn btn-primary" id="checkoutBtn" style="flex: 1;">Proceed to Checkout</button>
-                <button class="btn btn-outline" onclick="closeCartModal()" style="flex: 1;">Close</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let currentPage = 'home';
-        let products = [];
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let cart = JSON.parse(localStorage.getItem('shandar_cart')) || [];
 
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        function updateCartCount() {
-            const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').innerText = total;
-            localStorage.setItem('cart', JSON.stringify(cart));
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
         }
 
+        // Fetch Products
         async function loadProducts() {
-            const { data, error } = await window.supabaseClient.from('products').select('*').order('created_at', { ascending: false });
-            if (!error && data) products = data;
-            renderPage();
+            const { data, error } = await _supabase.from('products').select('*');
+            if (error) return console.error(error);
+            const container = document.getElementById('product-list');
+            container.innerHTML = data.map(p => `
+                <div class="product-card">
+                    <img src="${p.image_url}" alt="${p.name}">
+                    <h3>${p.name}</h3>
+                    <p style="color: #888; font-size: 0.9rem; margin-bottom: 0.5rem;">${p.description}</p>
+                    <p class="price">Rs. ${p.price}</p>
+                    <button class="btn btn-primary" style="width:100%;" onclick="addToCart('${p.id}', '${p.name}', ${p.price})">Add To Cart</button>
+                </div>
+            `).join('');
         }
 
-        function addToCart(product, quantity = 1) {
-            const existing = cart.find(item => item.id === product.id);
-            if (existing) {
-                existing.quantity += quantity;
-            } else {
-                cart.push({ ...product, quantity });
-            }
-            updateCartCount();
-            showNotification('Added to cart!', 'success');
+        function addToCart(id, name, price) {
+            const item = cart.find(i => i.id === id);
+            if (item) item.qty++;
+            else cart.push({ id, name, price, qty: 1 });
+            updateCartUI();
+            alert('Added to cart!');
         }
 
-        function showNotification(msg, type) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#00ff9f' : '#ff4444'};
-                color: #0d0d0d;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-weight: bold;
-                z-index: 9999;
-                animation: fadeInUp 0.3s ease;
-            `;
-            notification.innerHTML = msg;
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 2000);
-        }
-
-        function renderPage() {
-            const app = document.getElementById('app');
+        function updateCartUI() {
+            localStorage.setItem('shandar_cart', JSON.stringify(cart));
+            document.getElementById('cart-count').innerText = cart.reduce((acc, curr) => acc + curr.qty, 0);
             
-            if (currentPage === 'home') {
-                app.innerHTML = `
-                    <section class="hero">
-                        <div class="hero-content">
-                            <h1>Step Into Premium Style</h1>
-                            <h1 style="font-size: 2.5rem; margin-top: -0.5rem;">Shandar VIP Shoes</h1>
-                            <p>Experience comfort, durability, and modern fashion in every step.</p>
-                            <p style="font-size: 1.1rem; color: #00f0ff;">👉 Walk with confidence. Walk with style.</p>
-                            <div class="hero-buttons">
-                                <button class="btn btn-primary" onclick="navigateTo('shop')">Shop Now</button>
-                                <button class="btn btn-outline" onclick="navigateTo('shop')">Explore Collection</button>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <section class="section">
-                        <h2 class="section-title">Why Choose Us</h2>
-                        <div class="features-grid">
-                            <div class="feature-card"><div class="feature-icon"><i class="fas fa-gem"></i></div><h3>Premium Quality Materials</h3><p>Genuine leather and premium fabrics</p></div>
-                            <div class="feature-card"><div class="feature-icon"><i class="fas fa-palette"></i></div><h3>Modern Stylish Designs</h3><p>Trendsetting styles for every occasion</p></div>
-                            <div class="feature-card"><div class="feature-icon"><i class="fas fa-tag"></i></div><h3>Affordable Pricing</h3><p>Premium quality at best prices</p></div>
-                            <div class="feature-card"><div class="feature-icon"><i class="fas fa-truck-fast"></i></div><h3>Fast Delivery Service</h3><p>Free shipping across Pakistan</p></div>
-                            <div class="feature-card"><div class="feature-icon"><i class="fas fa-medal"></i></div><h3>Customer Satisfaction</h3><p>100% satisfaction guaranteed</p></div>
-                        </div>
-                    </section>
-                    
-                    <section class="section section-dark">
-                        <h2 class="section-title">Featured Collection</h2>
-                        <div class="products-grid" id="featuredGrid"></div>
-                    </section>
-                    
-                    <section class="section">
-                        <h2 class="section-title">About Our Brand</h2>
-                        <div class="feature-card" style="max-width: 800px; margin: 0 auto;">
-                            <p style="font-size: 1.1rem; line-height: 1.6;">Led by <strong>Muhammad Khurshid Alam</strong>, Shandar VIP Shoes is built with passion, dedication, and vision. From a small idea to a trusted name in footwear, we focus on quality, trust, and customer satisfaction. Every product is designed with attention to detail, durability, and comfort.</p>
-                        </div>
-                    </section>
-                `;
-                const featuredGrid = document.getElementById('featuredGrid');
-                if (featuredGrid && products.length) {
-                    featuredGrid.innerHTML = products.slice(0, 4).map(p => createProductCard(p)).join('');
-                }
-            } 
-            else if (currentPage === 'shop') {
-                app.innerHTML = `
-                    <section class="section">
-                        <h2 class="section-title">All Products</h2>
-                        <div class="products-grid" id="allProductsGrid"></div>
-                    </section>
-                `;
-                const grid = document.getElementById('allProductsGrid');
-                if (grid) grid.innerHTML = products.map(p => createProductCard(p)).join('');
-            }
-            else if (currentPage === 'about') {
-                app.innerHTML = `
-                    <section class="section">
-                        <h2 class="section-title">Our Story</h2>
-                        <div class="feature-card" style="max-width: 900px; margin: 0 auto;">
-                            <h3 style="color: #00f0ff;">Owner: Muhammad Khurshid Alam</h3>
-                            <p style="margin-top: 1rem; line-height: 1.8;">Shandar VIP Shoes is a premium footwear brand built with passion, dedication, and vision. It started from a small idea and has grown into a trusted name in the footwear industry.</p>
-                            <p style="margin-top: 1rem; line-height: 1.8;">The brand focuses on delivering high-quality shoes, modern designs, comfortable footwear, and affordable pricing. Every product is designed with attention to detail, durability, and customer satisfaction.</p>
-                            <p style="margin-top: 1rem; line-height: 1.8;"><strong>Mission:</strong> To provide premium footwear for everyone.</p>
-                            <p style="margin-top: 0.5rem; line-height: 1.8;"><strong>Vision:</strong> To expand nationwide and become a leading footwear brand.</p>
-                        </div>
-                    </section>
-                `;
-            }
-            else if (currentPage === 'contact') {
-                app.innerHTML = `
-                    <section class="section">
-                        <h2 class="section-title">Get In Touch</h2>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
-                            <div class="feature-card">
-                                <h3><i class="fas fa-phone-alt"></i> Contact Details</h3>
-                                <p><strong>Phone:</strong> 0311-9333294</p>
-                                <p><strong>Email:</strong> shahzainalam4@gmail.com</p>
-                                <p><strong>Address:</strong> Sector 11/2, Orangi Town, Iqbal Market, Karachi, Pakistan</p>
-                                <hr style="margin: 1rem 0;">
-                                <h3><i class="fas fa-clock"></i> Working Hours</h3>
-                                <p>Monday – Saturday: 10:00 AM – 9:00 PM</p>
-                                <p>Sunday: Closed</p>
-                                <p style="margin-top: 1rem; color: #00ff9f;">💬 Fast, friendly, and reliable support!</p>
-                            </div>
-                            <div class="feature-card">
-                                <h3><i class="fas fa-paper-plane"></i> Send Us a Message</h3>
-                                <form id="contactForm">
-                                    <div class="form-group"><label>Name</label><input type="text" id="contactName" required></div>
-                                    <div class="form-group"><label>Email</label><input type="email" id="contactEmail" required></div>
-                                    <div class="form-group"><label>Phone</label><input type="tel" id="contactPhone" required></div>
-                                    <div class="form-group"><label>Message</label><textarea id="contactMessage" rows="4" required></textarea></div>
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fas fa-envelope"></i> Send Message</button>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
-                `;
-                document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const { error } = await window.supabaseClient.from('contacts').insert([{
-                        name: document.getElementById('contactName').value,
-                        email: document.getElementById('contactEmail').value,
-                        phone: document.getElementById('contactPhone').value,
-                        message: document.getElementById('contactMessage').value
-                    }]);
-                    if (!error) {
-                        showNotification('Message sent successfully!', 'success');
-                        e.target.reset();
-                    } else {
-                        showNotification('Error sending message', 'error');
-                    }
-                });
-            }
-        }
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            let total = 0;
 
-        function createProductCard(p) {
-            return `
-                <div class="product-card" onclick="showProductDetail(${p.id})">
-                    <img src="${p.image_url}" onerror="this.src='https://via.placeholder.com/300x280?text=Shandar+VIP'">
-                    <div class="product-info">
-                        <h3>${p.name}</h3>
-                        <p>${p.description.substring(0, 80)}${p.description.length > 80 ? '...' : ''}</p>
-                        <div class="price">₨ ${p.price.toLocaleString()}</div>
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        window.showProductDetail = (id) => {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'flex';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <h2 style="color: #00f0ff;">${product.name}</h2>
-                    <img src="${product.image_url}" style="width: 100%; border-radius: 15px;" onerror="this.src='https://via.placeholder.com/400'">
-                    <p style="margin: 1rem 0; line-height: 1.6;">${product.description}</p>
-                    <div class="price" style="font-size: 2rem;">₨ ${product.price.toLocaleString()}</div>
-                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                        <button class="btn btn-primary" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')}); this.closest('.modal').remove()"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                        <button class="btn btn-outline" onclick="this.closest('.modal').remove()">Close</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        };
-
-        window.navigateTo = (page) => { 
-            currentPage = page; 
-            renderPage(); 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-        
-        window.closeCartModal = () => document.getElementById('cartModal').style.display = 'none';
-
-        document.getElementById('cartIcon').onclick = () => {
-            const modal = document.getElementById('cartModal');
-            const cartItemsDiv = document.getElementById('cartItems');
             if (cart.length === 0) {
-                cartItemsDiv.innerHTML = '<p style="text-align: center; padding: 2rem;">Your cart is empty</p>';
-            } else {
-                cartItemsDiv.innerHTML = cart.map(item => `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; border-bottom: 1px solid #333;">
-                        <div><strong>${item.name}</strong><br><small>₨ ${item.price} x ${item.quantity}</small></div>
-                        <div>₨ ${(item.price * item.quantity).toLocaleString()} <button onclick="removeFromCart(${item.id})" style="background: #ff4444; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px;"><i class="fas fa-trash"></i></button></div>
-                    </div>
-                `).join('');
-            }
-            document.getElementById('cartTotal').innerText = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0).toLocaleString();
-            modal.style.display = 'flex';
-        };
-
-        window.removeFromCart = (id) => { 
-            cart = cart.filter(i => i.id !== id); 
-            updateCartCount(); 
-            document.getElementById('cartIcon').click(); 
-        };
-
-        document.getElementById('checkoutBtn').onclick = async () => {
-            if (cart.length === 0) return showNotification('Cart is empty', 'error');
-            
-            const name = prompt('Enter your full name:');
-            if (!name) return;
-            const email = prompt('Enter your email:');
-            if (!email) return;
-            const phone = prompt('Enter your phone number:');
-            if (!phone) return;
-            const address = prompt('Enter your delivery address:');
-            if (!address) return;
-            
-            const orderNumber = 'SHAN-' + Date.now();
-            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            
-            const { data: order, error: orderError } = await window.supabaseClient.from('orders').insert([{
-                order_number: orderNumber, 
-                customer_name: name, 
-                customer_email: email, 
-                customer_phone: phone, 
-                customer_address: address, 
-                total_amount: total, 
-                status: 'pending'
-            }]).select().single();
-            
-            if (orderError) {
-                showNotification('Order failed: ' + orderError.message, 'error');
+                container.innerHTML = "<p style='text-align:center;'>Your bag is empty.</p>";
+                totalEl.innerText = "0";
                 return;
             }
-            
-            const items = cart.map(i => ({ 
-                order_id: order.id, 
-                product_id: i.id, 
-                product_name: i.name, 
-                quantity: i.quantity, 
-                price: i.price 
-            }));
-            
-            const { error: itemsError } = await window.supabaseClient.from('order_items').insert(items);
-            if (itemsError) {
-                showNotification('Error saving items', 'error');
-            } else {
-                showNotification('Order placed successfully! Order #' + orderNumber, 'success');
-                cart = [];
-                updateCartCount();
-                closeCartModal();
-                navigateTo('shop');
-            }
-        };
 
-        document.querySelectorAll('[data-page]').forEach(btn => {
-            btn.addEventListener('click', () => navigateTo(btn.dataset.page));
+            container.innerHTML = cart.map(item => {
+                total += item.price * item.qty;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>Rs. ${item.price} x ${item.qty}</p>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" style="background:none; border:none; color: #ff4d4d; cursor:pointer;">Remove</button>
+                    </div>
+                `;
+            }).join('');
+            totalEl.innerText = total.toLocaleString();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        // Forms Handling
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('c-name').value,
+                email: document.getElementById('c-email').value,
+                phone: document.getElementById('c-phone').value,
+                message: document.getElementById('c-message').value
+            };
+            const { error } = await _supabase.from('contacts').insert([payload]);
+            if (!error) {
+                alert('Message sent successfully!');
+                e.target.reset();
+            }
         });
-        
-        loadProducts();
-        updateCartCount();
+
+        document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const total = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+            const orderPayload = {
+                customer_name: document.getElementById('o-name').value,
+                email: document.getElementById('o-email').value,
+                phone: document.getElementById('o-phone').value,
+                address: document.getElementById('o-address').value,
+                total_price: total,
+                status: 'pending'
+            };
+
+            const { data: order, error: orderErr } = await _supabase.from('orders').insert([orderPayload]).select();
+            
+            if (order) {
+                const itemsPayload = cart.map(item => ({
+                    order_id: order[0].id,
+                    product_id: item.id,
+                    quantity: item.qty,
+                    price_at_time: item.price
+                }));
+                await _supabase.from('order_items').insert(itemsPayload);
+                alert('Order placed successfully! We will contact you soon.');
+                cart = [];
+                updateCartUI();
+                showSection('home');
+                e.target.reset();
+            }
+        });
+
+        window.onload = () => {
+            loadProducts();
+            updateCartUI();
+        };
     </script>
 </body>
 </html>
