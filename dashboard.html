@@ -1298,7 +1298,6 @@
             </div>
         </div>
 
-        <!-- Other sections remain the same... -->
         <!-- Orders Section -->
         <div id="orders-sec" style="display:none">
             <div class="section-header">
@@ -1366,12 +1365,11 @@
                                 <th>Image</th>
                                 <th>Product</th>
                                 <th>Price</th>
-                                <th>Stock</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="products-tbody">
-                            <tr><td colspan="5" style="text-align:center; padding:3rem;">
+                            <tr><td colspan="4" style="text-align:center; padding:3rem;">
                                 <div class="loading-spinner"></div>
                             </td></tr>
                         </tbody>
@@ -1388,36 +1386,21 @@
             
             <div class="card">
                 <form onsubmit="return false;">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Product Name</label>
-                            <input id="p-name" placeholder="e.g., Shandar VIP Elite" required>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-rupee-sign"></i> Price (PKR)</label>
-                            <input id="p-price" type="number" placeholder="e.g., 12999" required>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-layer-group"></i> Category</label>
-                            <select id="p-category">
-                                <option value="sports">Sports</option>
-                                <option value="casual">Casual</option>
-                                <option value="formal">Formal</option>
-                                <option value="sneakers">Sneakers</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-cubes"></i> Stock</label>
-                            <input id="p-stock" type="number" placeholder="e.g., 100" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-align-left"></i> Description</label>
-                            <textarea id="p-desc" placeholder="Describe the product..." rows="4" required></textarea>
-                        </div>
-                        <div class="form-group full-width">
-                            <label><i class="fas fa-image"></i> Image URL</label>
-                            <input id="p-img" placeholder="https://..." required>
-                        </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Product Name</label>
+                        <input id="p-name" placeholder="e.g., Shandar VIP Elite" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-rupee-sign"></i> Price (PKR)</label>
+                        <input id="p-price" type="number" placeholder="e.g., 12999" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label><i class="fas fa-align-left"></i> Description</label>
+                        <textarea id="p-desc" placeholder="Describe the product..." rows="4" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label><i class="fas fa-image"></i> Image URL</label>
+                        <input id="p-img" placeholder="https://..." required>
                     </div>
                     <div style="display: flex; gap: 1rem;">
                         <button type="submit" class="btn btn-primary" onclick="saveProduct()">
@@ -1491,7 +1474,6 @@
             localStorage.setItem('theme', newTheme);
             updateThemeUI(newTheme);
             
-            // Show notification
             Swal.fire({
                 title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} Mode Activated`,
                 icon: 'success',
@@ -1576,7 +1558,6 @@
             document.querySelectorAll('.main > div').forEach(d => d.style.display = 'none');
             document.getElementById(id + '-sec').style.display = 'block';
             
-            // Update active states
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
                 if(item.getAttribute('onclick')?.includes(id)) {
@@ -1707,12 +1688,10 @@
         async function saveProduct() {
             const name = document.getElementById('p-name').value;
             const price = document.getElementById('p-price').value;
-            const category = document.getElementById('p-category').value;
-            const stock = document.getElementById('p-stock').value;
             const description = document.getElementById('p-desc').value;
             const imageUrl = document.getElementById('p-img').value;
 
-            if(!name || !price || !stock || !description || !imageUrl) {
+            if(!name || !price || !description || !imageUrl) {
                 showError('Please fill in all fields');
                 return;
             }
@@ -1729,8 +1708,6 @@
             const { error } = await _supabase.from('products').insert([{
                 name: name,
                 price: parseFloat(price),
-                category: category,
-                stock: parseInt(stock),
                 description: description,
                 image_url: imageUrl,
                 created_at: new Date()
@@ -1896,7 +1873,6 @@
                         </td>
                         <td><strong>${p.name}</strong></td>
                         <td><span style="color: #00f0ff;">₹${parseFloat(p.price).toLocaleString()}</span></td>
-                        <td>${p.stock || 0} units</td>
                         <td>
                             <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; margin-right: 0.5rem;"
                                     onclick="editProduct('${p.id}')">
@@ -1910,7 +1886,7 @@
                     </tr>
                 `).join('');
             } else {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:3rem;">
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:3rem;">
                     <i class="fas fa-box-open" style="font-size: 3rem; opacity: 0.3;"></i>
                     <h3>No products found</h3>
                 </td></tr>`;
@@ -2056,6 +2032,11 @@
                     loadDashboard();
                 }
             }
+        }
+
+        // Edit Product
+        function editProduct(productId) {
+            showSuccess('Edit feature coming soon!');
         }
 
         // Reply to Message
