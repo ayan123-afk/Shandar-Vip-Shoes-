@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +19,7 @@
             box-sizing: border-box;
         }
 
+        /* Light Mode Variables */
         :root {
             --primary: #00f0ff;
             --primary-dark: #00c4d4;
@@ -27,22 +27,91 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --dark: #0f0f0f;
-            --darker: #0a0a0a;
-            --light: #ffffff;
-            --gray: #6b7280;
-            --sidebar-width: 280px;
-            --sidebar-collapsed: 80px;
-            --header-height: 70px;
+            
+            /* Dark Mode (Default) */
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #0a0a0a;
+            --bg-card: rgba(20, 20, 20, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #d0d0d0;
+            --text-muted: #6b7280;
+            --border-color: rgba(0, 240, 255, 0.1);
+            --sidebar-bg: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+            --header-bg: rgba(15, 15, 15, 0.95);
+            --input-bg: rgba(20, 20, 20, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --stat-card-bg: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+        }
+
+        /* Light Mode Theme */
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6c757d;
+            --border-color: #e0e0e0;
+            --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            --header-bg: #ffffff;
+            --input-bg: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --stat-card-bg: #ffffff;
         }
 
         body {
-            background: var(--darker);
-            color: var(--light);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             margin: 0;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Light Mode Specific Styles */
+        [data-theme="light"] .sidebar {
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .card,
+        [data-theme="light"] .stat-card {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="light"] .nav-item {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="light"] .nav-item:hover {
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        [data-theme="light"] input,
+        [data-theme="light"] textarea,
+        [data-theme="light"] select {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .status-badge {
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        [data-theme="light"] .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="light"] table th {
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        [data-theme="light"] tr:hover td {
+            background: rgba(0, 240, 255, 0.02);
         }
 
         /* Animated Background */
@@ -61,9 +130,34 @@
             animation: bgPulse 8s ease-in-out infinite;
         }
 
+        [data-theme="light"] body::before {
+            opacity: 0.3;
+        }
+
         @keyframes bgPulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
         }
 
         /* Top Header Bar */
@@ -71,21 +165,21 @@
             position: fixed;
             top: 0;
             right: 0;
-            left: var(--sidebar-width);
-            height: var(--header-height);
-            background: rgba(15, 15, 15, 0.95);
+            left: 280px;
+            height: 70px;
+            background: var(--header-bg);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 2rem;
             z-index: 99;
-            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body.sidebar-collapsed .top-header {
-            left: var(--sidebar-collapsed);
+            left: 80px;
         }
 
         .header-left {
@@ -97,7 +191,7 @@
         .menu-toggle {
             background: none;
             border: none;
-            color: var(--light);
+            color: var(--text-primary);
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0.5rem;
@@ -116,40 +210,41 @@
         .header-search {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--input-bg);
             border-radius: 12px;
             padding: 0.5rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             width: 400px;
         }
 
         .header-search i {
-            color: var(--gray);
+            color: var(--text-muted);
             margin-right: 0.5rem;
         }
 
         .header-search input {
             background: none;
             border: none;
-            color: var(--light);
+            color: var(--text-primary);
             font-size: 0.9rem;
             width: 100%;
             outline: none;
         }
 
         .header-search input::placeholder {
-            color: var(--gray);
+            color: var(--text-muted);
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .header-notification {
             position: relative;
             cursor: pointer;
+            color: var(--text-primary);
         }
 
         .notification-badge {
@@ -173,6 +268,7 @@
             align-items: center;
             gap: 0.8rem;
             cursor: pointer;
+            color: var(--text-primary);
         }
 
         .admin-avatar {
@@ -187,26 +283,25 @@
             border: 2px solid rgba(0, 240, 255, 0.3);
         }
 
-        /* Sidebar Styles - E-commerce Style */
+        /* Sidebar Styles */
         .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+            width: 280px;
+            background: var(--sidebar-bg);
             backdrop-filter: blur(30px);
             height: 100vh;
             padding: 1.5rem 1rem;
-            border-right: 1px solid rgba(0, 240, 255, 0.15);
+            border-right: 1px solid var(--border-color);
             position: fixed;
             left: 0;
             top: 0;
             overflow-y: auto;
             overflow-x: hidden;
             z-index: 100;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body.sidebar-collapsed .sidebar {
-            width: var(--sidebar-collapsed);
+            width: 80px;
         }
 
         .sidebar-header {
@@ -234,10 +329,6 @@
             filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.5));
         }
 
-        .sidebar-logo span {
-            transition: opacity 0.3s ease;
-        }
-
         body.sidebar-collapsed .sidebar-logo span {
             opacity: 0;
             width: 0;
@@ -252,7 +343,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--gray);
+            color: var(--text-muted);
             margin-bottom: 0.8rem;
             padding: 0 0.8rem;
             white-space: nowrap;
@@ -270,7 +361,7 @@
         .nav-item {
             padding: 0.9rem 1rem;
             margin: 0.3rem 0;
-            color: #a0a0a0;
+            color: var(--text-secondary);
             cursor: pointer;
             text-decoration: none;
             display: flex;
@@ -290,10 +381,6 @@
             font-size: 1.2rem;
             transition: all 0.3s ease;
             flex-shrink: 0;
-        }
-
-        .nav-item span {
-            transition: opacity 0.3s ease;
         }
 
         body.sidebar-collapsed .nav-item span,
@@ -342,31 +429,20 @@
             flex-shrink: 0;
         }
 
-        .nav-item.logout {
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 1.5rem;
-            color: var(--danger);
-        }
-
-        .nav-item.logout:hover {
-            background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, transparent 100%);
-            color: var(--danger);
-        }
-
         /* Main Content */
         .main {
-            margin-left: var(--sidebar-width);
-            margin-top: var(--header-height);
+            margin-left: 280px;
+            margin-top: 70px;
             padding: 2rem;
-            min-height: calc(100vh - var(--header-height));
+            min-height: calc(100vh - 70px);
             position: relative;
             z-index: 1;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-secondary);
         }
 
         body.sidebar-collapsed .main {
-            margin-left: var(--sidebar-collapsed);
+            margin-left: 80px;
         }
 
         /* Mobile Bottom Navigation */
@@ -376,9 +452,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 15, 15, 0.98);
+            background: var(--header-bg);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            border-top: 1px solid var(--border-color);
             padding: 0.8rem;
             z-index: 1000;
             justify-content: space-around;
@@ -390,7 +466,7 @@
             flex-direction: column;
             align-items: center;
             gap: 0.3rem;
-            color: var(--gray);
+            color: var(--text-muted);
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.7rem;
@@ -416,9 +492,9 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+            background: var(--stat-card-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 1.5rem;
             transition: all 0.3s ease;
@@ -439,8 +515,8 @@
 
         .stat-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
         }
 
         .stat-header {
@@ -477,13 +553,13 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.3rem;
-            background: linear-gradient(135deg, #fff, #00f0ff);
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .stat-card p {
-            color: var(--gray);
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
@@ -503,6 +579,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            color: var(--text-primary);
         }
 
         .main > div h2 i {
@@ -511,13 +588,117 @@
 
         /* Cards */
         .card {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        /* Settings Specific Styles */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-section h3 i {
+            color: var(--primary);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .setting-info i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            width: 30px;
+        }
+
+        .setting-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .setting-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--text-muted);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
         }
 
         /* Table Styles */
@@ -547,8 +728,8 @@
 
         td {
             padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #d0d0d0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
 
         tr:hover td {
@@ -605,9 +786,15 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .btn:hover {
@@ -635,7 +822,7 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 0.5rem;
-            color: #b0b0b0;
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
@@ -644,10 +831,10 @@
         }
 
         input, textarea, select {
-            background: rgba(20, 20, 20, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             padding: 12px 16px;
-            color: #fff;
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             border-radius: 12px;
@@ -663,10 +850,6 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            :root {
-                --sidebar-width: 240px;
-            }
-            
             .header-search {
                 width: 300px;
             }
@@ -741,10 +924,6 @@
                 align-items: flex-start;
             }
             
-            .menu-toggle {
-                display: flex;
-            }
-            
             .sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -797,12 +976,42 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--darker);
+            background: var(--bg-secondary);
         }
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, var(--primary), var(--secondary));
             border-radius: 10px;
+        }
+
+        /* Settings Logout Button */
+        .logout-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -860,7 +1069,7 @@
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </div>
-            <div class="nav-item logout" onclick="logout()">
+            <div class="nav-item logout" onclick="handleLogout()">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </div>
@@ -879,6 +1088,9 @@
             </div>
         </div>
         <div class="header-right">
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
             <div class="header-notification">
                 <i class="fas fa-bell"></i>
                 <span class="notification-badge">3</span>
@@ -961,6 +1173,132 @@
             </div>
         </div>
 
+        <!-- Settings Section -->
+        <div id="settings-sec" style="display:none">
+            <div class="section-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+            </div>
+            
+            <div class="settings-container">
+                <!-- Appearance Settings -->
+                <div class="card">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-palette"></i> Appearance</h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-moon"></i>
+                                <div>
+                                    <h4>Dark Mode</h4>
+                                    <p>Switch between dark and light theme</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="card">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive order updates via email</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="emailNotif" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-shopping-cart"></i>
+                                <div>
+                                    <h4>Order Alerts</h4>
+                                    <p>Get notified for new orders</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="orderAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-comment"></i>
+                                <div>
+                                    <h4>Message Alerts</h4>
+                                    <p>Get notified for new messages</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="msgAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Settings -->
+                <div class="card">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-user-circle"></i> Account</h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-user"></i>
+                                <div>
+                                    <h4>Admin Profile</h4>
+                                    <p>Update your profile information</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="editProfile()">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-lock"></i>
+                                <div>
+                                    <h4>Password</h4>
+                                    <p>Change your password</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="changePassword()">
+                                <i class="fas fa-key"></i> Change
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logout Section -->
+                <div class="card">
+                    <div class="logout-section">
+                        <button class="logout-btn" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout from Account
+                        </button>
+                        <p style="color: var(--text-muted); margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+                            You will be redirected to the login page
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other sections remain the same... -->
         <!-- Orders Section -->
         <div id="orders-sec" style="display:none">
             <div class="section-header">
@@ -1133,27 +1471,66 @@
             <span>Messages</span>
         </div>
         <div class="mobile-nav-item" onclick="show('settings')">
-            <i class="fas fa-user"></i>
-            <span>Profile</span>
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
         </div>
     </div>
 
     <script>
-        // Global variables
-        let allOrders = [];
-        let allProducts = [];
-        let salesChart = null;
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeUI(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeUI(newTheme);
+            
+            // Show notification
+            Swal.fire({
+                title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} Mode Activated`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                background: newTheme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: newTheme === 'dark' ? '#ffffff' : '#1a1a1a'
+            });
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.getElementById('darkModeToggle').checked;
+            const newTheme = isDark ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeUI(newTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const themeToggle = document.getElementById('themeToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            if (themeToggle) {
+                themeToggle.innerHTML = theme === 'dark' ? 
+                    '<i class="fas fa-sun"></i>' : 
+                    '<i class="fas fa-moon"></i>';
+            }
+            
+            if (darkModeToggle) {
+                darkModeToggle.checked = theme === 'dark';
+            }
+        }
 
         // Sidebar Toggle
         function toggleSidebar() {
             document.body.classList.toggle('sidebar-collapsed');
-            
-            // Save preference
-            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
-            localStorage.setItem('sidebarCollapsed', isCollapsed);
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
         }
 
-        // Load sidebar preference
         function loadSidebarPreference() {
             const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
             if (isCollapsed) {
@@ -1170,8 +1547,8 @@
                     text: 'Please login to access the admin dashboard',
                     icon: 'error',
                     confirmButtonColor: '#00f0ff',
-                    background: '#0a0a0a',
-                    color: '#fff'
+                    background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#0a0a0a' : '#ffffff',
+                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#1a1a1a'
                 });
                 window.location.href = 'admin-login.html';
                 return false;
@@ -1181,33 +1558,21 @@
 
         // Show Success Message
         function showSuccess(message) {
+            const theme = document.documentElement.getAttribute('data-theme');
             Swal.fire({
                 title: 'Success!',
                 text: message,
                 icon: 'success',
                 confirmButtonColor: '#00f0ff',
-                background: '#0a0a0a',
-                color: '#fff',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
                 timer: 3000,
                 timerProgressBar: true
             });
         }
 
-        // Show Error Message
-        function showError(message) {
-            Swal.fire({
-                title: 'Error!',
-                text: message,
-                icon: 'error',
-                confirmButtonColor: '#ef4444',
-                background: '#0a0a0a',
-                color: '#fff'
-            });
-        }
-
         // Navigation
         function show(id) {
-            // Hide all sections
             document.querySelectorAll('.main > div').forEach(d => d.style.display = 'none');
             document.getElementById(id + '-sec').style.display = 'block';
             
@@ -1226,17 +1591,116 @@
                 }
             });
             
-            // Close sidebar on mobile after navigation
             if(window.innerWidth <= 768) {
                 document.body.classList.remove('sidebar-collapsed');
             }
             
-            // Load data
             if(id === 'dashboard') loadDashboard();
             if(id === 'orders') loadOrders();
             if(id === 'products') loadProducts();
             if(id === 'messages') loadMessages();
             if(id === 'analytics') loadAnalytics();
+        }
+
+        // Settings Functions
+        function editProfile() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            Swal.fire({
+                title: 'Edit Profile',
+                html: `
+                    <input id="profile-name" class="swal2-input" placeholder="Name" value="Admin">
+                    <input id="profile-email" class="swal2-input" placeholder="Email" value="admin@shandar.com">
+                `,
+                confirmButtonColor: '#00f0ff',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                preConfirm: () => {
+                    const name = document.getElementById('profile-name').value;
+                    const email = document.getElementById('profile-email').value;
+                    if (!name || !email) {
+                        Swal.showValidationMessage('Please fill all fields');
+                        return false;
+                    }
+                    return { name, email };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showSuccess('Profile updated successfully!');
+                }
+            });
+        }
+
+        function changePassword() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            Swal.fire({
+                title: 'Change Password',
+                html: `
+                    <input type="password" id="current-password" class="swal2-input" placeholder="Current Password">
+                    <input type="password" id="new-password" class="swal2-input" placeholder="New Password">
+                    <input type="password" id="confirm-password" class="swal2-input" placeholder="Confirm Password">
+                `,
+                confirmButtonColor: '#00f0ff',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                preConfirm: () => {
+                    const current = document.getElementById('current-password').value;
+                    const newPass = document.getElementById('new-password').value;
+                    const confirm = document.getElementById('confirm-password').value;
+                    
+                    if (!current || !newPass || !confirm) {
+                        Swal.showValidationMessage('Please fill all fields');
+                        return false;
+                    }
+                    if (newPass !== confirm) {
+                        Swal.showValidationMessage('Passwords do not match');
+                        return false;
+                    }
+                    if (newPass.length < 6) {
+                        Swal.showValidationMessage('Password must be at least 6 characters');
+                        return false;
+                    }
+                    return true;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showSuccess('Password changed successfully!');
+                }
+            });
+        }
+
+        // Logout Handler
+        async function handleLogout() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const result = await Swal.fire({
+                title: 'Logout Confirmation',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+            });
+            
+            if (result.isConfirmed) {
+                await _supabase.auth.signOut();
+                
+                Swal.fire({
+                    title: 'Logged Out!',
+                    text: 'You have been successfully logged out',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                });
+                
+                setTimeout(() => {
+                    window.location.href = 'admin-login.html';
+                }, 2000);
+            }
         }
 
         // Save Product
@@ -1253,12 +1717,13 @@
                 return;
             }
 
+            const theme = document.documentElement.getAttribute('data-theme');
             Swal.fire({
                 title: 'Saving Product...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading(),
-                background: '#0a0a0a',
-                color: '#fff'
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
             });
 
             const { error } = await _supabase.from('products').insert([{
@@ -1283,8 +1748,8 @@
                     `,
                     icon: 'success',
                     confirmButtonColor: '#00f0ff',
-                    background: '#0a0a0a',
-                    color: '#fff'
+                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
                 });
                 
                 document.querySelector('form').reset();
@@ -1292,6 +1757,19 @@
             } else {
                 showError('Error: ' + error.message);
             }
+        }
+
+        // Show Error Message
+        function showError(message) {
+            const theme = document.documentElement.getAttribute('data-theme');
+            Swal.fire({
+                title: 'Error!',
+                text: message,
+                icon: 'error',
+                confirmButtonColor: '#ef4444',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+            });
         }
 
         // Load Dashboard
@@ -1315,11 +1793,11 @@
             document.getElementById('product-count').textContent = totalProducts;
             document.getElementById('msg-count').textContent = totalMessages;
             
-            // Create chart
             const ctx = document.getElementById('salesChart').getContext('2d');
-            if(salesChart) salesChart.destroy();
+            if(window.salesChart) window.salesChart.destroy();
             
-            salesChart = new Chart(ctx, {
+            const theme = document.documentElement.getAttribute('data-theme');
+            window.salesChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -1337,17 +1815,27 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            labels: { color: '#fff' }
+                            labels: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         }
                     },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#fff' }
+                            grid: { 
+                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         },
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#fff' }
+                            grid: { 
+                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         }
                     }
                 }
@@ -1357,8 +1845,8 @@
         // Load Orders
         async function loadOrders() {
             const { data } = await _supabase.from('orders').select('*').order('created_at', {ascending: false});
-            allOrders = data || [];
-            displayOrders(allOrders);
+            window.allOrders = data || [];
+            displayOrders(window.allOrders);
         }
 
         function displayOrders(orders) {
@@ -1395,12 +1883,12 @@
         // Load Products
         async function loadProducts() {
             const { data } = await _supabase.from('products').select('*').order('created_at', {ascending: false});
-            allProducts = data || [];
+            window.allProducts = data || [];
             
             const tbody = document.getElementById('products-tbody');
             
-            if (allProducts.length > 0) {
-                tbody.innerHTML = allProducts.map(p => `
+            if (window.allProducts.length > 0) {
+                tbody.innerHTML = window.allProducts.map(p => `
                     <tr>
                         <td>
                             <img src="${p.image_url}" alt="${p.name}" 
@@ -1441,8 +1929,8 @@
                                 <h4 style="color: #00f0ff; margin-bottom: 0.5rem;">
                                     <i class="fas fa-user"></i> ${m.name || 'Anonymous'}
                                 </h4>
-                                <p style="color: #d0d0d0;">${m.message}</p>
-                                <div style="margin-top: 1rem; color: #666; font-size: 0.8rem;">
+                                <p>${m.message}</p>
+                                <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.8rem;">
                                     <i class="fas fa-envelope"></i> ${m.email} | 
                                     <i class="fas fa-phone"></i> ${m.phone} | 
                                     <i class="fas fa-calendar"></i> ${new Date(m.created_at).toLocaleDateString()}
@@ -1468,6 +1956,8 @@
         // Load Analytics
         function loadAnalytics() {
             const ctx = document.getElementById('analyticsChart').getContext('2d');
+            const theme = document.documentElement.getAttribute('data-theme');
+            
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -1488,17 +1978,27 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            labels: { color: '#fff' }
+                            labels: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         }
                     },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#fff' }
+                            grid: { 
+                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         },
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#fff' }
+                            grid: { 
+                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: { 
+                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                            }
                         }
                     }
                 }
@@ -1507,6 +2007,7 @@
 
         // Update Order Status
         async function updateOrderStatus(orderId) {
+            const theme = document.documentElement.getAttribute('data-theme');
             const { value: status } = await Swal.fire({
                 title: 'Update Status',
                 input: 'select',
@@ -1517,8 +2018,8 @@
                 },
                 showCancelButton: true,
                 confirmButtonColor: '#00f0ff',
-                background: '#0a0a0a',
-                color: '#fff'
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
             });
             
             if(status) {
@@ -1535,15 +2036,16 @@
 
         // Delete Product
         async function deleteProduct(productId) {
+            const theme = document.documentElement.getAttribute('data-theme');
             const result = await Swal.fire({
                 title: 'Delete Product?',
                 text: 'This action cannot be undone!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#00f0ff',
-                cancelButtonColor: '#ef4444',
-                background: '#0a0a0a',
-                color: '#fff'
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
             });
             
             if(result.isConfirmed) {
@@ -1558,14 +2060,15 @@
 
         // Reply to Message
         function replyToMessage(email) {
+            const theme = document.documentElement.getAttribute('data-theme');
             Swal.fire({
                 title: 'Reply to Customer',
                 input: 'textarea',
                 inputPlaceholder: 'Type your reply...',
                 showCancelButton: true,
                 confirmButtonColor: '#00f0ff',
-                background: '#0a0a0a',
-                color: '#fff'
+                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
             }).then((result) => {
                 if(result.isConfirmed) {
                     showSuccess('Reply sent!');
@@ -1578,7 +2081,7 @@
             const search = document.getElementById('order-search').value.toLowerCase();
             const status = document.getElementById('status-filter').value;
             
-            let filtered = allOrders;
+            let filtered = window.allOrders || [];
             
             if(status !== 'all') {
                 filtered = filtered.filter(o => o.status === status);
@@ -1608,40 +2111,25 @@
             showSuccess('Orders exported!');
         }
 
-        async function logout() {
-            const result = await Swal.fire({
-                title: 'Logout?',
-                text: 'Are you sure?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#00f0ff',
-                cancelButtonColor: '#ef4444',
-                background: '#0a0a0a',
-                color: '#fff'
-            });
-            
-            if(result.isConfirmed) {
-                await _supabase.auth.signOut();
-                window.location.href = 'admin-login.html';
-            }
-        }
-
         // Initialize
         window.onload = async function() {
+            initTheme();
             loadSidebarPreference();
+            
             const isAuthenticated = await checkAuth();
             if (isAuthenticated) {
                 show('dashboard');
                 
                 setTimeout(() => {
+                    const theme = document.documentElement.getAttribute('data-theme');
                     Swal.fire({
                         title: 'Welcome Admin! 👑',
                         text: 'Shandar Shoes VIP Dashboard',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
-                        background: '#0a0a0a',
-                        color: '#fff'
+                        background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                        color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
                     });
                 }, 500);
             }
