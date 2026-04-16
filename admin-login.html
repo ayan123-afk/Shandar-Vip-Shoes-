@@ -54,7 +54,7 @@
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 2.5rem 2.5rem 2rem 2.5rem;  
+            padding: 2.5rem;
             border: 1px solid rgba(0, 240, 255, 0.3);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 240, 255, 0.1);
             transition: all 0.4s ease;
@@ -97,7 +97,7 @@
             position: relative;
         }
 
-        .input-group i:not(.toggle-password) {
+        .input-group i {
             position: absolute;
             left: 1rem;
             top: 50%;
@@ -105,25 +105,6 @@
             color: #00f0ff;
             font-size: 1.1rem;
             opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .input-group .toggle-password {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0a0a0;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            z-index: 3;
-            background: transparent;
-            padding: 4px;
-        }
-
-        .input-group .toggle-password:hover {
-            color: #00f0ff;
         }
 
         .input-group input {
@@ -137,10 +118,6 @@
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             outline: none;
-        }
-
-        .input-group input#password {
-            padding-right: 2.8rem;
         }
 
         .input-group input:focus {
@@ -180,7 +157,7 @@
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 1.2rem 0 0.8rem 0;  
+            margin: 1.5rem 0;
             color: #666;
             font-size: 0.8rem;
         }
@@ -198,13 +175,9 @@
 
         .footer-text {
             text-align: center;
-            margin-top: 0.5rem;     
+            margin-top: 1.5rem;
             color: #666;
             font-size: 0.75rem;
-        }
-
-        .footer-text p {
-            margin-bottom: 0.2rem;  
         }
 
         .footer-text a {
@@ -219,7 +192,7 @@
 
         @media (max-width: 480px) {
             .login-card {
-                padding: 1.8rem 1.8rem 1.5rem 1.8rem;
+                padding: 1.8rem;
             }
             .logo img {
                 height: 45px;
@@ -247,7 +220,6 @@
             <div class="input-group">
                 <i class="fas fa-lock"></i>
                 <input type="password" id="password" placeholder="Password">
-                <i class="fas fa-eye toggle-password" id="togglePassword" title="Show password"></i>
             </div>
 
             <button class="login-btn" onclick="login()">Login</button>
@@ -264,41 +236,6 @@
     </div>
 
     <script>
-       
-        (function() {
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initToggle);
-            } else {
-                initToggle();
-            }
-
-            function initToggle() {
-                const passwordInput = document.getElementById('password');
-                const toggleIcon = document.getElementById('togglePassword');
-                
-                if (!passwordInput || !toggleIcon) return;
-
-                toggleIcon.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-                    
-                    if (type === 'text') {
-                        toggleIcon.classList.remove('fa-eye');
-                        toggleIcon.classList.add('fa-eye-slash');
-                        toggleIcon.setAttribute('title', 'Hide password');
-                    } else {
-                        toggleIcon.classList.remove('fa-eye-slash');
-                        toggleIcon.classList.add('fa-eye');
-                        toggleIcon.setAttribute('title', 'Show password');
-                    }
-                });
-            }
-        })();
-
-        
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
