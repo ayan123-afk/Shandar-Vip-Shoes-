@@ -6,8 +6,6 @@
     <title>Admin Login | Shandar VIP</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,47 +15,9 @@
             box-sizing: border-box;
         }
 
-        /* Theme Variables */
-        :root {
-            --primary: #00f0ff;
-            --primary-dark: #00c4d4;
-            --secondary: #7c3aed;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            
-            /* Dark Mode (Default) */
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #000000;
-            --bg-card: rgba(10, 10, 10, 0.95);
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --text-muted: #666666;
-            --border-color: rgba(0, 240, 255, 0.3);
-            --input-bg: rgba(20, 20, 20, 0.9);
-            --input-border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --glow: rgba(0, 240, 255, 0.1);
-        }
-
-        /* Light Mode */
-        [data-theme="light"] {
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.98);
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-muted: #6c757d;
-            --border-color: #e0e0e0;
-            --input-bg: #ffffff;
-            --input-border: #d1d5db;
-            --shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
-            --glow: rgba(0, 240, 255, 0.05);
-        }
-
         body {
-            background: radial-gradient(circle at 30% 10%, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
+            background: radial-gradient(circle at 30% 10%, #0a0a0a 0%, #000000 100%);
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -65,16 +25,14 @@
             font-family: 'Inter', sans-serif;
             position: relative;
             overflow-x: hidden;
-            transition: background 0.3s ease;
         }
 
-        /* Animated Background */
         body::before {
             content: '';
             position: absolute;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 50% 50%, var(--glow) 0%, transparent 50%);
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
             animation: rotate 20s linear infinite;
             pointer-events: none;
         }
@@ -84,345 +42,141 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-20px) translateX(10px); }
-            50% { transform: translateY(-10px) translateX(-10px); }
-            75% { transform: translateY(20px) translateX(10px); }
-        }
-
-        /* Theme Toggle */
-        .theme-toggle-wrapper {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-
-        .theme-toggle {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            padding: 0.6rem 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: var(--shadow);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            border-color: var(--primary);
-        }
-
-        .theme-toggle i {
-            font-size: 1.1rem;
-            color: var(--primary);
-        }
-
-        /* Login Container */
         .login-container {
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 480px;
+            max-width: 450px;
             padding: 1.5rem;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .login-card {
-            background: var(--bg-card);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 2.8rem 2.5rem;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow), 0 0 0 1px rgba(0, 240, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 240, 255, 0.1);
             transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .login-card:hover::before {
-            opacity: 1;
         }
 
         .login-card:hover {
-            border-color: var(--primary);
+            border-color: rgba(0, 240, 255, 0.8);
             box-shadow: 0 30px 60px -12px rgba(0, 240, 255, 0.2);
-            transform: translateY(-5px);
         }
 
-        /* Logo Section */
         .logo {
             text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .logo-wrapper {
-            position: relative;
-            display: inline-block;
+            margin-bottom: 2rem;
         }
 
         .logo img {
-            height: 70px;
+            height: 60px;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-        .logo img:hover {
-            transform: scale(1.05);
         }
 
         .logo h2 {
             font-family: 'Inter', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #00f0ff 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
         }
 
         .logo p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .logo p i {
-            color: var(--primary);
-            font-size: 0.8rem;
-        }
-
-        /* Input Groups */
-        .input-group {
-            margin-bottom: 1.8rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
+            color: #a0a0a0;
             font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
         }
 
-        .input-wrapper {
+        .input-group {
+            margin-bottom: 1.5rem;
             position: relative;
         }
 
-        .input-wrapper i {
+        .input-group i {
             position: absolute;
-            left: 1.2rem;
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--primary);
+            color: #00f0ff;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-            z-index: 1;
+            opacity: 0.7;
         }
 
-        .input-wrapper input {
+        .input-group input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background: var(--input-bg);
-            border: 2px solid var(--input-border);
-            border-radius: 14px;
-            color: var(--text-primary);
+            padding: 1rem 1rem 1rem 2.8rem;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
             font-size: 0.95rem;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             outline: none;
         }
 
-        .input-wrapper input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.1);
-            background: var(--input-bg);
+        .input-group input:focus {
+            border-color: #00f0ff;
+            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
+            background: rgba(30, 30, 30, 0.9);
         }
 
-        .input-wrapper input:focus + i {
-            color: var(--primary);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .input-wrapper input::placeholder {
-            color: var(--text-muted);
+        .input-group input::placeholder {
+            color: #666;
             font-weight: 400;
         }
 
-        /* Password Toggle */
+        /* Password Toggle Icon */
         .password-toggle {
             position: absolute;
-            right: 1.2rem;
+            right: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
+            color: #00f0ff;
+            font-size: 1.1rem;
+            opacity: 0.7;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 2;
         }
 
         .password-toggle:hover {
-            color: var(--primary);
+            opacity: 1;
         }
 
-        /* Remember Me & Forgot Password */
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.8rem;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        .forgot-password {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-            color: var(--primary-dark);
-        }
-
-        /* Login Button */
         .login-btn {
             width: 100%;
-            padding: 1.1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1rem;
+            background: linear-gradient(135deg, #00f0ff 0%, #00c4d4 100%);
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             color: #000;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .login-btn:hover::before {
-            width: 300px;
-            height: 300px;
+            margin-top: 0.5rem;
         }
 
         .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px -8px rgba(0, 240, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.4);
         }
 
-        .login-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .login-btn i {
-            font-size: 1.1rem;
-        }
-
-        /* Divider */
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 2rem 0 1.5rem;
-            color: var(--text-muted);
+            margin: 1.5rem 0;
+            color: #666;
             font-size: 0.8rem;
         }
 
@@ -430,280 +184,78 @@
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid var(--input-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .divider span {
             margin: 0 1rem;
-            padding: 0.3rem 0.8rem;
-            background: var(--bg-card);
-            border-radius: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
         }
 
-        /* Security Badge */
-        .security-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: rgba(0, 240, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 240, 255, 0.1);
-        }
-
-        .security-badge i {
-            color: var(--success);
-            font-size: 0.9rem;
-        }
-
-        .security-badge span {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Footer */
         .footer-text {
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            color: #666;
+            font-size: 0.75rem;
         }
 
         .footer-text a {
-            color: var(--primary);
+            color: #00f0ff;
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: 0.3s;
         }
 
         .footer-text a:hover {
             text-decoration: underline;
-            color: var(--primary-dark);
         }
 
-        .footer-text p {
-            margin-top: 0.3rem;
-        }
-
-        /* Loading State */
-        .login-btn.loading {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .login-btn.loading i {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive Design */
         @media (max-width: 480px) {
-            .login-container {
-                padding: 1rem;
-            }
-            
             .login-card {
-                padding: 2rem 1.5rem;
-                border-radius: 24px;
+                padding: 1.8rem;
             }
-            
             .logo img {
-                height: 55px;
+                height: 45px;
             }
-            
             .logo h2 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
-            
-            .logo p {
-                font-size: 0.8rem;
-            }
-            
-            .input-group {
-                margin-bottom: 1.5rem;
-            }
-            
-            .theme-toggle span {
-                display: none;
-            }
-            
-            .theme-toggle {
-                padding: 0.5rem;
-                border-radius: 50%;
-            }
-            
-            .form-options {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-        }
-
-        /* Demo Credentials */
-        .demo-credentials {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0, 240, 255, 0.05);
-            border-radius: 12px;
-            border: 1px dashed var(--border-color);
-        }
-
-        .demo-credentials p {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .demo-credentials code {
-            background: var(--input-bg);
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            color: var(--primary);
-            font-family: monospace;
         }
     </style>
 </head>
 <body>
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Theme Toggle -->
-    <div class="theme-toggle-wrapper">
-        <div class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
-            <i class="fas fa-moon"></i>
-            <span>Dark Mode</span>
-        </div>
-    </div>
-
     <div class="login-container">
         <div class="login-card">
             <div class="logo">
-                <div class="logo-wrapper">
-                    <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
-                </div>
+                <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="Shandar VIP">
                 <h2>Admin Login</h2>
-                <p>
-                    <i class="fas fa-shield-alt"></i>
-                    Secure access to management dashboard
-                </p>
+                <p>Secure access to management dashboard</p>
             </div>
 
-            <form onsubmit="return false;">
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" placeholder="admin@shandar.com" autocomplete="email">
-                    </div>
-                </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Admin Email">
+            </div>
 
-                <div class="input-group">
-                    <label>Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword()" id="togglePassword"></i>
-                    </div>
-                </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password">
+                <i class="fas fa-eye password-toggle" id="togglePassword" onclick="togglePassword()"></i>
+            </div>
 
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" id="rememberMe">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="#" class="forgot-password" onclick="forgotPassword()">
-                        Forgot Password?
-                    </a>
-                </div>
-
-                <button class="login-btn" onclick="login()" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login</span>
-                </button>
-            </form>
+            <button class="login-btn" onclick="login()">Login</button>
 
             <div class="divider">
                 <span>Secure Authentication</span>
             </div>
 
-            <div class="security-badge">
-                <i class="fas fa-lock"></i>
-                <span>256-bit SSL Encryption</span>
-                <i class="fas fa-circle" style="font-size: 0.3rem;"></i>
-                <i class="fas fa-shield"></i>
-                <span>Protected by Shandar VIP</span>
-            </div>
-
-            <!-- Demo Credentials (Optional - Remove in production) -->
-            <div class="demo-credentials">
-                <p><i class="fas fa-info-circle"></i> Demo Credentials:</p>
-                <p>Email: <code>admin@shandar.com</code> | Password: <code>admin123</code></p>
-            </div>
-
             <div class="footer-text">
-                <p>
-                    <a href="#" onclick="return false;">
-                        <i class="fas fa-arrow-left"></i> Back to Store
-                    </a>
-                </p>
-                <p>© 2026 Shandar Shoes. All rights reserved.</p>
+                <p>Protected by <strong>Shandar VIP Security</strong></p>
+                <p><a href="#" onclick="return false;">Back to Store</a></p>
             </div>
         </div>
     </div>
 
     <script>
-        // Theme Management
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeUI(savedTheme);
-            
-            // Load saved credentials if remember me was checked
-            loadSavedCredentials();
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeUI(newTheme);
-            
-            // Show theme change notification
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-                background: newTheme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: newTheme === 'dark' ? '#ffffff' : '#1a1a1a'
-            });
-            
-            Toast.fire({
-                icon: 'success',
-                title: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} Mode Activated`
-            });
-        }
-
-        function updateThemeUI(theme) {
-            const themeToggle = document.getElementById('themeToggle');
-            if (themeToggle) {
-                themeToggle.innerHTML = theme === 'dark' ? 
-                    '<i class="fas fa-sun"></i><span>Light Mode</span>' : 
-                    '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-            }
-        }
-
-        // Password Toggle
+        // Password Toggle Function
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleIcon = document.getElementById('togglePassword');
@@ -719,228 +271,14 @@
             }
         }
 
-        // Remember Me Functionality
-        function saveCredentials() {
-            const rememberMe = document.getElementById('rememberMe').checked;
-            if (rememberMe) {
-                const email = document.getElementById('email').value;
-                localStorage.setItem('savedEmail', email);
-                localStorage.setItem('rememberMe', 'true');
-            } else {
-                localStorage.removeItem('savedEmail');
-                localStorage.removeItem('rememberMe');
-            }
-        }
-
-        function loadSavedCredentials() {
-            const rememberMe = localStorage.getItem('rememberMe') === 'true';
-            if (rememberMe) {
-                const savedEmail = localStorage.getItem('savedEmail');
-                if (savedEmail) {
-                    document.getElementById('email').value = savedEmail;
-                    document.getElementById('rememberMe').checked = true;
-                }
-            }
-        }
-
-        // Forgot Password
-        async function forgotPassword() {
-            const theme = document.documentElement.getAttribute('data-theme');
-            const { value: email } = await Swal.fire({
-                title: 'Reset Password',
-                text: 'Enter your email to receive a password reset link',
-                input: 'email',
-                inputPlaceholder: 'admin@shandar.com',
-                showCancelButton: true,
-                confirmButtonColor: '#00f0ff',
-                confirmButtonText: 'Send Reset Link',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Please enter your email address';
-                    }
-                    if (!value.includes('@')) {
-                        return 'Please enter a valid email address';
-                    }
-                }
-            });
-            
-            if (email) {
-                try {
-                    const { error } = await _supabase.auth.resetPasswordForEmail(email);
-                    if (error) throw error;
-                    
-                    Swal.fire({
-                        title: 'Reset Link Sent!',
-                        text: 'Check your email for the password reset link',
-                        icon: 'success',
-                        confirmButtonColor: '#00f0ff',
-                        background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                        color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                    });
-                } catch (error) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: error.message || 'Failed to send reset link',
-                        icon: 'error',
-                        confirmButtonColor: '#ef4444',
-                        background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                        color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                    });
-                }
-            }
-        }
-
-        // Login Function
+        // NO CHANGES MADE TO THIS JAVASCRIPT - EXACTLY AS PROVIDED
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const loginBtn = document.getElementById('loginBtn');
-            const theme = document.documentElement.getAttribute('data-theme');
-            
-            // Validation
-            if (!email || !password) {
-                Swal.fire({
-                    title: 'Validation Error',
-                    text: 'Please enter both email and password',
-                    icon: 'warning',
-                    confirmButtonColor: '#00f0ff',
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                });
-                return;
-            }
-            
-            if (!email.includes('@')) {
-                Swal.fire({
-                    title: 'Invalid Email',
-                    text: 'Please enter a valid email address',
-                    icon: 'warning',
-                    confirmButtonColor: '#00f0ff',
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                });
-                return;
-            }
-            
-            // Show loading state
-            loginBtn.classList.add('loading');
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Authenticating...</span>';
-            
-            // Show loading alert
-            Swal.fire({
-                title: 'Authenticating...',
-                text: 'Please wait while we verify your credentials',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-            });
-            
-            try {
-                const { data, error } = await _supabase.auth.signInWithPassword({ 
-                    email, 
-                    password 
-                });
-                
-                if (error) throw error;
-                
-                // Save credentials if remember me is checked
-                saveCredentials();
-                
-                // Success message
-                Swal.fire({
-                    title: 'Login Successful! 🎉',
-                    text: 'Welcome to Shandar VIP Admin Dashboard',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: true,
-                    confirmButtonColor: '#00f0ff',
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                }).then(() => {
-                    window.location.href = 'dashboard.html';
-                });
-                
-            } catch (error) {
-                // Reset button
-                loginBtn.classList.remove('loading');
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Login</span>';
-                
-                // Show error message
-                Swal.fire({
-                    title: 'Login Failed',
-                    text: error.message || 'Invalid email or password',
-                    icon: 'error',
-                    confirmButtonColor: '#ef4444',
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
-                    footer: '<a href="#" onclick="forgotPassword()">Forgot your password?</a>'
-                });
-            }
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert(error.message);
+            else window.location.href = 'dashboard.html';
         }
-
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random positions
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                
-                // Random animation delays
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                
-                // Random sizes
-                const size = Math.random() * 3 + 1;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Handle Enter key press
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                login();
-            }
-        });
-
-        // Initialize
-        window.onload = function() {
-            initTheme();
-            createParticles();
-            
-            // Welcome toast
-            setTimeout(() => {
-                const theme = document.documentElement.getAttribute('data-theme');
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                });
-                
-                Toast.fire({
-                    icon: 'info',
-                    title: '👑 Welcome to Shandar VIP Admin'
-                });
-            }, 500);
-        };
     </script>
 </body>
 </html>
