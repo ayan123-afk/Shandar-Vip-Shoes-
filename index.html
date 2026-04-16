@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
     <script src="config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS for Interactive Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -41,7 +39,6 @@
             line-height: 1.5;
         }
 
-        /* Animations */
         @keyframes fadeSlideUp {
             0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -54,17 +51,7 @@
             from { opacity: 0; transform: translateX(50px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
-        }
-        @keyframes borderPulse {
-            0%, 100% { border-color: rgba(0, 240, 255, 0.3); }
-            50% { border-color: rgba(0, 240, 255, 1); }
-        }
 
-        /* Typography */
         .hero-title {
             font-family: 'Playfair Display', serif;
             font-weight: 800;
@@ -81,7 +68,6 @@
         }
         .title span { color: var(--accent); }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -145,7 +131,6 @@
             border-radius: 50%;
         }
 
-        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             font-size: 1.8rem;
@@ -176,7 +161,6 @@
             .nav-links a { font-size: 1.2rem; padding: 0.5rem 0; display: block; }
         }
 
-        /* Hero */
         .hero {
             height: 100vh;
             display: flex;
@@ -215,7 +199,6 @@
             animation: slideInRight 0.8s ease-out 0.2s backwards;
         }
 
-        /* Sections */
         section {
             padding: 130px 8% 100px;
             display: none;
@@ -223,7 +206,6 @@
         }
         section.active { display: block; animation: fadeSlideUp 0.7s ease-out forwards; }
 
-        /* Product Grid */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -238,12 +220,6 @@
             transform: translateY(30px);
             animation: fadeSlideUp 0.6s ease-out forwards;
         }
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.2s; }
-        .product-card:nth-child(3) { animation-delay: 0.3s; }
-        .product-card:nth-child(4) { animation-delay: 0.4s; }
-        .product-card:nth-child(5) { animation-delay: 0.5s; }
-        .product-card:nth-child(6) { animation-delay: 0.6s; }
         .product-card:hover {
             border-color: var(--accent);
             transform: translateY(-8px);
@@ -313,7 +289,6 @@
         }
         .btn-primary:hover { background: #ffffff; transform: scale(1.02); }
 
-        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -372,14 +347,12 @@
             .modal-image { height: 280px; }
         }
 
-        /* Cart */
         .cart-wrapper { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 360px; gap: 3rem; }
         .cart-item { display: flex; gap: 1.8rem; padding: 1.8rem 0; border-bottom: 1px solid var(--border); align-items: center; }
         .cart-item img { width: 100px; height: 100px; object-fit: cover; }
         .form-dark input, .form-dark textarea { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 1rem 1.2rem; color: white; margin-bottom: 1.5rem; outline: none; transition: 0.2s; }
         .form-dark input:focus, .form-dark textarea:focus { border-color: var(--accent); }
 
-        /* About */
         .story-flex { display: flex; gap: 4rem; align-items: center; margin-bottom: 5rem; }
         .story-text { flex: 1; font-size: 1.1rem; color: var(--gray); line-height: 1.7; }
         .story-text b { color: var(--text); font-weight: 800; }
@@ -392,7 +365,6 @@
         .value-card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
         .value-card h3 { font-family: 'Playfair Display', serif; margin-bottom: 0.8rem; }
 
-        /* Contact Page - Enhanced with Interactive Map */
         .contact-enhanced {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -491,7 +463,6 @@
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
         }
 
-        /* Footer */
         footer {
             padding: 80px 8% 40px;
             border-top: 1px solid var(--border);
@@ -587,7 +558,6 @@
     </div>
 </nav>
 
-<!-- Product Modal -->
 <div id="productModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-close" onclick="closeModal()">&times;</div>
@@ -606,7 +576,6 @@
     </div>
 </div>
 
-<!-- Home Section -->
 <section id="home" class="active" style="padding:0;">
     <div class="hero">
         <h1 class="hero-title">SHANDAR<br><span>VIP SHOES</span></h1>
@@ -615,13 +584,11 @@
     </div>
 </section>
 
-<!-- Shop Section -->
 <section id="shop">
     <h2 class="title">Current <span>Drops</span></h2>
     <div class="product-grid" id="product-list"></div>
 </section>
 
-<!-- About Section -->
 <section id="about">
     <h2 class="title">Our <span>Vision</span></h2>
     <div class="story-flex">
@@ -631,10 +598,6 @@
             <p>Every product is designed with attention to detail, durability, and customer satisfaction. The brand focuses on delivering high-quality shoes, modern designs, and comfortable footwear at affordable pricing.</p>
             <br>
             <p>The vision is to expand nationwide and become a leading footwear brand. Each pair tells a story of precision, luxury, and the relentless pursuit of perfection.</p>
-            <br>
-            <p>With a commitment to excellence, Shandar VIP Shoes blends traditional craftsmanship with contemporary aesthetics. We believe that footwear is not just an accessory—it's a statement of identity.</p>
-            <br>
-            <p>Our journey began with a single dream: to provide world-class footwear that combines luxury, comfort, and durability. Today, we stand as a symbol of elegance and quality.</p>
         </div>
         <div class="story-image">
             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" alt="luxury sneaker">
@@ -647,7 +610,6 @@
     </div>
 </section>
 
-<!-- Contact Section with Live Map -->
 <section id="contact">
     <h2 class="title">Get <span>In Touch</span></h2>
     <div class="contact-enhanced">
@@ -686,7 +648,6 @@
     </div>
 </section>
 
-<!-- Cart Section -->
 <section id="cart">
     <h2 class="title">Your <span>Bag</span></h2>
     <div class="cart-wrapper">
@@ -702,7 +663,6 @@
     </div>
 </section>
 
-<!-- Checkout Section -->
 <section id="checkout">
     <h2 class="title">Secure <span>Checkout</span></h2>
     <div class="form-dark" style="max-width: 680px; margin: 0 auto; background: var(--card); padding: 2rem;">
@@ -715,7 +675,6 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer>
     <div class="footer-grid">
         <div class="footer-logo">
@@ -754,7 +713,6 @@
     let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
     let mapInitialized = false;
 
-    // Mobile menu functions
     function toggleMobileMenu() { document.getElementById('navLinks').classList.toggle('active'); }
     function closeMobileMenu() { document.getElementById('navLinks').classList.remove('active'); }
     document.getElementById('menuToggle')?.addEventListener('click', toggleMobileMenu);
@@ -764,14 +722,9 @@
         document.getElementById(id).classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         closeMobileMenu();
-        
-        // Initialize map when contact section is shown
-        if (id === 'contact' && !mapInitialized) {
-            setTimeout(initMap, 200);
-        }
+        if (id === 'contact' && !mapInitialized) setTimeout(initMap, 200);
     }
 
-    // Initialize Leaflet Map (Karachi Location)
     function initMap() {
         if (typeof L !== 'undefined' && !mapInitialized && document.getElementById('shopMap')) {
             const map = L.map('shopMap').setView([24.9246, 67.0311], 14);
@@ -788,13 +741,12 @@
         }
     }
 
-    // Modal Functions
     function openModal(product) {
         document.getElementById('modalImage').src = product.image_url;
         document.getElementById('modalName').innerText = product.name;
         document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
         document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase()}`;
-        document.getElementById('modalDescription').innerHTML = product.description || 'Premium craftsmanship with attention to every detail. Designed for those who demand excellence and comfort. Made with premium materials and precision engineering.';
+        document.getElementById('modalDescription').innerHTML = product.description || 'Premium craftsmanship with attention to every detail.';
         
         const modal = document.getElementById('productModal');
         const modalBtn = document.getElementById('modalAddToCartBtn');
@@ -869,9 +821,7 @@
         else Swal.fire({ icon: 'error', title: 'Error', text: 'Could not send message.', background: '#111' });
     });
 
-    // ========== UPDATED ORDER SUBMISSION - FIXED ==========
-    // This now matches your SQL schema: orders table + order_items table
-    // No foreign key constraint issues - inserts order first, then items
+    // ========== FIXED ORDER SUBMISSION - Includes product_name and product_image ==========
     document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -909,10 +859,13 @@
             
             const orderId = orderData[0].id;
             
-            // Step 2: Insert into order_items table
+            // Step 2: Insert into order_items table with ALL required fields
+            // Your schema requires: order_id, product_id, product_name, product_image, quantity, price_at_time
             const orderItems = cart.map(item => ({
                 order_id: orderId,
                 product_id: item.id,
+                product_name: item.name,      // CRITICAL: This was missing before!
+                product_image: item.img,      // CRITICAL: This was missing before!
                 quantity: item.qty,
                 price_at_time: item.price
             }));
@@ -930,13 +883,12 @@
             Swal.fire({ 
                 icon: 'success', 
                 title: 'Order Confirmed!', 
-                text: `VIP order placed successfully. You will be contacted shortly.`, 
+                text: `VIP order placed successfully. You will be contacted shortly on ${phone}.`, 
                 background: '#0a0a0a', 
                 color: '#fff',
                 confirmButtonColor: '#00f0ff' 
             });
             
-            // Reset form and go home
             e.target.reset();
             showSection('home');
             
