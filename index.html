@@ -869,13 +869,86 @@
         else Swal.fire({ icon: 'error', title: 'Error', text: 'Could not send message.', background: '#111' });
     });
 
+    // ========== UPDATED ORDER SUBMISSION - FIXED ==========
+    // This now matches your SQL schema: orders table + order_items table
+    // No foreign key constraint issues - inserts order first, then items
     document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (cart.length === 0) return Swal.fire({ icon: 'warning', title: 'Empty Bag', text: 'Add items first.', background: '#111' });
-        const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-        const { data, error } = await _supabase.from('orders').insert([{ customer_name: document.getElementById('o-name').value, phone: document.getElementById('o-phone').value, address: document.getElementById('o-address').value, total_price: total }]).select();
-        if (data && data.length) { await _supabase.from('order_items').insert(cart.map(i => ({ order_id: data[0].id, product_id: i.id, quantity: i.qty, price_at_time: i.price }))); Swal.fire({ icon: 'success', title: 'Order Confirmed', text: 'VIP shipment initialized.', background: '#0a0a0a', confirmButtonColor: '#00f0ff' }); cart = []; updateCart(); showSection('home'); e.target.reset(); }
-        else Swal.fire({ icon: 'error', title: 'Error', text: 'Order failed.', background: '#111' });
+        
+        if (cart.length === 0) {
+            Swal.fire({ icon: 'warning', title: 'Empty Bag', text: 'Add items first.', background: '#111' });
+            return;
+        }
+        
+        const customerName = document.getElementById('o-name').value.trim();
+        const phone = document.getElementById('o-phone').value.trim();
+        const address = document.getElementById('o-address').value.trim();
+        
+        if (!customerName || !phone || !address) {
+            Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please fill all fields.', background: '#111' });
+            return;
+        }
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        
+        try {
+            // Step 1: Insert into orders table
+            const { data: orderData, error: orderError } = await _supabase
+                .from('orders')
+                .insert([{ 
+                    customer_name: customerName, 
+                    phone: phone, 
+                    address: address, 
+                    total_price: total,
+                    status: 'pending'
+                }])
+                .select();
+            
+            if (orderError) throw orderError;
+            if (!orderData || orderData.length === 0) throw new Error('Order insert failed');
+            
+            const orderId = orderData[0].id;
+            
+            // Step 2: Insert into order_items table
+            const orderItems = cart.map(item => ({
+                order_id: orderId,
+                product_id: item.id,
+                quantity: item.qty,
+                price_at_time: item.price
+            }));
+            
+            const { error: itemsError } = await _supabase
+                .from('order_items')
+                .insert(orderItems);
+            
+            if (itemsError) throw itemsError;
+            
+            // Success - clear cart and show confirmation
+            cart = [];
+            updateCart();
+            
+            Swal.fire({ 
+                icon: 'success', 
+                title: 'Order Confirmed!', 
+                text: `VIP order placed successfully. You will be contacted shortly.`, 
+                background: '#0a0a0a', 
+                color: '#fff',
+                confirmButtonColor: '#00f0ff' 
+            });
+            
+            // Reset form and go home
+            e.target.reset();
+            showSection('home');
+            
+        } catch (err) {
+            console.error('Order submission error:', err);
+            Swal.fire({ 
+                icon: 'error', 
+                title: 'Order Failed', 
+                text: err.message || 'Could not place order. Please try again.', 
+                background: '#111' 
+            });
+        }
     });
 
     window.subscribeNewsletter = function() {
