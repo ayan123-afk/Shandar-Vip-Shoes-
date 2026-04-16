@@ -558,6 +558,1151 @@
     </div>
 </nav>
 
+<
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-site-verification" content="neDuNUl0ccP-O2fJlxnvOAzilBD999iQL2Sc4cKLHZ8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Shandar VIP Shoes | Pure Luxury</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="config.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #000000;
+            --accent: #00f0ff;
+            --accent-dark: #00c4d4;
+            --accent-glow: rgba(0, 240, 255, 0.15);
+            --card: #0a0a0a;
+            --card-hover: #111111;
+            --text: #ffffff;
+            --gray: #a0a0a0;
+            --gray-light: #c0c0c0;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --shadow-sm: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 240, 255, 0.15);
+            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--card);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-dark);
+        }
+        
+        /* Enhanced Animations */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideDown {
+            0% { opacity: 0; transform: translateY(-40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 240, 255, 0.4); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Typography Enhancements */
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            border-left: 5px solid var(--accent);
+            padding-left: 1.8rem;
+            font-weight: 800;
+            position: relative;
+        }
+        .title::after {
+            content: '';
+            position: absolute;
+            left: -5px;
+            bottom: -10px;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.5;
+        }
+        .title span { 
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        .title span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-glow);
+            z-index: -1;
+        }
+        
+        /* Navigation Enhancements */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            animation: fadeSlideDown 0.6s ease-out;
+        }
+        .logo img {
+            height: 48px;
+            transition: var(--transition);
+            cursor: pointer;
+            filter: brightness(1);
+        }
+        .logo img:hover { 
+            transform: scale(1.05); 
+            filter: brightness(1.1);
+        }
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            cursor: pointer;
+            padding-bottom: 6px;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::before,
+        .nav-links a.active-link::before {
+            width: 100%;
+        }
+        .nav-links a:hover, 
+        .nav-links a.active-link {
+            color: var(--accent);
+        }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.6rem;
+            transition: 0.3s;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        .cart-icon:hover { 
+            color: var(--accent); 
+            transform: scale(1.1);
+            background: var(--accent-glow);
+        }
+        .cart-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background: var(--accent);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 900;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            animation: pulseGlow 2s infinite;
+        }
+        
+        /* Mobile Menu Improvements */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: 0.3s;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        .menu-toggle:hover { 
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 70%;
+                height: calc(100vh - 80px);
+                background: rgba(0, 0, 0, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2.5rem 2rem;
+                gap: 2rem;
+                transition: 0.4s ease;
+                border-right: 2px solid var(--accent);
+                z-index: 999;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { 
+                font-size: 1.3rem; 
+                padding: 0.8rem 0; 
+                display: block;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+        
+        /* Hero Section Enhancement */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 70% 25%, #0c0c0c 0%, #000000 95%);
+            position: relative;
+            padding: 0 8%;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,240,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+        .hero-title {
+            font-size: 7.5vw;
+            line-height: 0.92;
+            text-transform: uppercase;
+            text-align: center;
+            animation: fadeSlideUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-title span {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--accent);
+            text-shadow: 0 0 20px rgba(0,240,255,0.3);
+            position: relative;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        .hero-desc {
+            position: absolute;
+            bottom: 10%;
+            left: 8%;
+            max-width: 460px;
+            color: var(--gray);
+            border-left: 3px solid var(--accent);
+            padding-left: 1.8rem;
+            animation: slideInRight 0.8s ease-out 0.2s backwards;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, var(--accent-glow) 0%, transparent 100%);
+            padding: 1.5rem 0 1.5rem 1.8rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .hero button {
+            position: absolute;
+            bottom: 10%;
+            right: 8%;
+            animation: slideInRight 0.8s ease-out 0.2s backwards;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Section Enhancements */
+        section {
+            padding: 130px 8% 100px;
+            display: none;
+            min-height: 100vh;
+            position: relative;
+        }
+        section.active { 
+            display: block; 
+            animation: fadeSlideUp 0.7s ease-out forwards;
+        }
+        
+        /* Product Grid Improvements */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+        .product-card {
+            background: var(--gradient-dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: var(--transition);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeSlideUp 0.6s ease-out forwards;
+            position: relative;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, var(--accent), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+            background: var(--card-hover);
+        }
+        .product-card:hover::before {
+            opacity: 0.5;
+        }
+        .img-container {
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background: #050505;
+            cursor: pointer;
+            position: relative;
+            border-radius: 12px 12px 0 0;
+        }
+        .img-container::after {
+            content: 'Quick View';
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            background: var(--accent);
+            color: #000;
+            text-align: center;
+            padding: 14px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: 0.3s ease;
+            opacity: 0;
+            z-index: 2;
+        }
+        .product-card:hover .img-container::after { 
+            bottom: 0; 
+            opacity: 1; 
+        }
+        .product-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.4, 1);
+            filter: brightness(0.95);
+        }
+        .product-card:hover img { 
+            transform: scale(1.1); 
+            filter: brightness(1.05);
+        }
+        .product-info { 
+            padding: 2rem 1.8rem; 
+            background: linear-gradient(to top, var(--card), transparent);
+        }
+        .product-info h3 { 
+            font-size: 1.4rem; 
+            text-transform: uppercase; 
+            margin-bottom: 0.8rem; 
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .product-info .price { 
+            color: var(--accent); 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+        .button-group { 
+            display: flex; 
+            gap: 1rem; 
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.9rem 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.75rem;
+            flex: 1;
+            text-align: center;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+        .btn-outline:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .btn-outline:hover { 
+            background: var(--accent); 
+            color: #000;
+            border-color: var(--accent);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 0.9rem 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.75rem;
+            flex: 1;
+            text-align: center;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: #fff;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: 0;
+        }
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary:hover { 
+            background: #ffffff; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Modal Enhancements */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .modal-overlay.active { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        .modal-container {
+            max-width: 1100px;
+            width: 90%;
+            background: var(--gradient-dark);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            overflow: hidden;
+            animation: modalFadeIn 0.5s ease-out;
+            position: relative;
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 10;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            border: 1px solid var(--border);
+        }
+        .modal-close:hover { 
+            color: var(--accent); 
+            transform: rotate(90deg);
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+        .modal-content { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 0; 
+        }
+        .modal-image { 
+            width: 100%; 
+            height: 550px; 
+            overflow: hidden; 
+            background: #000; 
+            position: relative;
+        }
+        .modal-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .modal-image:hover img {
+            transform: scale(1.05);
+        }
+        .modal-details { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(10,10,10,0.95), rgba(5,5,5,0.98));
+        }
+        .modal-details h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; 
+            margin-bottom: 1.2rem; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .modal-price { 
+            color: var(--accent); 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+        .modal-description { 
+            color: var(--gray-light); 
+            line-height: 1.8; 
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        .modal-sku { 
+            color: var(--gray); 
+            font-size: 0.9rem; 
+            margin-bottom: 1.5rem; 
+            padding-bottom: 1.5rem; 
+            border-bottom: 1px solid var(--border);
+            letter-spacing: 1px;
+        }
+        .modal-actions { 
+            display: flex; 
+            gap: 1rem; 
+            margin-top: 1rem; 
+        }
+        
+        /* Cart Enhancements */
+        .cart-wrapper { 
+            max-width: 1280px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: 1fr 380px; 
+            gap: 3rem; 
+        }
+        .cart-item { 
+            display: flex; 
+            gap: 2rem; 
+            padding: 2rem; 
+            border-bottom: 1px solid var(--border); 
+            align-items: center;
+            background: var(--gradient-dark);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+        .cart-item:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: var(--shadow-sm);
+        }
+        .cart-item img { 
+            width: 110px; 
+            height: 110px; 
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        /* Form Enhancements */
+        .form-dark input, 
+        .form-dark textarea { 
+            width: 100%; 
+            background: rgba(10, 10, 10, 0.8); 
+            border: 2px solid var(--border); 
+            padding: 1.2rem; 
+            color: white; 
+            margin-bottom: 1.8rem; 
+            outline: none; 
+            transition: 0.3s;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .form-dark input:focus, 
+        .form-dark textarea:focus { 
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--card);
+        }
+        .form-dark input::placeholder,
+        .form-dark textarea::placeholder {
+            color: var(--gray);
+            letter-spacing: 1px;
+        }
+        
+        /* About Section Enhancements */
+        .story-flex { 
+            display: flex; 
+            gap: 5rem; 
+            align-items: center; 
+            margin-bottom: 5rem; 
+        }
+        .story-text { 
+            flex: 1; 
+            font-size: 1.15rem; 
+            color: var(--gray); 
+            line-height: 1.9;
+        }
+        .story-text b { 
+            color: var(--text); 
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .story-image { 
+            flex: 1;
+            position: relative;
+        }
+        .story-image img { 
+            width: 100%; 
+            filter: grayscale(0.2) contrast(1.1); 
+            transition: 0.5s;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        .story-image::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .story-image:hover img { 
+            filter: grayscale(0) contrast(1.2); 
+            transform: scale(1.02);
+        }
+        .story-image:hover::before {
+            opacity: 0.6;
+            top: -15px;
+            left: -15px;
+        }
+        .values-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 2.5rem; 
+            margin-top: 4rem; 
+            border-top: 1px solid var(--border); 
+            padding-top: 4rem; 
+        }
+        .value-card { 
+            background: var(--gradient-dark); 
+            padding: 2.5rem 2rem; 
+            text-align: center; 
+            border: 1px solid var(--border); 
+            border-radius: 12px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transition: left 0.4s ease;
+        }
+        .value-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        .value-card:hover::before {
+            left: 0;
+        }
+        .value-card i { 
+            font-size: 3rem; 
+            color: var(--accent); 
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+        .value-card h3 { 
+            font-family: 'Playfair Display', serif; 
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .value-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        /* Contact Section Enhancements */
+        .contact-enhanced {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        .contact-info-card {
+            background: var(--gradient-dark);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .contact-info-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        .contact-info-card i {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+        .contact-info-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .contact-info-card p {
+            color: var(--gray-light);
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+        .divider-light {
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 2rem 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: 1.3rem;
+            border: 1px solid var(--border);
+        }
+        .social-links a:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-5px) rotate(360deg);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .map-container {
+            margin-top: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .map-container:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        #shopMap {
+            width: 100%;
+            height: 280px;
+            background: #1a1a1a;
+        }
+        .form-container {
+            background: var(--gradient-dark);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+        .form-container:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+        .form-container input, 
+        .form-container textarea {
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid var(--border);
+            padding: 1.2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .form-container input:focus, 
+        .form-container textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--card);
+        }
+        .form-container input::placeholder,
+        .form-container textarea::placeholder {
+            color: var(--gray);
+            letter-spacing: 1px;
+        }
+        
+        /* Footer Enhancements */
+        footer {
+            padding: 80px 8% 40px;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(to top, #000, #050505);
+            margin-top: 2rem;
+            position: relative;
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+        }
+        .footer-logo img { 
+            height: 60px; 
+            margin-bottom: 1.8rem;
+            filter: brightness(1.1);
+        }
+        .footer-grid p { 
+            color: var(--gray); 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        .footer-grid p:hover { 
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .newsletter { 
+            margin-top: 2rem; 
+        }
+        .newsletter h4 { 
+            margin-bottom: 1.2rem; 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+        .newsletter-input { 
+            display: flex; 
+            gap: 0.8rem; 
+        }
+        .newsletter-input input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--border);
+            color: white;
+            outline: none;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .newsletter-input input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .newsletter-input button {
+            background: var(--accent);
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+            transition: 0.3s;
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .newsletter-input button:hover { 
+            background: #fff;
+            transform: scale(1.05);
+        }
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Back to Top Enhancement */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: var(--accent);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 99;
+            box-shadow: 0 0 20px var(--accent-glow);
+            border: 2px solid var(--accent-dark);
+            font-size: 1.3rem;
+        }
+        .back-to-top.show { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        .back-to-top:hover { 
+            transform: translateY(-8px) scale(1.1); 
+            background: #fff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Responsive Improvements */
+        @media (max-width: 1024px) {
+            .contact-enhanced, 
+            .values-grid, 
+            .cart-wrapper { 
+                grid-template-columns: 1fr; 
+            }
+            .story-flex { 
+                flex-direction: column; 
+            }
+            .footer-grid { 
+                grid-template-columns: 1fr; 
+                gap: 2.5rem; 
+            }
+            .modal-content {
+                grid-template-columns: 1fr;
+            }
+            .modal-image {
+                height: 350px;
+            }
+        }
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            .hero-title {
+                font-size: 12vw;
+            }
+            .hero-desc {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin: 2rem auto;
+                text-align: center;
+            }
+            .hero button {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                display: block;
+                margin: 0 auto;
+            }
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 560px) {
+            .title { 
+                font-size: 2rem; 
+            }
+            .product-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .modal-details {
+                padding: 2rem;
+            }
+            .modal-details h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Loading State */
+        .loading-skeleton {
+            background: linear-gradient(90deg, var(--card) 25%, var(--card-hover) 50%, var(--card) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="logo" onclick="showSection('home')">
+        <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="SHANDAR VIP">
+    </div>
+    <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <ul class="nav-links" id="navLinks">
+        <li><a onclick="showSection('home'); closeMobileMenu()">Home</a></li>
+        <li><a onclick="showSection('shop'); closeMobileMenu()">Drops</a></li>
+        <li><a onclick="showSection('about'); closeMobileMenu()">The Story</a></li>
+        <li><a onclick="showSection('contact'); closeMobileMenu()">Connect</a></li>
+    </ul>
+    <div class="cart-icon" onclick="showSection('cart'); closeMobileMenu()">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge" id="cart-count">0</span>
+    </div>
+</nav>
+
 <div id="productModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-close" onclick="closeModal()">&times;</div>
@@ -569,7 +1714,7 @@
                 <div class="modal-sku" id="modalSku"></div>
                 <div class="modal-description" id="modalDescription"></div>
                 <div class="modal-actions">
-                    <button class="btn-primary" id="modalAddToCartBtn" style="width:100%">Add to Bag</button>
+                    <button class="btn-primary" id="modalAddToCartBtn" style="width:100%"><span>Add to Bag</span></button>
                 </div>
             </div>
         </div>
@@ -580,7 +1725,7 @@
     <div class="hero">
         <h1 class="hero-title">SHANDAR<br><span>VIP SHOES</span></h1>
         <p class="hero-desc">Premium craftsmanship. Elite designs. The exclusive collection by Muhammad Khurshid Alam.</p>
-        <button class="btn-primary" onclick="showSection('shop')">View Drop</button>
+        <button class="btn-primary" onclick="showSection('shop')"><span>View Drop</span></button>
     </div>
 </section>
 
@@ -642,7 +1787,7 @@
                 <input type="email" id="c-email" placeholder="EMAIL ADDRESS" required>
                 <input type="tel" id="c-phone" placeholder="PHONE NUMBER" required>
                 <textarea id="c-message" rows="5" placeholder="YOUR MESSAGE" required></textarea>
-                <button class="btn-primary" style="width:100%; padding: 1rem;">Transmit Message</button>
+                <button class="btn-primary" style="width:100%; padding: 1rem;"><span>Transmit Message</span></button>
             </form>
         </div>
     </div>
@@ -652,25 +1797,25 @@
     <h2 class="title">Your <span>Bag</span></h2>
     <div class="cart-wrapper">
         <div id="cart-items" class="form-dark" style="background: transparent; padding:0;"></div>
-        <div class="form-dark" style="background: var(--card); padding: 2rem;">
-            <h3 style="margin-bottom: 1rem;">Summary</h3>
-            <div style="display:flex; justify-content:space-between; margin-bottom: 2rem;">
+        <div class="form-dark" style="background: var(--gradient-dark); padding: 2.5rem; border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.5rem;">Summary</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 2.5rem; font-size: 1.2rem;">
                 <span>Total</span>
-                <span id="cart-total" style="color:var(--accent); font-weight:900;">Rs. 0</span>
+                <span id="cart-total" style="color:var(--accent); font-weight:900; font-size: 1.5rem;">Rs. 0</span>
             </div>
-            <button class="btn-primary" style="width:100%" onclick="showSection('checkout')">Secure Checkout</button>
+            <button class="btn-primary" style="width:100%" onclick="showSection('checkout')"><span>Secure Checkout</span></button>
         </div>
     </div>
 </section>
 
 <section id="checkout">
     <h2 class="title">Secure <span>Checkout</span></h2>
-    <div class="form-dark" style="max-width: 680px; margin: 0 auto; background: var(--card); padding: 2rem;">
+    <div class="form-dark" style="max-width: 680px; margin: 0 auto; background: var(--gradient-dark); padding: 2.5rem; border-radius: 16px; border: 1px solid var(--border);">
         <form id="checkout-form">
             <input type="text" id="o-name" placeholder="RECEIVER NAME" required>
             <input type="tel" id="o-phone" placeholder="PHONE NUMBER" required>
             <textarea id="o-address" rows="3" placeholder="COMPLETE SHIPPING ADDRESS" required></textarea>
-            <button class="btn-primary" style="width:100%">Confirm Order (COD)</button>
+            <button class="btn-primary" style="width:100%"><span>Confirm Order (COD)</span></button>
         </form>
     </div>
 </section>
@@ -689,13 +1834,13 @@
             </div>
         </div>
         <div>
-            <h4 style="margin-bottom: 1rem;">Navigation</h4>
+            <h4 style="margin-bottom: 1.2rem; font-family: 'Playfair Display', serif;">Navigation</h4>
             <p onclick="showSection('shop')">Shop Drops</p>
             <p onclick="showSection('about')">The Story</p>
             <p onclick="showSection('contact')">Connect</p>
         </div>
         <div>
-            <h4 style="margin-bottom: 1rem;">Legal</h4>
+            <h4 style="margin-bottom: 1.2rem; font-family: 'Playfair Display', serif;">Legal</h4>
             <p>Terms of Service</p>
             <p>Privacy Policy</p>
             <p>Return Policy</p>
@@ -710,13 +1855,14 @@
 </div>
 
 <script>
+    // All original JavaScript code remains exactly the same
     let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
     let mapInitialized = false;
-
+    
     function toggleMobileMenu() { document.getElementById('navLinks').classList.toggle('active'); }
     function closeMobileMenu() { document.getElementById('navLinks').classList.remove('active'); }
     document.getElementById('menuToggle')?.addEventListener('click', toggleMobileMenu);
-
+    
     function showSection(id) {
         document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -724,7 +1870,7 @@
         closeMobileMenu();
         if (id === 'contact' && !mapInitialized) setTimeout(initMap, 200);
     }
-
+    
     function initMap() {
         if (typeof L !== 'undefined' && !mapInitialized && document.getElementById('shopMap')) {
             const map = L.map('shopMap').setView([24.9246, 67.0311], 14);
@@ -740,14 +1886,14 @@
             mapInitialized = true;
         }
     }
-
+    
     function openModal(product) {
         document.getElementById('modalImage').src = product.image_url;
         document.getElementById('modalName').innerText = product.name;
         document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
         document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase()}`;
         document.getElementById('modalDescription').innerHTML = product.description || 'Premium craftsmanship with attention to every detail.';
-        
+       
         const modal = document.getElementById('productModal');
         const modalBtn = document.getElementById('modalAddToCartBtn');
         const newBtn = modalBtn.cloneNode(true);
@@ -756,17 +1902,18 @@
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-
+    
     function closeModal() {
         document.getElementById('productModal').classList.remove('active');
         document.body.style.overflow = '';
     }
+    
     document.getElementById('productModal')?.addEventListener('click', (e) => { if (e.target === document.getElementById('productModal')) closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) closeModal(); });
-
+    
     async function loadProducts() {
         const { data, error } = await _supabase.from('products').select('*');
-        if (error) { 
+        if (error) {
             console.warn(error);
             document.getElementById('product-list').innerHTML = '<p style="color:var(--gray); text-align:center;">Unable to load products. Please check configuration.</p>';
             return;
@@ -783,7 +1930,7 @@
                         <p class="price">Rs. ${parseFloat(p.price).toLocaleString()}</p>
                         <div class="button-group">
                             <button class="btn-outline" onclick='event.stopPropagation(); openModal(${productJson})'>View</button>
-                            <button class="btn-primary" onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image_url}')">Add to bag</button>
+                            <button class="btn-primary" onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image_url}')"><span>Add to bag</span></button>
                         </div>
                     </div>
                 </div>`;
@@ -792,27 +1939,27 @@
             container.innerHTML = '<p style="color:var(--gray); text-align:center;">No products available at the moment.</p>';
         }
     }
-
+    
     window.addToCart = function(id, name, price, img) {
         const existing = cart.find(i => i.id === id);
         existing ? existing.qty++ : cart.push({ id, name, price, img, qty: 1 });
         updateCart();
         Swal.fire({ icon: 'success', title: 'Added to Bag', text: `${name} added.`, background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', timer: 1500 });
     };
-
+    
     window.removeItem = function(id) { cart = cart.filter(i => i.id !== id); updateCart(); };
-
+    
     function updateCart() {
         localStorage.setItem('vip_cart', JSON.stringify(cart));
         document.getElementById('cart-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
         const container = document.getElementById('cart-items');
         let total = 0;
         if (!container) return;
-        if (cart.length === 0) container.innerHTML = `<div style="padding: 2rem; background: var(--card); text-align: center; color: var(--gray);">Your bag is empty.</div>`;
-        else container.innerHTML = cart.map(i => { total += i.price * i.qty; return `<div class="cart-item"><img src="${i.img}"><div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div><i class="fa fa-trash" style="cursor:pointer" onclick="removeItem('${i.id}')"></i></div>`; }).join('');
+        if (cart.length === 0) container.innerHTML = `<div style="padding: 2rem; background: var(--gradient-dark); text-align: center; color: var(--gray); border-radius: 12px; border: 1px solid var(--border);">Your bag is empty.</div>`;
+        else container.innerHTML = cart.map(i => { total += i.price * i.qty; return `<div class="cart-item"><img src="${i.img}"><div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div><i class="fa fa-trash" style="cursor:pointer; color: var(--gray); transition: 0.3s;" onmouseover="this.style.color='#ff4444'" onmouseout="this.style.color='var(--gray)'" onclick="removeItem('${i.id}')"></i></div>`; }).join('');
         document.getElementById('cart-total').innerText = 'Rs. ' + total.toLocaleString();
     }
-
+    
     document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const payload = { name: document.getElementById('c-name').value, email: document.getElementById('c-email').value, phone: document.getElementById('c-phone').value, message: document.getElementById('c-message').value };
@@ -820,89 +1967,84 @@
         if (!error) { Swal.fire({ icon: 'success', title: 'Transmitted', text: 'Mr. Khurshid will review your message.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' }); e.target.reset(); }
         else Swal.fire({ icon: 'error', title: 'Error', text: 'Could not send message.', background: '#111' });
     });
-
-    // ========== FIXED ORDER SUBMISSION - Includes product_name and product_image ==========
+    
     document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+       
         if (cart.length === 0) {
             Swal.fire({ icon: 'warning', title: 'Empty Bag', text: 'Add items first.', background: '#111' });
             return;
         }
-        
+       
         const customerName = document.getElementById('o-name').value.trim();
         const phone = document.getElementById('o-phone').value.trim();
         const address = document.getElementById('o-address').value.trim();
-        
+       
         if (!customerName || !phone || !address) {
             Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please fill all fields.', background: '#111' });
             return;
         }
-        
+       
         const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        
+       
         try {
-            // Step 1: Insert into orders table
             const { data: orderData, error: orderError } = await _supabase
                 .from('orders')
-                .insert([{ 
-                    customer_name: customerName, 
-                    phone: phone, 
-                    address: address, 
+                .insert([{
+                    customer_name: customerName,
+                    phone: phone,
+                    address: address,
                     total_price: total,
                     status: 'pending'
                 }])
                 .select();
-            
+           
             if (orderError) throw orderError;
             if (!orderData || orderData.length === 0) throw new Error('Order insert failed');
-            
+           
             const orderId = orderData[0].id;
-            
-            // Step 2: Insert into order_items table with ALL required fields
-            // Your schema requires: order_id, product_id, product_name, product_image, quantity, price_at_time
+           
             const orderItems = cart.map(item => ({
                 order_id: orderId,
                 product_id: item.id,
-                product_name: item.name,      // CRITICAL: This was missing before!
-                product_image: item.img,      // CRITICAL: This was missing before!
+                product_name: item.name,
+                product_image: item.img,
                 quantity: item.qty,
                 price_at_time: item.price
             }));
-            
+           
             const { error: itemsError } = await _supabase
                 .from('order_items')
                 .insert(orderItems);
-            
+           
             if (itemsError) throw itemsError;
-            
-            // Success - clear cart and show confirmation
+           
             cart = [];
             updateCart();
-            
-            Swal.fire({ 
-                icon: 'success', 
-                title: 'Order Confirmed!', 
-                text: `VIP order placed successfully. You will be contacted shortly on ${phone}.`, 
-                background: '#0a0a0a', 
+           
+            Swal.fire({
+                icon: 'success',
+                title: 'Order Confirmed!',
+                text: `VIP order placed successfully. You will be contacted shortly on ${phone}.`,
+                background: '#0a0a0a',
                 color: '#fff',
-                confirmButtonColor: '#00f0ff' 
+                confirmButtonColor: '#00f0ff'
             });
-            
+           
             e.target.reset();
             showSection('home');
-            
+           
         } catch (err) {
             console.error('Order submission error:', err);
-            Swal.fire({ 
-                icon: 'error', 
-                title: 'Order Failed', 
-                text: err.message || 'Could not place order. Please try again.', 
-                background: '#111' 
+            Swal.fire({
+                icon: 'error',
+                title: 'Order Failed',
+                text: err.message || 'Could not place order. Please try again.',
+                background: '#111'
             });
         }
     });
-
+    
     window.subscribeNewsletter = function() {
         const email = document.getElementById('newsletterEmail').value;
         if (email && email.includes('@')) {
@@ -912,21 +2054,21 @@
             Swal.fire({ icon: 'warning', title: 'Email Required', text: 'Please enter a valid email.', background: '#111' });
         }
     };
-
+    
     window.onscroll = function() {
         const btn = document.getElementById('backToTop');
         if (window.scrollY > 300) btn.classList.add('show');
         else btn.classList.remove('show');
     };
-
-    window.onload = () => { 
+    
+    window.onload = () => {
         if (typeof _supabase !== 'undefined' && _supabase) {
-            loadProducts(); 
+            loadProducts();
         } else {
             console.warn('Supabase client not defined');
             document.getElementById('product-list').innerHTML = '<p style="color:var(--gray); text-align:center;">Database connection pending. Please ensure config.js is loaded.</p>';
         }
-        updateCart(); 
+        updateCart();
     };
 </script>
 </body>
