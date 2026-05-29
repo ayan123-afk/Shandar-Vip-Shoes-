@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,154 +20,93 @@
             box-sizing: border-box;
         }
 
-        /* Light Mode Variables */
         :root {
-            --primary: #00f0ff;
-            --primary-dark: #00c4d4;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
             --secondary: #7c3aed;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             
-            /* Dark Mode (Default) */
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #0a0a0a;
-            --bg-card: rgba(20, 20, 20, 0.95);
-            --text-primary: #ffffff;
-            --text-secondary: #d0d0d0;
-            --text-muted: #6b7280;
-            --border-color: rgba(0, 240, 255, 0.1);
-            --sidebar-bg: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
-            --header-bg: rgba(15, 15, 15, 0.95);
-            --input-bg: rgba(20, 20, 20, 0.9);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --stat-card-bg: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
-        }
-
-        /* Light Mode Theme */
-        [data-theme="light"] {
-            --bg-primary: #f8f9fa;
+            --bg-primary: #f8fafc;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-muted: #6c757d;
-            --border-color: #e0e0e0;
-            --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-            --header-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --sidebar-bg: #ffffff;
+            --header-bg: rgba(255, 255, 255, 0.95);
             --input-bg: #ffffff;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
             --stat-card-bg: #ffffff;
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --gradient-secondary: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --sidebar-bg: #0f172a;
+            --header-bg: rgba(15, 23, 42, 0.95);
+            --input-bg: #1e293b;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+            --stat-card-bg: #1e293b;
         }
 
         body {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-            position: relative;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        /* Light Mode Specific Styles */
-        [data-theme="light"] .sidebar {
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="light"] .card,
-        [data-theme="light"] .stat-card {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-        }
-
-        [data-theme="light"] .nav-item {
-            color: var(--text-secondary);
-        }
-
-        [data-theme="light"] .nav-item:hover {
-            background: rgba(0, 240, 255, 0.05);
-        }
-
-        [data-theme="light"] input,
-        [data-theme="light"] textarea,
-        [data-theme="light"] select {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        [data-theme="light"] .status-badge {
-            background: rgba(0, 240, 255, 0.1);
-        }
-
-        [data-theme="light"] .btn-secondary {
             background: var(--bg-primary);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
         }
 
-        [data-theme="light"] table th {
-            background: rgba(0, 240, 255, 0.05);
+        /* Smooth transitions for all elements */
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        [data-theme="light"] tr:hover td {
-            background: rgba(0, 240, 255, 0.02);
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
 
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-            animation: bgPulse 8s ease-in-out infinite;
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
         }
 
-        [data-theme="light"] body::before {
-            opacity: 0.3;
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 10px;
         }
 
-        @keyframes bgPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
         }
 
-        /* Theme Toggle Button */
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--primary);
-        }
-
-        /* Top Header Bar */
+        /* Top Header */
         .top-header {
             position: fixed;
             top: 0;
             right: 0;
             left: 280px;
-            height: 70px;
+            height: 72px;
             background: var(--header-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
@@ -185,25 +125,27 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .menu-toggle {
             background: none;
             border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 40px;
+            height: 40px;
         }
 
         .menu-toggle:hover {
-            background: rgba(0, 240, 255, 0.1);
+            background: var(--border-color);
             color: var(--primary);
         }
 
@@ -212,14 +154,21 @@
             align-items: center;
             background: var(--input-bg);
             border-radius: 12px;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             border: 1px solid var(--border-color);
             width: 400px;
+            transition: all 0.2s ease;
+        }
+
+        .header-search:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .header-search i {
             color: var(--text-muted);
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
         }
 
         .header-search input {
@@ -238,19 +187,52 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border-color);
+            color: var(--primary);
         }
 
         .header-notification {
             position: relative;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .header-notification:hover {
+            background: var(--border-color);
+            color: var(--primary);
         }
 
         .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: 4px;
+            right: 4px;
             background: var(--danger);
             color: white;
             border-radius: 50%;
@@ -261,6 +243,7 @@
             justify-content: center;
             font-size: 0.7rem;
             font-weight: 600;
+            border: 2px solid var(--header-bg);
         }
 
         .admin-profile {
@@ -269,27 +252,39 @@
             gap: 0.8rem;
             cursor: pointer;
             color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .admin-profile:hover {
+            background: var(--border-color);
         }
 
         .admin-avatar {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            background: var(--gradient-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            border: 2px solid rgba(0, 240, 255, 0.3);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
         }
 
-        /* Sidebar Styles */
+        .admin-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Sidebar */
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
-            backdrop-filter: blur(30px);
             height: 100vh;
-            padding: 1.5rem 1rem;
+            padding: 1.5rem;
             border-right: 1px solid var(--border-color);
             position: fixed;
             left: 0;
@@ -298,6 +293,7 @@
             overflow-x: hidden;
             z-index: 100;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
         }
 
         body.sidebar-collapsed .sidebar {
@@ -305,47 +301,55 @@
         }
 
         .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: 2rem;
-            padding: 0.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .sidebar-logo {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
             white-space: nowrap;
         }
 
         .sidebar-logo i {
-            font-size: 1.8rem;
-            filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.5));
+            font-size: 1.5rem;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+        }
+
+        .sidebar-logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
 
         body.sidebar-collapsed .sidebar-logo span {
-            opacity: 0;
-            width: 0;
             display: none;
         }
 
         .nav-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .nav-section-title {
             font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: var(--text-muted);
-            margin-bottom: 0.8rem;
-            padding: 0 0.8rem;
+            margin-bottom: 0.75rem;
+            padding: 0 0.5rem;
             white-space: nowrap;
             transition: opacity 0.3s ease;
         }
@@ -359,28 +363,28 @@
         }
 
         .nav-item {
-            padding: 0.9rem 1rem;
-            margin: 0.3rem 0;
+            padding: 0.75rem 0.75rem;
+            margin: 0.25rem 0;
             color: var(--text-secondary);
             cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 12px;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+            transition: all 0.2s ease;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             position: relative;
-            overflow: hidden;
             white-space: nowrap;
         }
 
         .nav-item i {
-            width: 24px;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+            width: 20px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
             flex-shrink: 0;
+            text-align: center;
         }
 
         body.sidebar-collapsed .nav-item span,
@@ -390,177 +394,51 @@
             display: none;
         }
 
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-        }
-
-        .nav-item:hover::before {
-            transform: scaleY(1);
-        }
-
         .nav-item:hover {
-            background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%);
+            background: var(--border-color);
             color: var(--primary);
-            transform: translateX(5px);
+            transform: translateX(4px);
         }
 
         .nav-item.active {
-            background: linear-gradient(90deg, rgba(0, 240, 255, 0.2) 0%, transparent 100%);
+            background: rgba(37, 99, 235, 0.1);
             color: var(--primary);
-            border-left: 3px solid var(--primary);
+            font-weight: 600;
         }
 
         .nav-item .badge {
             margin-left: auto;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
             font-size: 0.7rem;
-            font-weight: 700;
+            font-weight: 600;
             flex-shrink: 0;
+        }
+
+        .nav-item.logout {
+            color: var(--danger);
+            margin-top: 1rem;
+        }
+
+        .nav-item.logout:hover {
+            background: rgba(239, 68, 68, 0.1);
         }
 
         /* Main Content */
         .main {
             margin-left: 280px;
-            margin-top: 70px;
+            margin-top: 72px;
             padding: 2rem;
-            min-height: calc(100vh - 70px);
+            min-height: calc(100vh - 72px);
             position: relative;
             z-index: 1;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-secondary);
         }
 
         body.sidebar-collapsed .main {
             margin-left: 80px;
-        }
-
-        /* Mobile Bottom Navigation */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--header-bg);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-color);
-            padding: 0.8rem;
-            z-index: 1000;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.3rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.7rem;
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-
-        .mobile-nav-item i {
-            font-size: 1.3rem;
-        }
-
-        .mobile-nav-item.active {
-            color: var(--primary);
-            background: rgba(0, 240, 255, 0.1);
-        }
-
-        /* Dashboard Header */
-        .dashboard-header {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--stat-card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(124, 58, 237, 0.1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .stat-icon i {
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-
-        .stat-change {
-            font-size: 0.8rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 20px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .stat-card h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-            background: linear-gradient(135deg, var(--text-primary), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
         }
 
         /* Section Headers */
@@ -568,144 +446,206 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .main > div h2 {
-            font-size: 1.8rem;
+        .section-header h2 {
+            font-size: 1.75rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
             color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
-        .main > div h2 i {
+        .section-header h2 i {
             color: var(--primary);
+            opacity: 0.8;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        /* Stat Cards */
+        .dashboard-header {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--stat-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.orders {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.revenue {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-icon.products {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--secondary);
+        }
+
+        .stat-icon.customers {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         /* Cards */
         .card {
             background: var(--bg-card);
-            backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
+            border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card:hover {
             box-shadow: var(--shadow);
         }
 
-        /* Settings Specific Styles */
-        .settings-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .settings-section {
-            margin-bottom: 2rem;
-        }
-
-        .settings-section h3 {
-            color: var(--text-primary);
+        .card-header {
             margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .settings-section h3 i {
-            color: var(--primary);
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 0;
+            padding-bottom: 1rem;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-
-        .setting-info {
+        .card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
-        .setting-info i {
-            font-size: 1.5rem;
-            color: var(--primary);
-            width: 30px;
-        }
-
-        .setting-info h4 {
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-        }
-
-        .setting-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Toggle Switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
+        /* Buttons */
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--text-muted);
-            transition: .4s;
-            border-radius: 34px;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
         }
 
-        input:checked + .slider {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
         }
 
-        input:checked + .slider:before {
-            transform: translateX(24px);
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 8px;
         }
 
         /* Table Styles */
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 16px;
-            margin-top: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
         table {
@@ -714,26 +654,34 @@
             min-width: 800px;
         }
 
+        thead {
+            background: var(--bg-primary);
+        }
+
         th {
             text-align: left;
             padding: 1rem;
-            background: rgba(0, 240, 255, 0.05);
-            color: var(--primary);
+            color: var(--text-secondary);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-color);
         }
 
         td {
             padding: 1rem;
             border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         tr:hover td {
-            background: rgba(0, 240, 255, 0.03);
+            background: var(--bg-primary);
         }
 
         /* Status Badges */
@@ -744,62 +692,27 @@
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.25rem;
             white-space: nowrap;
+            letter-spacing: 0.3px;
         }
 
         .status-badge.pending {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(245, 158, 11, 0.1);
             color: var(--warning);
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .status-badge.processing {
-            background: rgba(0, 240, 255, 0.15);
+            background: rgba(37, 99, 235, 0.1);
             color: var(--primary);
-            border: 1px solid rgba(0, 240, 255, 0.3);
+            border: 1px solid rgba(37, 99, 235, 0.3);
         }
 
         .status-badge.delivered {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(16, 185, 129, 0.1);
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.7rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
-        }
-
-        .btn-secondary {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
         }
 
         /* Form Styles */
@@ -820,32 +733,297 @@
         label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
             margin-bottom: 0.5rem;
             color: var(--text-secondary);
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         label i {
             color: var(--primary);
+            font-size: 0.9rem;
         }
 
         input, textarea, select {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 12px 16px;
+            padding: 0.75rem 1rem;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
-            border-radius: 12px;
+            border-radius: 10px;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             outline: none;
         }
 
         input:focus, textarea:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        /* Settings Styles */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-section {
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .settings-section h3 i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .setting-info i {
+            font-size: 1.25rem;
+            color: var(--primary);
+            width: 24px;
+            text-align: center;
+        }
+
+        .setting-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .setting-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .slider {
+            background: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Logout Button */
+        .logout-section {
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: rgba(239, 68, 68, 0.05);
+            color: var(--danger);
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+            transform: translateY(-2px);
+        }
+
+        /* Order ID Style */
+        .order-id {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Product Image */
+        .product-image {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            padding: 0.75rem 0.5rem;
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+            z-index: 1000;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.25rem;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.sidebar-collapsed .sidebar-overlay {
+            display: block;
+            opacity: 1;
         }
 
         /* Responsive Design */
@@ -860,6 +1038,10 @@
             
             .form-group.full-width {
                 grid-column: span 1;
+            }
+
+            .dashboard-header {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -876,6 +1058,7 @@
             .sidebar {
                 transform: translateX(-100%);
                 width: 280px !important;
+                box-shadow: var(--shadow-lg);
             }
             
             body.sidebar-collapsed .sidebar {
@@ -915,7 +1098,7 @@
                 gap: 1rem;
             }
             
-            .stat-card h3 {
+            .stat-value {
                 font-size: 1.5rem;
             }
             
@@ -926,17 +1109,11 @@
             
             .sidebar-overlay {
                 display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.8);
-                z-index: 99;
             }
             
             body.sidebar-collapsed .sidebar-overlay {
                 display: block;
+                opacity: 1;
             }
         }
 
@@ -945,78 +1122,27 @@
                 grid-template-columns: 1fr;
             }
             
-            .admin-profile span {
+            .admin-name {
                 display: none;
             }
             
-            .main > div h2 {
+            .section-header h2 {
                 font-size: 1.5rem;
             }
-        }
 
-        /* Loading Animation */
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 240, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
+            .header-actions {
+                width: 100%;
+            }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
-
-        /* Settings Logout Button */
-        .logout-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid var(--border-color);
-        }
-
-        .logout-btn {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: var(--danger);
-            transform: translateY(-2px);
+            .header-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Overlay for Mobile -->
+    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar -->
@@ -1029,9 +1155,9 @@
         </div>
         
         <div class="nav-section">
-            <div class="nav-section-title">MAIN</div>
+            <div class="nav-section-title">Main</div>
             <div class="nav-item active" onclick="show('dashboard')">
-                <i class="fas fa-chart-pie"></i>
+                <i class="fas fa-chart-bar"></i>
                 <span>Dashboard</span>
             </div>
             <div class="nav-item" onclick="show('orders')">
@@ -1047,7 +1173,7 @@
         </div>
 
         <div class="nav-section">
-            <div class="nav-section-title">MANAGEMENT</div>
+            <div class="nav-section-title">Management</div>
             <div class="nav-item" onclick="show('add-product')">
                 <i class="fas fa-plus-circle"></i>
                 <span>Add Product</span>
@@ -1064,7 +1190,7 @@
         </div>
 
         <div class="nav-section">
-            <div class="nav-section-title">ACCOUNT</div>
+            <div class="nav-section-title">Account</div>
             <div class="nav-item" onclick="show('settings')">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
@@ -1099,7 +1225,7 @@
                 <div class="admin-avatar">
                     <span>A</span>
                 </div>
-                <span>Admin</span>
+                <span class="admin-name">Admin</span>
             </div>
         </div>
     </div>
@@ -1109,8 +1235,8 @@
         <!-- Dashboard Section -->
         <div id="dashboard-sec">
             <div class="section-header">
-                <h2><i class="fas fa-chart-pie"></i> Dashboard Overview</h2>
-                <div>
+                <h2><i class="fas fa-chart-bar"></i> Dashboard Overview</h2>
+                <div class="header-actions">
                     <button class="btn btn-secondary" onclick="refreshDashboard()">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
@@ -1119,54 +1245,54 @@
             
             <div class="dashboard-header">
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
+                    <div class="stat-card-header">
+                        <div class="stat-icon orders">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <span class="stat-change">+12.5%</span>
                     </div>
-                    <h3 id="total-orders">0</h3>
-                    <p>Total Orders</p>
+                    <div class="stat-value" id="total-orders">0</div>
+                    <div class="stat-label">Total Orders</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
+                    <div class="stat-card-header">
+                        <div class="stat-icon revenue">
                             <i class="fas fa-rupee-sign"></i>
                         </div>
                         <span class="stat-change">+23.1%</span>
                     </div>
-                    <h3 id="total-revenue">₹0</h3>
-                    <p>Total Revenue</p>
+                    <div class="stat-value" id="total-revenue">Rs. 0</div>
+                    <div class="stat-label">Total Revenue</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
+                    <div class="stat-card-header">
+                        <div class="stat-icon products">
                             <i class="fas fa-box"></i>
                         </div>
                         <span class="stat-change">+8.3%</span>
                     </div>
-                    <h3 id="total-products">0</h3>
-                    <p>Products</p>
+                    <div class="stat-value" id="total-products">0</div>
+                    <div class="stat-label">Products</div>
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon">
+                    <div class="stat-card-header">
+                        <div class="stat-icon customers">
                             <i class="fas fa-users"></i>
                         </div>
                         <span class="stat-change">+15.7%</span>
                     </div>
-                    <h3 id="total-customers">0</h3>
-                    <p>Customers</p>
+                    <div class="stat-value" id="total-customers">0</div>
+                    <div class="stat-label">Customers</div>
                 </div>
             </div>
             
             <div class="card">
-                <h3 style="margin-bottom: 1.5rem; color: var(--primary);">
-                    <i class="fas fa-chart-line"></i> Sales Overview
-                </h3>
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Sales Overview</h3>
+                </div>
                 <div style="height: 300px;">
                     <canvas id="salesChart"></canvas>
                 </div>
@@ -1180,7 +1306,6 @@
             </div>
             
             <div class="settings-container">
-                <!-- Appearance Settings -->
                 <div class="card">
                     <div class="settings-section">
                         <h3><i class="fas fa-palette"></i> Appearance</h3>
@@ -1201,7 +1326,6 @@
                     </div>
                 </div>
 
-                <!-- Notification Settings -->
                 <div class="card">
                     <div class="settings-section">
                         <h3><i class="fas fa-bell"></i> Notifications</h3>
@@ -1250,7 +1374,6 @@
                     </div>
                 </div>
 
-                <!-- Account Settings -->
                 <div class="card">
                     <div class="settings-section">
                         <h3><i class="fas fa-user-circle"></i> Account</h3>
@@ -1263,7 +1386,7 @@
                                     <p>Update your profile information</p>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary" onclick="editProfile()">
+                            <button class="btn btn-secondary btn-sm" onclick="editProfile()">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                         </div>
@@ -1273,24 +1396,23 @@
                                 <i class="fas fa-lock"></i>
                                 <div>
                                     <h4>Password</h4>
-                                    <p>Change your password</p>
+                                    <p>Change your account password</p>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary" onclick="changePassword()">
+                            <button class="btn btn-secondary btn-sm" onclick="changePassword()">
                                 <i class="fas fa-key"></i> Change
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Logout Section -->
                 <div class="card">
                     <div class="logout-section">
                         <button class="logout-btn" onclick="handleLogout()">
                             <i class="fas fa-sign-out-alt"></i>
                             Logout from Account
                         </button>
-                        <p style="color: var(--text-muted); margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+                        <p style="color: var(--text-muted); margin-top: 1rem; text-align: center; font-size: 0.85rem;">
                             You will be redirected to the login page
                         </p>
                     </div>
@@ -1302,7 +1424,7 @@
         <div id="orders-sec" style="display:none">
             <div class="section-header">
                 <h2><i class="fas fa-shopping-cart"></i> Customer Orders</h2>
-                <div>
+                <div class="header-actions">
                     <button class="btn btn-secondary" onclick="exportOrders()">
                         <i class="fas fa-download"></i> Export
                     </button>
@@ -1314,7 +1436,7 @@
             
             <div class="card">
                 <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <select id="status-filter" onchange="filterOrders()" style="width: auto;">
+                    <select id="status-filter" onchange="filterOrders()" style="width: auto; min-width: 180px;">
                         <option value="all">All Orders</option>
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -1337,7 +1459,7 @@
                             </tr>
                         </thead>
                         <tbody id="orders-tbody">
-                            <tr><td colspan="6" style="text-align:center; padding:3rem;">
+                            <tr><td colspan="6" class="empty-state">
                                 <div class="loading-spinner"></div>
                             </td></tr>
                         </tbody>
@@ -1350,7 +1472,7 @@
         <div id="products-sec" style="display:none">
             <div class="section-header">
                 <h2><i class="fas fa-box"></i> Product Inventory</h2>
-                <div>
+                <div class="header-actions">
                     <button class="btn btn-primary" onclick="show('add-product')">
                         <i class="fas fa-plus"></i> Add Product
                     </button>
@@ -1369,7 +1491,7 @@
                             </tr>
                         </thead>
                         <tbody id="products-tbody">
-                            <tr><td colspan="4" style="text-align:center; padding:3rem;">
+                            <tr><td colspan="4" class="empty-state">
                                 <div class="loading-spinner"></div>
                             </td></tr>
                         </tbody>
@@ -1386,21 +1508,23 @@
             
             <div class="card">
                 <form onsubmit="return false;">
-                    <div class="form-group">
-                        <label><i class="fas fa-tag"></i> Product Name</label>
-                        <input id="p-name" placeholder="e.g., Shandar VIP Elite" required>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-rupee-sign"></i> Price (PKR)</label>
-                        <input id="p-price" type="number" placeholder="e.g., 12999" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label><i class="fas fa-align-left"></i> Description</label>
-                        <textarea id="p-desc" placeholder="Describe the product..." rows="4" required></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label><i class="fas fa-image"></i> Image URL</label>
-                        <input id="p-img" placeholder="https://..." required>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> Product Name</label>
+                            <input id="p-name" placeholder="Enter product name" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> Price (PKR)</label>
+                            <input id="p-price" type="number" placeholder="Enter price" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-align-left"></i> Description</label>
+                            <textarea id="p-desc" placeholder="Describe the product..." rows="4" required></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label><i class="fas fa-image"></i> Image URL</label>
+                            <input id="p-img" placeholder="https://example.com/image.jpg" required>
+                        </div>
                     </div>
                     <div style="display: flex; gap: 1rem;">
                         <button type="submit" class="btn btn-primary" onclick="saveProduct()">
@@ -1438,7 +1562,7 @@
     <!-- Mobile Bottom Navigation -->
     <div class="mobile-nav">
         <div class="mobile-nav-item active" onclick="show('dashboard')">
-            <i class="fas fa-chart-pie"></i>
+            <i class="fas fa-chart-bar"></i>
             <span>Dashboard</span>
         </div>
         <div class="mobile-nav-item" onclick="show('orders')">
@@ -1462,7 +1586,7 @@
     <script>
         // Theme Management
         function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
         }
@@ -1479,8 +1603,8 @@
                 icon: 'success',
                 timer: 1500,
                 showConfirmButton: false,
-                background: newTheme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: newTheme === 'dark' ? '#ffffff' : '#1a1a1a'
+                background: newTheme === 'dark' ? '#1e293b' : '#ffffff',
+                color: newTheme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
         }
 
@@ -1528,9 +1652,9 @@
                     title: 'Access Denied',
                     text: 'Please login to access the admin dashboard',
                     icon: 'error',
-                    confirmButtonColor: '#00f0ff',
-                    background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#ffffff' : '#1a1a1a'
+                    confirmButtonColor: '#2563eb',
+                    background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1e293b' : '#ffffff',
+                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#f1f5f9' : '#0f172a'
                 });
                 window.location.href = 'admin-login.html';
                 return false;
@@ -1545,9 +1669,9 @@
                 title: 'Success!',
                 text: message,
                 icon: 'success',
-                confirmButtonColor: '#00f0ff',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                confirmButtonColor: '#2563eb',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
                 timer: 3000,
                 timerProgressBar: true
             });
@@ -1592,9 +1716,9 @@
                     <input id="profile-name" class="swal2-input" placeholder="Name" value="Admin">
                     <input id="profile-email" class="swal2-input" placeholder="Email" value="admin@shandar.com">
                 `,
-                confirmButtonColor: '#00f0ff',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                confirmButtonColor: '#2563eb',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
                 preConfirm: () => {
                     const name = document.getElementById('profile-name').value;
                     const email = document.getElementById('profile-email').value;
@@ -1620,9 +1744,9 @@
                     <input type="password" id="new-password" class="swal2-input" placeholder="New Password">
                     <input type="password" id="confirm-password" class="swal2-input" placeholder="Confirm Password">
                 `,
-                confirmButtonColor: '#00f0ff',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a',
+                confirmButtonColor: '#2563eb',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
                 preConfirm: () => {
                     const current = document.getElementById('current-password').value;
                     const newPass = document.getElementById('new-password').value;
@@ -1658,11 +1782,11 @@
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#6b7280',
+                cancelButtonColor: '#64748b',
                 confirmButtonText: 'Yes, Logout',
                 cancelButtonText: 'Cancel',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
             
             if (result.isConfirmed) {
@@ -1674,8 +1798,8 @@
                     icon: 'success',
                     timer: 2000,
                     showConfirmButton: false,
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                    background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
                 });
                 
                 setTimeout(() => {
@@ -1701,8 +1825,8 @@
                 title: 'Saving Product...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading(),
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
 
             const { error } = await _supabase.from('products').insert([{
@@ -1715,18 +1839,18 @@
 
             if (!error) {
                 Swal.fire({
-                    title: 'Product Added! 🎉',
+                    title: 'Product Added!',
                     html: `
                         <div style="margin: 1rem 0;">
                             <img src="${imageUrl}" style="max-width: 200px; border-radius: 12px; margin-bottom: 1rem;">
-                            <h3 style="color: #00f0ff;">${name}</h3>
-                            <p>Price: ₹${parseFloat(price).toLocaleString()}</p>
+                            <h3 style="color: #2563eb;">${name}</h3>
+                            <p>Price: Rs. ${parseFloat(price).toLocaleString()}</p>
                         </div>
                     `,
                     icon: 'success',
-                    confirmButtonColor: '#00f0ff',
-                    background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                    color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                    confirmButtonColor: '#2563eb',
+                    background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
                 });
                 
                 document.querySelector('form').reset();
@@ -1744,8 +1868,8 @@
                 text: message,
                 icon: 'error',
                 confirmButtonColor: '#ef4444',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
         }
 
@@ -1762,7 +1886,7 @@
             const uniqueCustomers = new Set(orders?.map(o => o.customer_name)).size || 0;
             
             document.getElementById('total-orders').textContent = totalOrders;
-            document.getElementById('total-revenue').textContent = '₹' + totalRevenue.toLocaleString();
+            document.getElementById('total-revenue').textContent = 'Rs. ' + totalRevenue.toLocaleString();
             document.getElementById('total-products').textContent = totalProducts;
             document.getElementById('total-customers').textContent = uniqueCustomers;
             
@@ -1774,6 +1898,9 @@
             if(window.salesChart) window.salesChart.destroy();
             
             const theme = document.documentElement.getAttribute('data-theme');
+            const gridColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
+            
             window.salesChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1781,10 +1908,16 @@
                     datasets: [{
                         label: 'Sales',
                         data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
-                        borderColor: '#00f0ff',
-                        backgroundColor: 'rgba(0, 240, 255, 0.1)',
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
                         tension: 0.4,
-                        fill: true
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#2563eb',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
                     }]
                 },
                 options: {
@@ -1793,26 +1926,27 @@
                     plugins: {
                         legend: {
                             labels: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                                color: textColor,
+                                font: {
+                                    family: 'Inter'
+                                }
                             }
                         }
                     },
                     scales: {
                         y: {
-                            grid: { 
-                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                            },
+                            beginAtZero: true,
+                            grid: { color: gridColor },
                             ticks: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                                color: textColor,
+                                callback: function(value) {
+                                    return 'Rs. ' + value.toLocaleString();
+                                }
                             }
                         },
                         x: {
-                            grid: { 
-                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                            },
-                            ticks: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                            }
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
                         }
                     }
                 }
@@ -1832,17 +1966,17 @@
             if (orders.length > 0) {
                 tbody.innerHTML = orders.map((o, i) => `
                     <tr>
-                        <td><span style="color: #00f0ff;">#ORD${String(i + 1).padStart(4, '0')}</span></td>
+                        <td><span class="order-id">#ORD${String(i + 1).padStart(4, '0')}</span></td>
                         <td>${o.customer_name || 'N/A'}</td>
                         <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                        <td>₹${parseFloat(o.total_price).toLocaleString()}</td>
+                        <td>Rs. ${parseFloat(o.total_price).toLocaleString()}</td>
                         <td>
                             <span class="status-badge ${o.status || 'pending'}">
                                 ${o.status || 'Pending'}
                             </span>
                         </td>
                         <td>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem;" 
+                            <button class="btn btn-secondary btn-sm" 
                                     onclick="updateOrderStatus('${o.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
@@ -1850,9 +1984,10 @@
                     </tr>
                 `).join('');
             } else {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem;">
-                    <i class="fas fa-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">
+                    <i class="fas fa-inbox"></i>
                     <h3>No orders found</h3>
+                    <p>New orders will appear here</p>
                 </td></tr>`;
             }
         }
@@ -1868,17 +2003,16 @@
                 tbody.innerHTML = window.allProducts.map(p => `
                     <tr>
                         <td>
-                            <img src="${p.image_url}" alt="${p.name}" 
-                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                            <img src="${p.image_url}" alt="${p.name}" class="product-image">
                         </td>
                         <td><strong>${p.name}</strong></td>
-                        <td><span style="color: #00f0ff;">₹${parseFloat(p.price).toLocaleString()}</span></td>
+                        <td><span style="color: #2563eb; font-weight: 600;">Rs. ${parseFloat(p.price).toLocaleString()}</span></td>
                         <td>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; margin-right: 0.5rem;"
+                            <button class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;"
                                     onclick="editProduct('${p.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem;"
+                            <button class="btn btn-danger btn-sm"
                                     onclick="deleteProduct('${p.id}')">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -1886,9 +2020,10 @@
                     </tr>
                 `).join('');
             } else {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:3rem;">
-                    <i class="fas fa-box-open" style="font-size: 3rem; opacity: 0.3;"></i>
+                tbody.innerHTML = `<tr><td colspan="4" class="empty-state">
+                    <i class="fas fa-box-open"></i>
                     <h3>No products found</h3>
+                    <p>Add your first product to get started</p>
                 </td></tr>`;
             }
         }
@@ -1902,17 +2037,17 @@
                     <div class="card" style="margin-bottom: 1rem;">
                         <div style="display: flex; justify-content: space-between; align-items: start;">
                             <div>
-                                <h4 style="color: #00f0ff; margin-bottom: 0.5rem;">
+                                <h4 style="color: #2563eb; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <i class="fas fa-user"></i> ${m.name || 'Anonymous'}
                                 </h4>
-                                <p>${m.message}</p>
-                                <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.8rem;">
-                                    <i class="fas fa-envelope"></i> ${m.email} | 
-                                    <i class="fas fa-phone"></i> ${m.phone} | 
-                                    <i class="fas fa-calendar"></i> ${new Date(m.created_at).toLocaleDateString()}
+                                <p style="color: var(--text-primary);">${m.message}</p>
+                                <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 1rem;">
+                                    <span><i class="fas fa-envelope"></i> ${m.email}</span>
+                                    <span><i class="fas fa-phone"></i> ${m.phone}</span>
+                                    <span><i class="fas fa-calendar"></i> ${new Date(m.created_at).toLocaleDateString()}</span>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem;"
+                            <button class="btn btn-secondary btn-sm"
                                     onclick="replyToMessage('${m.email}')">
                                 <i class="fas fa-reply"></i> Reply
                             </button>
@@ -1921,9 +2056,12 @@
                 `).join('');
             } else {
                 document.getElementById('msg-list').innerHTML = `
-                    <div class="card" style="text-align:center; padding:3rem;">
-                        <i class="fas fa-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
-                        <h3>No messages yet</h3>
+                    <div class="card">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>No messages yet</h3>
+                            <p>Customer messages will appear here</p>
+                        </div>
                     </div>
                 `;
             }
@@ -1933,6 +2071,8 @@
         function loadAnalytics() {
             const ctx = document.getElementById('analyticsChart').getContext('2d');
             const theme = document.documentElement.getAttribute('data-theme');
+            const textColor = theme === 'dark' ? '#f1f5f9' : '#0f172a';
+            const gridColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
             
             new Chart(ctx, {
                 type: 'bar',
@@ -1942,11 +2082,13 @@
                         label: 'Sales by Category',
                         data: [65, 59, 80, 81],
                         backgroundColor: [
-                            'rgba(0, 240, 255, 0.8)',
-                            'rgba(0, 200, 212, 0.8)',
+                            'rgba(37, 99, 235, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
                             'rgba(124, 58, 237, 0.8)',
                             'rgba(16, 185, 129, 0.8)'
-                        ]
+                        ],
+                        borderRadius: 8,
+                        borderSkipped: false
                     }]
                 },
                 options: {
@@ -1955,26 +2097,22 @@
                     plugins: {
                         legend: {
                             labels: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                                color: textColor,
+                                font: {
+                                    family: 'Inter'
+                                }
                             }
                         }
                     },
                     scales: {
                         y: {
-                            grid: { 
-                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                            },
-                            ticks: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                            }
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
                         },
                         x: {
-                            grid: { 
-                                color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                            },
-                            ticks: { 
-                                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
-                            }
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
                         }
                     }
                 }
@@ -1993,9 +2131,9 @@
                     'delivered': 'Delivered'
                 },
                 showCancelButton: true,
-                confirmButtonColor: '#00f0ff',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                confirmButtonColor: '#2563eb',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
             
             if(status) {
@@ -2019,9 +2157,9 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#6b7280',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                cancelButtonColor: '#64748b',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             });
             
             if(result.isConfirmed) {
@@ -2047,9 +2185,9 @@
                 input: 'textarea',
                 inputPlaceholder: 'Type your reply...',
                 showCancelButton: true,
-                confirmButtonColor: '#00f0ff',
-                background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                confirmButtonColor: '#2563eb',
+                background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
             }).then((result) => {
                 if(result.isConfirmed) {
                     showSuccess('Reply sent!');
@@ -2104,13 +2242,13 @@
                 setTimeout(() => {
                     const theme = document.documentElement.getAttribute('data-theme');
                     Swal.fire({
-                        title: 'Welcome Admin! 👑',
+                        title: 'Welcome Admin!',
                         text: 'Shandar Shoes VIP Dashboard',
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
-                        background: theme === 'dark' ? '#0a0a0a' : '#ffffff',
-                        color: theme === 'dark' ? '#ffffff' : '#1a1a1a'
+                        background: theme === 'dark' ? '#1e293b' : '#ffffff',
+                        color: theme === 'dark' ? '#f1f5f9' : '#0f172a'
                     });
                 }, 500);
             }
