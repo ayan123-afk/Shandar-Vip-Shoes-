@@ -5,11 +5,10 @@
     <meta name="google-site-verification" content="neDuNUl0ccP-O2fJlxnvOAzilBD999iQL2Sc4cKLHZ8" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shandar VIP Shoes</title>
+    <title>Shandar VIP Shoes • Premium Footwear</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="config.js"></script>
-    <!-- Swiper CSS for Slider -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -283,70 +282,8 @@
             justify-content: center;
             background: radial-gradient(circle at 70% 25%, #0c0c0c 0%, #000000 95%);
             position: relative;
-            padding: 0 8%;
+            padding: 0;
             overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,240,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.5;
-        }
-        .hero-title {
-            font-size: 7.5vw;
-            line-height: 0.92;
-            text-transform: uppercase;
-            text-align: center;
-            animation: fadeSlideUp 1s ease-out;
-            position: relative;
-            z-index: 2;
-        }
-        .hero-title span {
-            color: transparent;
-            -webkit-text-stroke: 1.5px var(--accent);
-            text-shadow: 0 0 20px rgba(0,240,255,0.3);
-            position: relative;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-        }
-        .hero-desc {
-            position: absolute;
-            bottom: 10%;
-            left: 8%;
-            max-width: 460px;
-            color: var(--gray);
-            border-left: 3px solid var(--accent);
-            padding-left: 1.8rem;
-            animation: slideInRight 0.8s ease-out 0.2s backwards;
-            font-size: 1.1rem;
-            background: linear-gradient(90deg, var(--accent-glow) 0%, transparent 100%);
-            padding: 1.5rem 0 1.5rem 1.8rem;
-            border-radius: 0 8px 8px 0;
-        }
-        .hero button {
-            position: absolute;
-            bottom: 10%;
-            right: 8%;
-            animation: slideInRight 0.8s ease-out 0.2s backwards;
-            padding: 1rem 2.5rem;
-            font-size: 1rem;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        /* Section Enhancements */
-        section {
-            padding: 130px 8% 100px;
-            display: none;
-            min-height: 100vh;
-            position: relative;
-        }
-        section.active { 
-            display: block; 
-            animation: fadeSlideUp 0.7s ease-out forwards;
         }
         
         /* Hero Slider Styles */
@@ -380,9 +317,10 @@
         }
         .slide-content h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
+            font-size: clamp(3rem, 8vw, 6rem);
             margin-bottom: 1rem;
             text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
         .slide-content p {
             font-size: 1.2rem;
@@ -396,6 +334,18 @@
             background: var(--accent) !important;
         }
         
+        /* Section Enhancements */
+        section {
+            padding: 130px 8% 100px;
+            display: none;
+            min-height: 100vh;
+            position: relative;
+        }
+        section.active { 
+            display: block; 
+            animation: fadeSlideUp 0.7s ease-out forwards;
+        }
+        
         /* Product Grid Improvements */
         .product-grid {
             display: grid;
@@ -405,7 +355,7 @@
         .product-card {
             background: var(--gradient-dark);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             transition: var(--transition);
             overflow: hidden;
             opacity: 0;
@@ -420,7 +370,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1px;
             background: linear-gradient(135deg, transparent, var(--accent), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -445,7 +395,7 @@
             background: #050505;
             cursor: pointer;
             position: relative;
-            border-radius: 12px 12px 0 0;
+            border-radius: 16px 16px 0 0;
         }
         .img-container::after {
             content: 'Quick View';
@@ -515,7 +465,7 @@
             font-size: 0.75rem;
             flex: 1;
             text-align: center;
-            border-radius: 6px;
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
         }
@@ -554,7 +504,7 @@
             font-size: 0.75rem;
             flex: 1;
             text-align: center;
-            border-radius: 6px;
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
             box-shadow: 0 4px 15px var(--accent-glow);
@@ -612,7 +562,7 @@
             width: 90%;
             background: var(--gradient-dark);
             border: 2px solid var(--accent);
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             animation: modalFadeIn 0.5s ease-out;
             position: relative;
@@ -719,7 +669,7 @@
             border-bottom: 1px solid var(--border); 
             align-items: center;
             background: var(--gradient-dark);
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 1rem;
             transition: var(--transition);
         }
@@ -827,7 +777,7 @@
             padding: 2.5rem 2rem; 
             text-align: center; 
             border: 1px solid var(--border); 
-            border-radius: 12px;
+            border-radius: 16px;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
@@ -1226,7 +1176,7 @@
 </div>
 
 <section id="home" class="active" style="padding:0;">
-    <!-- Hero Slider -->
+    <!-- Hero Slider with 5 images -->
     <div class="hero-slider">
         <div class="swiper heroSwiper">
             <div class="swiper-wrapper">
@@ -1256,6 +1206,13 @@
                     <div class="slide-content">
                         <h2>Casual Comfort</h2>
                         <p>Style for everyday</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=1920&q=80" alt="Limited Edition">
+                    <div class="slide-content">
+                        <h2>Limited Edition</h2>
+                        <p>Exclusive designs for the bold</p>
                     </div>
                 </div>
             </div>
@@ -1412,7 +1369,7 @@
         }
     }
     
-    // Initialize Hero Slider
+    // Initialize Hero Slider with 5 slides and enhanced animations
     function initHeroSlider() {
         heroSwiper = new Swiper('.heroSwiper', {
             slidesPerView: 1,
