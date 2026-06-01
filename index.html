@@ -2,368 +2,483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="neDuNUl0ccP-O2fJlxnvOAzilBD999iQL2Sc4cKLHZ8" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Shandar VIP Shoes • Premium Footwear</title>
+    <meta name="google-site-verification" content="neDuNUl0ccP-O2fJlxnvOAzilBD999iQL2Sc4cKLHZ8" />
+    <title>Shandar VIP Shoes • Luxury Footwear</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="config.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         :root {
-            --bg: #000000;
-            --accent: #00f0ff;
-            --accent-dark: #00c4d4;
-            --accent-glow: rgba(0, 240, 255, 0.15);
-            --accent-strong: rgba(0, 240, 255, 0.3);
-            --card: #0a0a0a;
-            --card-hover: #111111;
-            --text: #ffffff;
-            --gray: #a0a0a0;
-            --gray-light: #c0c0c0;
+            --bg: #080808;
+            --surface: #0f0f0f;
+            --accent: #C9A96E;
+            --accent-light: #D4AF37;
+            --accent-glow: rgba(201, 169, 110, 0.12);
+            --text: #F5F0EB;
+            --text-dim: #A6A09A;
+            --text-muted: #7A756F;
             --border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(10, 10, 10, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.1);
-            --transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            --shadow-lg: 0 25px 50px -12px rgba(0, 240, 255, 0.15);
-            --gradient-dark: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --glass: rgba(15, 15, 15, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --radius-sm: 12px;
+            --radius: 20px;
+            --radius-lg: 28px;
+            --transition: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        
         body {
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
             font-family: 'Inter', sans-serif;
-            line-height: 1.5;
+            line-height: 1.6;
+            overflow-x: hidden;
             position: relative;
         }
-        
-        body::before {
+        body::after {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(0, 240, 255, 0.02) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(0, 240, 255, 0.03) 0%, transparent 50%);
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(201, 169, 110, 0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(201, 169, 110, 0.02) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
-        
         .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            position: fixed; inset: 0; pointer-events: none; z-index: 1;
         }
         .particle {
             position: absolute;
             background: var(--accent);
             border-radius: 50%;
-            animation: floatParticle 8s infinite ease-in-out;
-            opacity: 0.15;
+            opacity: 0.08;
+            animation: floatParticle 12s infinite ease-in-out;
         }
         @keyframes floatParticle {
-            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.1; }
-            25% { transform: translateY(-120px) translateX(60px) scale(1.8); opacity: 0.25; }
-            50% { transform: translateY(-220px) translateX(-60px) scale(1); opacity: 0.1; }
-            75% { transform: translateY(-120px) translateX(-100px) scale(1.8); opacity: 0.2; }
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.07; }
+            25% { transform: translate(30px, -80px) scale(1.6); opacity: 0.15; }
+            50% { transform: translate(-40px, -160px) scale(1); opacity: 0.07; }
+            75% { transform: translate(20px, -80px) scale(2); opacity: 0.12; }
         }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--card); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent), var(--accent-dark)); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-        
-        @keyframes fadeSlideUp {
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--surface); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+        @keyframes fadeUp {
             0% { opacity: 0; transform: translateY(40px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeSlideDown {
-            0% { opacity: 0; transform: translateY(-40px); }
+        @keyframes fadeDown {
+            0% { opacity: 0; transform: translateY(-20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.9) rotateX(10deg); }
-            to { opacity: 1; transform: scale(1) rotateX(0deg); }
-        }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.3); }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
         @keyframes cartBounce {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.4); }
         }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
         .cart-updated { animation: cartBounce 0.3s ease; }
-        
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            letter-spacing: 0.5px;
             margin-bottom: 3rem;
-            text-transform: uppercase;
-            border-left: 5px solid var(--accent);
-            padding-left: 1.8rem;
-            font-weight: 800;
             position: relative;
-            background: linear-gradient(90deg, var(--accent-glow) 0%, transparent 100%);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
         }
-        .title span { color: var(--accent); position: relative; display: inline-block; text-shadow: 0 0 30px var(--accent-strong); }
-        
+        .section-title span { color: var(--accent); }
+
+        /* NAVIGATION */
         nav {
             position: fixed;
-            top: 1rem;
+            top: 1.5rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 92%;
             max-width: 1400px;
             z-index: 1000;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            padding: 1rem 2rem;
+            background: rgba(8, 8, 8, 0.75);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            padding: 0.9rem 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            animation: fadeSlideDown 0.6s ease-out;
-            box-shadow: var(--glass-shadow);
+            border: 1px solid var(--border-light);
+            border-radius: 60px;
+            animation: fadeDown 0.6s ease-out;
             transition: var(--transition);
         }
-        nav.scrolled { top: 0; width: 100%; border-radius: 0; background: rgba(0, 0, 0, 0.95); }
-        .logo img { height: 45px; transition: var(--transition); cursor: pointer; filter: brightness(1); }
-        .logo img:hover { transform: scale(1.05); filter: brightness(1.2) drop-shadow(0 0 15px var(--accent)); }
-        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        nav.scrolled {
+            top: 0;
+            width: 100%;
+            border-radius: 0;
+            background: rgba(5, 5, 5, 0.9);
+            border-bottom: 1px solid var(--accent);
+        }
+        .logo img { height: 50px; transition: 0.3s; cursor: pointer; }
+        .logo img:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .nav-links { display: flex; gap: 3rem; list-style: none; align-items: center; }
         .nav-links a {
-            color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; cursor: pointer;
-            padding: 0.5rem 0; position: relative; opacity: 0.8;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            padding: 0.5rem 0;
         }
         .nav-links a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
-            background: var(--accent); transition: all 0.3s ease; transform: translateX(-50%);
-            box-shadow: 0 0 10px var(--accent);
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--accent);
+            transition: 0.3s;
         }
-        .nav-links a:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 20px var(--accent-strong); }
+        .nav-links a:hover { color: var(--text); }
         .nav-links a:hover::after { width: 100%; }
         .cart-icon {
-            position: relative; cursor: pointer; font-size: 1.4rem; transition: 0.3s;
-            padding: 10px; border-radius: 50%; background: rgba(0, 240, 255, 0.1);
-            border: 1px solid rgba(0, 240, 255, 0.2);
+            position: relative;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--text-dim);
+            transition: 0.3s;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
         }
-        .cart-icon:hover { background: var(--accent); color: #000; transform: scale(1.1); box-shadow: 0 0 30px var(--accent-strong); }
+        .cart-icon:hover { color: var(--accent); background: rgba(201,169,110,0.1); }
         .cart-badge {
-            position: absolute; top: -5px; right: -5px; background: #ff3366; color: #fff;
-            font-size: 0.65rem; font-weight: 900; min-width: 20px; height: 20px;
-            display: flex; align-items: center; justify-content: center; border-radius: 50%;
-            padding: 0 4px; animation: pulseGlow 2s infinite; border: 2px solid #000;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--accent);
+            color: #000;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid #000;
         }
-        .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--text); transition: 0.3s; }
-        @media (max-width: 900px) {
-            nav { top: 0; width: 100%; border-radius: 0; }
+        .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: var(--text-dim); }
+
+        @media (max-width: 950px) {
+            nav { top: 0; width: 100%; border-radius: 0; padding: 1rem 1.5rem; }
             .menu-toggle { display: block; }
             .nav-links {
-                position: fixed; top: 80px; left: -100%; width: 80%; height: calc(100vh - 80px);
-                background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(30px); flex-direction: column;
-                padding: 3rem 2rem; gap: 2rem; transition: 0.4s ease; border-right: 2px solid var(--accent);
-                z-index: 999; border-radius: 0 20px 20px 0;
+                position: fixed; top: 70px; left: -100%; width: 75%;
+                height: calc(100vh - 70px); background: rgba(5,5,5,0.98);
+                backdrop-filter: blur(40px); flex-direction: column;
+                padding: 3rem 2rem; gap: 2.5rem; transition: 0.4s;
+                border-right: 1px solid var(--accent); z-index: 999;
             }
             .nav-links.active { left: 0; }
             .nav-links a { font-size: 1.2rem; }
         }
-        
-        .hero { height: 100vh; position: relative; overflow: hidden; margin-top: -20px; }
-        .hero-slider { width: 100%; height: 100vh; position: relative; }
+
+        /* HERO */
+        .hero { height: 100vh; position: relative; overflow: hidden; }
+        .hero-slider { width: 100%; height: 100%; }
         .swiper { width: 100%; height: 100%; }
-        .swiper-slide { display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .swiper-slide {
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
         .swiper-slide img {
-            width: 100%; height: 100%; object-fit: cover; filter: brightness(0.35) saturate(1.2);
-            transform: scale(1.1); transition: transform 1.5s ease;
+            width: 100%; height: 100%; object-fit: cover;
+            filter: brightness(0.45);
+            transform: scale(1.05); transition: transform 1.2s ease;
         }
         .swiper-slide-active img { transform: scale(1); }
-        .slide-content { position: absolute; z-index: 2; text-align: center; color: white; }
+        .slide-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(8,8,8,0.8) 0%, transparent 50%);
+        }
+        .slide-content {
+            position: absolute; bottom: 18%; left: 8%;
+            z-index: 2;
+            color: #fff;
+        }
         .slide-content h2 {
-            font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 7rem);
-            margin-bottom: 1rem; text-transform: uppercase;
-            text-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 100px rgba(0,240,255,0.3); letter-spacing: 3px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 600;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
         }
-        .slide-content p { font-size: 1.3rem; color: var(--accent); letter-spacing: 5px; text-transform: uppercase; font-weight: 300; }
+        .slide-content p {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 400;
+        }
         .swiper-button-next, .swiper-button-prev {
-            color: #fff !important; background: rgba(0, 240, 255, 0.2); width: 60px; height: 60px;
-            border-radius: 50%; backdrop-filter: blur(10px); transition: all 0.3s ease;
-            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: #fff !important;
+            background: rgba(255,255,255,0.08);
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
         }
-        .swiper-button-next:hover, .swiper-button-prev:hover { background: var(--accent); color: #000 !important; box-shadow: 0 0 40px var(--accent-strong); }
-        .swiper-pagination-bullet { background: var(--accent) !important; width: 12px; height: 12px; opacity: 0.5; transition: all 0.3s ease; }
-        .swiper-pagination-bullet-active { opacity: 1; background: #fff !important; box-shadow: 0 0 20px var(--accent); }
-        
-        section { padding: 130px 8% 100px; display: none; min-height: 100vh; position: relative; z-index: 2; }
-        section.active { display: block; animation: fadeSlideUp 0.7s ease-out forwards; }
-        
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: var(--accent);
+            color: #000 !important;
+        }
+        .swiper-pagination-bullet { background: var(--accent) !important; opacity: 0.5; }
+        .swiper-pagination-bullet-active { opacity: 1; background: #fff !important; }
+
+        /* SECTIONS */
+        section {
+            padding: 130px 8% 100px;
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+        section.active { display: block; animation: fadeUp 0.7s ease-out forwards; }
+
+        /* PRODUCT GRID */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
         .product-card {
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 20px; transition: var(--transition);
-            overflow: hidden; opacity: 0; transform: translateY(30px);
-            animation: fadeSlideUp 0.6s ease-out forwards; position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+            position: relative;
         }
         .product-card:hover {
-            border-color: var(--accent); transform: translateY(-15px);
-            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.2); background: rgba(20, 20, 20, 0.9);
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-glow);
         }
-        .product-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.03), transparent);
-            transform: rotate(45deg); transition: 0.5s; z-index: 0;
+        .img-container {
+            width: 100%;
+            height: 360px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
         }
-        .product-card:hover::before { animation: shimmer 1.5s infinite; }
-        .img-container { width: 100%; height: 380px; overflow: hidden; cursor: pointer; position: relative; z-index: 1; }
-        .img-container::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); opacity: 0; transition: 0.3s ease;
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
-        .product-card:hover .img-container::after { opacity: 1; }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.4, 1); }
-        .product-card:hover img { transform: scale(1.1); }
-        .product-info { padding: 2rem; position: relative; z-index: 1; }
-        .product-info h3 { font-size: 1.4rem; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 700; letter-spacing: 1px; }
-        .product-info .price { color: var(--accent); font-size: 1.9rem; font-weight: 800; margin-bottom: 1.5rem; text-shadow: 0 0 20px var(--accent-strong); }
-        .button-group { display: flex; gap: 1rem; }
+        .product-card:hover .img-container img { transform: scale(1.06); }
+        .product-info {
+            padding: 1.8rem;
+            background: var(--surface);
+        }
+        .product-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .product-info .price {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1.8rem;
+            letter-spacing: 0.5px;
+        }
+        .button-group { display: flex; gap: 0.8rem; }
+        .btn-outline, .btn-primary {
+            flex: 1;
+            padding: 0.9rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
         .btn-outline {
-            background: transparent; border: 2px solid var(--accent); color: var(--accent);
-            padding: 0.8rem 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: 0.3s; font-size: 0.75rem; flex: 1; border-radius: 12px; backdrop-filter: blur(10px);
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
         }
-        .btn-outline:hover { background: var(--accent); color: #000; box-shadow: 0 0 30px var(--accent-strong); transform: translateY(-2px); }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #00d4ff); color: #000; border: none;
-            padding: 0.8rem 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; transition: 0.3s; font-size: 0.75rem; flex: 1; border-radius: 12px;
-            box-shadow: 0 4px 20px var(--accent-strong); position: relative; overflow: hidden;
+            background: var(--accent);
+            border: none;
+            color: #000;
         }
-        .btn-primary::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg); transition: 0.5s;
+        .btn-primary:hover {
+            background: #b8933a;
+            box-shadow: 0 8px 25px rgba(201,169,110,0.3);
         }
-        .btn-primary:hover::before { animation: shimmer 1s infinite; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0, 240, 255, 0.5); }
-        
+
+        /* MODAL */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(30px); z-index: 2000;
-            display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s ease;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(30px);
+            z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.35s;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-container {
-            max-width: 1100px; width: 90%; background: var(--glass-bg); backdrop-filter: blur(40px);
-            border: 1px solid var(--accent); border-radius: 24px; overflow: hidden;
-            animation: modalFadeIn 0.5s ease-out; box-shadow: 0 0 80px var(--accent-strong);
+            max-width: 1000px; width: 90%;
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            animation: modalIn 0.4s ease;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .modal-image { height: 500px; overflow: hidden; }
+        .modal-image img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-details {
+            padding: 3rem;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .modal-details h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .modal-price {
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
         .modal-close {
-            position: absolute; top: 20px; right: 25px; font-size: 2rem; color: var(--gray);
-            cursor: pointer; transition: 0.3s; z-index: 10; width: 45px; height: 45px;
-            display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7);
-            border-radius: 50%; border: 1px solid var(--border);
+            position: absolute; top: 20px; right: 25px;
+            font-size: 2rem; color: var(--text-dim);
+            cursor: pointer; z-index: 10;
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
         }
-        .modal-close:hover { color: var(--accent); transform: rotate(90deg); border-color: var(--accent); }
-        .modal-content { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-        .modal-image { width: 100%; height: 500px; overflow: hidden; }
-        .modal-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .modal-image:hover img { transform: scale(1.05); }
-        .modal-details { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-        .modal-details h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
-        .modal-price { color: var(--accent); font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; }
-        
-        .cart-wrapper { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 400px; gap: 3rem; }
-        .cart-item {
-            display: flex; gap: 2rem; padding: 2rem; align-items: center; background: var(--glass-bg);
-            backdrop-filter: blur(20px); border-radius: 16px; margin-bottom: 1rem;
-            border: 1px solid var(--glass-border); transition: var(--transition);
-        }
-        .cart-item:hover { border-color: var(--accent); transform: translateX(10px); box-shadow: 0 10px 40px rgba(0, 240, 255, 0.1); }
-        .cart-item img { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; }
-        
-        footer {
-            padding: 80px 8% 40px; border-top: 1px solid var(--border);
-            background: var(--glass-bg); backdrop-filter: blur(30px); position: relative; z-index: 2;
-        }
-        footer::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; }
-        
-        .back-to-top {
-            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
-            background: linear-gradient(135deg, var(--accent), #00d4ff); color: #000;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 99;
-            box-shadow: 0 0 30px var(--accent-strong); font-size: 1.3rem;
-        }
-        .back-to-top.show { opacity: 1; visibility: visible; }
-        .back-to-top:hover { transform: translateY(-8px) scale(1.1); box-shadow: 0 0 50px var(--accent); }
-        
-        @media (max-width: 1024px) {
-            .cart-wrapper { grid-template-columns: 1fr; }
-            .modal-content { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
+        .modal-close:hover { color: var(--accent); }
+
+        @media (max-width: 800px) {
+            .modal-container { grid-template-columns: 1fr; }
             .modal-image { height: 300px; }
         }
-        @media (max-width: 768px) {
-            section { padding: 100px 5% 60px; }
-            .product-grid { grid-template-columns: 1fr; }
+
+        /* CART */
+        .cart-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 3rem;
         }
-        
-        /* Enhanced SweetAlert2 Styling */
+        .cart-item {
+            display: flex; gap: 1.8rem; padding: 1.8rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .cart-item:hover { border-color: var(--accent); }
+        .cart-item img { width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-sm); }
+        .cart-summary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            position: sticky;
+            top: 120px;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 80px 8% 40px;
+            background: var(--surface);
+            border-top: 1px solid var(--accent);
+            position: relative; z-index: 2;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+        }
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent); color: #000;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; visibility: hidden;
+            transition: 0.3s; z-index: 99;
+            font-size: 1.2rem;
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+
+        @media (max-width: 900px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+
+        /* SWEETALERT2 */
         .swal2-popup.swal2-toast {
-            background: rgba(10, 10, 10, 0.95) !important;
-            backdrop-filter: blur(30px) !important;
-            border: 1px solid rgba(0, 240, 255, 0.4) !important;
-            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3) !important;
-            border-radius: 20px !important;
-            padding: 1rem 1.8rem !important;
-        }
-        .swal2-toast .swal2-title {
-            color: #fff !important;
+            background: var(--surface) !important;
+            border: 1px solid var(--accent) !important;
+            border-radius: 16px !important;
             font-family: 'Inter', sans-serif !important;
-            font-size: 0.95rem !important;
-            font-weight: 600;
         }
         .swal2-popup {
-            border-radius: 28px !important;
-            border: 1px solid rgba(0, 240, 255, 0.4) !important;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 240, 255, 0.3) !important;
+            border-radius: 24px !important;
+            background: var(--surface) !important;
+            border: 1px solid var(--accent) !important;
         }
     </style>
 </head>
 <body>
-
 <div class="particles" id="particles"></div>
 
 <nav id="navbar">
@@ -373,9 +488,9 @@
     <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
     <ul class="nav-links" id="navLinks">
         <li><a onclick="showSection('home'); closeMobileMenu()">Home</a></li>
-        <li><a onclick="showSection('shop'); closeMobileMenu()">Drops</a></li>
+        <li><a onclick="showSection('shop'); closeMobileMenu()">Shop</a></li>
         <li><a onclick="showSection('about'); closeMobileMenu()">Story</a></li>
-        <li><a onclick="showSection('contact'); closeMobileMenu()">Connect</a></li>
+        <li><a onclick="showSection('contact'); closeMobileMenu()">Contact</a></li>
     </ul>
     <div class="cart-icon" onclick="showSection('cart'); closeMobileMenu()">
         <i class="fa-solid fa-bag-shopping"></i>
@@ -386,15 +501,13 @@
 <div id="productModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-close" onclick="closeModal()">&times;</div>
-        <div class="modal-content">
-            <div class="modal-image"><img id="modalImage" src="" alt="Product"></div>
-            <div class="modal-details">
-                <h2 id="modalName"></h2>
-                <div class="modal-price" id="modalPrice"></div>
-                <div class="modal-sku" id="modalSku" style="color:var(--gray); margin-bottom:1rem;"></div>
-                <div class="modal-description" id="modalDescription" style="color:var(--gray-light); margin-bottom:2rem; line-height:1.6;"></div>
-                <button class="btn-primary" id="modalAddToCartBtn" style="width:100%"><span>Add to Bag</span></button>
-            </div>
+        <div class="modal-image"><img id="modalImage" src="" alt="Product"></div>
+        <div class="modal-details">
+            <h2 id="modalName"></h2>
+            <div class="modal-price" id="modalPrice"></div>
+            <div class="modal-sku" id="modalSku" style="color:var(--text-muted); margin-bottom:1.5rem;"></div>
+            <div class="modal-description" id="modalDescription" style="color:var(--text-dim); margin-bottom:2rem; line-height:1.6;"></div>
+            <button class="btn-primary" id="modalAddToCartBtn" style="width:100%">Add to Bag</button>
         </div>
     </div>
 </div>
@@ -403,13 +516,11 @@
     <div class="hero-slider">
         <div class="swiper heroSwiper">
             <div class="swiper-wrapper">
-                <!-- Enhanced slider with more premium images -->
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1920&q=80" alt="Luxury"><div class="slide-content"><h2>Supreme Craft</h2><p>Limitless Elegance</p></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1920&q=80" alt="Sports"><div class="slide-content"><h2>Velocity Series</h2><p>Unleash Performance</p></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=1920&q=80" alt="Formal"><div class="slide-content"><h2>Executive Line</h2><p>Sophisticated Style</p></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1920&q=80" alt="Casual"><div class="slide-content"><h2>Urban Flex</h2><p>Everyday Confidence</p></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1920&q=80" alt="Limited"><div class="slide-content"><h2>Midnight Edition</h2><p>Exclusive Drops</p></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1920&q=80" alt="Premium"><div class="slide-content"><h2>Masterpiece</h2><p>Handcrafted Perfection</p></div></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1920&q=80" alt="Luxury"><div class="slide-overlay"></div><div class="slide-content"><h2>Timeless<br>Elegance</h2><p>Premium Collection</p></div></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1920&q=80" alt="Sports"><div class="slide-overlay"></div><div class="slide-content"><h2>Urban<br>Motion</h2><p>Performance Series</p></div></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1920&q=80" alt="Formal"><div class="slide-overlay"></div><div class="slide-content"><h2>Boardroom<br>Ready</h2><p>Formal Excellence</p></div></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=1920&q=80" alt="Casual"><div class="slide-overlay"></div><div class="slide-content"><h2>Weekend<br>Essentials</h2><p>Casual Comfort</p></div></div>
+                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=1920&q=80" alt="Limited"><div class="slide-overlay"></div><div class="slide-content"><h2>Limited<br>Edition</h2><p>Exclusive Drop</p></div></div>
             </div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next"></div>
@@ -417,100 +528,76 @@
         </div>
     </div>
     <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); z-index: 10;">
-        <button class="btn-primary" onclick="showSection('shop')" style="padding: 1.2rem 3.5rem; font-size: 1.1rem; border-radius: 50px;"><span>Explore Drops</span></button>
+        <button class="btn-primary" onclick="showSection('shop')" style="padding: 1.2rem 3.5rem; font-size: 1rem; border-radius: 60px;">Explore Collection</button>
     </div>
 </section>
 
 <section id="shop">
-    <h2 class="title">Current <span>Drops</span></h2>
+    <h2 class="section-title">New <span>Arrivals</span></h2>
     <div class="product-grid" id="product-list"></div>
 </section>
 
 <section id="about">
-    <h2 class="title">Our <span>Vision</span></h2>
+    <h2 class="section-title">Our <span>Heritage</span></h2>
     <div style="display: flex; gap: 4rem; flex-wrap: wrap; align-items: center;">
         <div style="flex: 1; min-width: 300px;">
-            <p style="font-size: 1.3rem; margin-bottom: 2rem;"><b>Owner: Muhammad Khurshid Alam</b></p>
-            <p style="color: var(--gray); line-height: 1.8; font-size: 1.1rem;">Shandar VIP Shoes is a premium footwear brand built with passion, dedication, and vision. Every product is designed with attention to detail, durability, and customer satisfaction. The brand focuses on delivering high-quality shoes, modern designs, and comfortable footwear at affordable pricing.</p>
+            <p style="font-size: 1.8rem; font-family: 'Cormorant Garamond', serif; margin-bottom: 1rem;">Muhammad Khurshid Alam</p>
+            <p style="color: var(--text-dim); line-height: 1.8; font-size: 1.1rem;">Founder & Creative Director</p>
+            <p style="color: var(--text-dim); margin-top: 2rem;">Shandar VIP Shoes represents the pinnacle of footwear craftsmanship. Every pair is a statement of quality, designed for those who demand the best. Our commitment to premium materials and timeless design ensures you walk with confidence, every step of the way.</p>
         </div>
         <div style="flex: 1; min-width: 300px;">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px; border: 2px solid var(--accent); box-shadow: 0 0 40px var(--accent-strong);">
-        </div>
-    </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 4rem; padding-top: 4rem; border-top: 1px solid var(--border);">
-        <div style="text-align: center; padding: 2rem; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border);">
-            <i class="fa fa-gem" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Premium Quality</h3>
-            <p style="color: var(--gray);">Finest materials sourced globally</p>
-        </div>
-        <div style="text-align: center; padding: 2rem; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border);">
-            <i class="fa fa-paintbrush" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Modern Design</h3>
-            <p style="color: var(--gray);">Contemporary aesthetics</p>
-        </div>
-        <div style="text-align: center; padding: 2rem; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border);">
-            <i class="fa fa-heart" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Customer First</h3>
-            <p style="color: var(--gray);">Your satisfaction is our priority</p>
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 24px; border: 1px solid var(--accent);">
         </div>
     </div>
 </section>
 
 <section id="contact">
-    <h2 class="title">Get <span>In Touch</span></h2>
+    <h2 class="section-title">Get <span>In Touch</span></h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
-        <div style="background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--glass-border);">
-            <i class="fa fa-map-marker-alt" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Visit Our HQ</h3>
-            <p style="color: var(--gray-light);">Sector 11/2, Orangi Town,</p>
-            <p style="color: var(--gray-light);">Iqbal Market, Karachi, Pakistan</p>
-            <hr style="border-color: var(--border); margin: 2rem 0;">
-            <i class="fa fa-phone-alt" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Call Us</h3>
-            <p style="color: var(--accent); font-size: 1.3rem;">+92 311 9333294</p>
-            <hr style="border-color: var(--border); margin: 2rem 0;">
-            <i class="fa fa-envelope" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-            <h3>Email Support</h3>
-            <p style="color: var(--accent);">shahzainalam4@gmail.com</p>
+        <div style="background: var(--surface); padding: 2.5rem; border-radius: var(--radius); border: 1px solid var(--border);">
+            <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 1.5rem;">Visit Us</p>
+            <p>Sector 11/2, Orangi Town, Iqbal Market, Karachi</p>
+            <p style="margin-top: 1rem;">+92 311 9333294</p>
+            <p>shahzainalam4@gmail.com</p>
             <div style="margin-top: 2rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
                 <div id="shopMap" style="width: 100%; height: 250px;"></div>
             </div>
         </div>
-        <div style="background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--glass-border);">
+        <div style="background: var(--surface); padding: 2.5rem; border-radius: var(--radius); border: 1px solid var(--border);">
             <form id="contact-form">
-                <input type="text" id="c-name" placeholder="FULL NAME" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none;">
-                <input type="email" id="c-email" placeholder="EMAIL ADDRESS" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none;">
-                <input type="tel" id="c-phone" placeholder="PHONE NUMBER" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none;">
-                <textarea id="c-message" rows="5" placeholder="YOUR MESSAGE" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none; resize: vertical;"></textarea>
-                <button class="btn-primary" style="width: 100%; padding: 1rem;"><span>Send Message</span></button>
+                <input type="text" id="c-name" placeholder="Full Name" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
+                <input type="email" id="c-email" placeholder="Email" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
+                <input type="tel" id="c-phone" placeholder="Phone" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
+                <textarea id="c-message" rows="4" placeholder="Your Message" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem; resize:vertical;"></textarea>
+                <button class="btn-primary" style="width:100%">Send Inquiry</button>
             </form>
         </div>
     </div>
 </section>
 
 <section id="cart">
-    <h2 class="title">Your <span>Bag</span></h2>
+    <h2 class="section-title">Shopping <span>Bag</span></h2>
     <div class="cart-wrapper">
         <div id="cart-items"></div>
-        <div style="background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--glass-border);">
-            <h3 style="margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.8rem;">Summary</h3>
-            <div style="display:flex; justify-content:space-between; margin-bottom: 2.5rem; font-size: 1.3rem;">
-                <span>Total</span>
-                <span id="cart-total" style="color:var(--accent); font-weight:900; font-size: 2rem;">Rs. 0</span>
+        <div class="cart-summary">
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 2rem;">Order Summary</h3>
+            <div style="display:flex; justify-content:space-between; font-size:1.2rem; margin-bottom:2rem;">
+                <span>Subtotal</span>
+                <span id="cart-total" style="color:var(--accent); font-weight:700;">Rs. 0</span>
             </div>
-            <button class="btn-primary" style="width:100%" onclick="showSection('checkout')"><span>Secure Checkout</span></button>
+            <button class="btn-primary" style="width:100%" onclick="showSection('checkout')">Proceed to Checkout</button>
         </div>
     </div>
 </section>
 
 <section id="checkout">
-    <h2 class="title">Secure <span>Checkout</span></h2>
-    <div style="max-width: 680px; margin: 0 auto; background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 20px; border: 1px solid var(--glass-border);">
+    <h2 class="section-title">Checkout</h2>
+    <div style="max-width:600px; margin:0 auto; background:var(--surface); padding:2.5rem; border-radius:var(--radius); border:1px solid var(--border);">
         <form id="checkout-form">
-            <input type="text" id="o-name" placeholder="RECEIVER NAME" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none;">
-            <input type="tel" id="o-phone" placeholder="PHONE NUMBER" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none;">
-            <textarea id="o-address" rows="3" placeholder="COMPLETE SHIPPING ADDRESS" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; border-radius: 10px; margin-bottom: 1rem; outline: none; resize: vertical;"></textarea>
-            <button class="btn-primary" style="width:100%"><span>Confirm Order (COD)</span></button>
+            <input type="text" id="o-name" placeholder="Full Name" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
+            <input type="tel" id="o-phone" placeholder="Phone Number" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
+            <textarea id="o-address" rows="3" placeholder="Shipping Address" required style="width:100%; padding:1rem; background:transparent; border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1.5rem; resize:vertical;"></textarea>
+            <button class="btn-primary" style="width:100%">Place Order (Cash on Delivery)</button>
         </form>
     </div>
 </section>
@@ -518,32 +605,24 @@
 <footer>
     <div class="footer-grid">
         <div>
-            <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="SHANDAR VIP" style="height: 60px; margin-bottom: 1.8rem; filter: brightness(1.1);">
-            <p style="color: var(--gray);">Premium footwear for the bold. Walk with confidence. Walk with Shandar VIP.</p>
-            <div style="margin-top: 2rem;">
-                <h4 style="margin-bottom: 1rem; font-family: 'Playfair Display', serif;">Join the Elite</h4>
-                <div style="display: flex; gap: 0.8rem;">
-                    <input type="email" placeholder="Your email" id="newsletterEmail" style="flex: 1; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid var(--border); color: white; outline: none; border-radius: 8px;">
-                    <button onclick="subscribeNewsletter()" style="background: var(--accent); border: none; padding: 1rem 1.5rem; cursor: pointer; font-weight: bold; color: #000; border-radius: 8px;"><i class="fa fa-paper-plane"></i></button>
-                </div>
-            </div>
+            <img src="https://i.postimg.cc/XJJLGMF3/Chat-GPT-Image-Mar-30-2026-08-43-59-PM.png" alt="SHANDAR VIP" style="height:55px; margin-bottom:1.5rem;">
+            <p style="color: var(--text-dim);">Premium footwear for the modern individual. Walk with purpose.</p>
         </div>
         <div>
-            <h4 style="margin-bottom: 1.2rem; font-family: 'Playfair Display', serif;">Navigation</h4>
-            <p style="color: var(--gray); cursor: pointer;" onclick="showSection('shop')">Shop Drops</p>
-            <p style="color: var(--gray); cursor: pointer;" onclick="showSection('about')">The Story</p>
-            <p style="color: var(--gray); cursor: pointer;" onclick="showSection('contact')">Connect</p>
+            <h4 style="font-family: 'Cormorant Garamond', serif; margin-bottom:1rem;">Explore</h4>
+            <p style="color:var(--text-dim); cursor:pointer;" onclick="showSection('shop')">Shop</p>
+            <p style="color:var(--text-dim); cursor:pointer;" onclick="showSection('about')">Our Story</p>
+            <p style="color:var(--text-dim); cursor:pointer;" onclick="showSection('contact')">Contact</p>
         </div>
         <div>
-            <h4 style="margin-bottom: 1.2rem; font-family: 'Playfair Display', serif;">Legal</h4>
-            <p style="color: var(--gray);">Terms of Service</p>
-            <p style="color: var(--gray);">Privacy Policy</p>
-            <p style="color: var(--gray);">Return Policy</p>
-            <p style="color: var(--gray);">Shipping Info</p>
+            <h4 style="font-family: 'Cormorant Garamond', serif; margin-bottom:1rem;">Legal</h4>
+            <p style="color:var(--text-dim);">Terms</p>
+            <p style="color:var(--text-dim);">Privacy</p>
+            <p style="color:var(--text-dim);">Returns</p>
         </div>
     </div>
-    <div style="margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--border); text-align: center; color: var(--gray); font-size: 0.8rem; letter-spacing: 1px;">
-        &copy; 2024 SHANDAR VIP SHOES. OWNED BY MUHAMMAD KHURSHID ALAM. ALL RIGHTS RESERVED.
+    <div style="margin-top:4rem; padding-top:2rem; border-top:1px solid var(--border); text-align:center; color:var(--text-muted); font-size:0.8rem;">
+        © 2024 SHANDAR VIP SHOES. ALL RIGHTS RESERVED.
     </div>
 </footer>
 
@@ -551,283 +630,223 @@
     <i class="fas fa-arrow-up"></i>
 </div>
 
-<!-- SQL SCHEMA (FOR SUPABASE SETUP) -->
-<!--
--- CREATE TABLE products (
---   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---   name TEXT NOT NULL,
---   price DECIMAL(10,2) NOT NULL,
---   image_url TEXT NOT NULL,
---   description TEXT,
---   created_at TIMESTAMPTZ DEFAULT NOW()
--- );
--- 
--- CREATE TABLE contacts (
---   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---   name TEXT NOT NULL,
---   email TEXT NOT NULL,
---   phone TEXT,
---   message TEXT NOT NULL,
---   created_at TIMESTAMPTZ DEFAULT NOW()
--- );
--- 
--- CREATE TABLE orders (
---   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---   customer_name TEXT NOT NULL,
---   phone TEXT NOT NULL,
---   address TEXT NOT NULL,
---   total_price DECIMAL(10,2) NOT NULL,
---   status TEXT DEFAULT 'pending',
---   created_at TIMESTAMPTZ DEFAULT NOW()
--- );
--- 
--- CREATE TABLE order_items (
---   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---   order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
---   product_id TEXT NOT NULL,
---   product_name TEXT NOT NULL,
---   product_image TEXT,
---   quantity INT NOT NULL,
---   price_at_time DECIMAL(10,2) NOT NULL
--- );
--- 
--- INSERT INTO products (name, price, image_url, description) VALUES
--- ('VORTEX CARBON', 12999, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80', 'Aerodynamic design with carbon fiber texture for maximum street presence.'),
--- ('IGNITE PRO', 14999, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80', 'High-performance sports shoe with responsive cushioning.'),
--- ('ROYAL VELVET', 18999, 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=600&q=80', 'Luxury velvet finish for evening sophistication.'),
--- ('EXECUTIVE EDGE', 16999, 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80', 'Handcrafted leather perfect for boardroom meetings.'),
--- ('URBAN DRIFT', 9999, 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80', 'Casual streetwear fusion with maximum comfort.'),
--- ('MIDNIGHT OPS', 13999, 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=600&q=80', 'Stealth black edition with reflective accents.');
--- 
--- Note: Run this schema in your Supabase SQL editor after creating the project.
--- Provide proper Row Level Security (RLS) policies for each table.
--->
-
 <script>
-    // Floating particles
-    function createParticles() {
-        const container = document.getElementById('particles');
-        for (let i = 0; i < 28; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = Math.random() * 7 + 2 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 8 + 's';
-            particle.style.animationDuration = Math.random() * 10 + 6 + 's';
-            container.appendChild(particle);
+    (function() {
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 18; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(p);
         }
-    }
-    createParticles();
-    
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-    
-    let heroSwiper;
-    let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
-    let mapInitialized = false;
-    
-    function toggleMobileMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-    function closeMobileMenu() { document.getElementById('navLinks').classList.remove('active'); }
-    document.getElementById('menuToggle')?.addEventListener('click', toggleMobileMenu);
-    
-    function showSection(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        closeMobileMenu();
-        if (id === 'contact' && !mapInitialized) setTimeout(initMap, 200);
-        if (id === 'home' && heroSwiper) setTimeout(() => heroSwiper.update(), 100);
-    }
-    
-    function initHeroSlider() {
-        heroSwiper = new Swiper('.heroSwiper', {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            autoplay: { delay: 4500, disableOnInteraction: false },
-            pagination: { el: '.swiper-pagination', clickable: true },
-            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            effect: 'fade',
-            fadeEffect: { crossFade: true }
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
-    }
-    
-    function initMap() {
-        if (typeof L !== 'undefined' && !mapInitialized && document.getElementById('shopMap')) {
-            const map = L.map('shopMap').setView([24.9246, 67.0311], 14);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB',
-                subdomains: 'abcd', maxZoom: 19, minZoom: 3
-            }).addTo(map);
-            L.marker([24.9246, 67.0311]).addTo(map).bindPopup('<b>Shandar VIP Shoes</b><br>Sector 11/2, Orangi Town,<br>Iqbal Market, Karachi').openPopup();
-            mapInitialized = true;
+
+        // Mobile menu
+        window.toggleMobileMenu = () => document.getElementById('navLinks').classList.toggle('active');
+        window.closeMobileMenu = () => document.getElementById('navLinks').classList.remove('active');
+        document.getElementById('menuToggle').addEventListener('click', toggleMobileMenu);
+
+        let heroSwiper;
+        let cart = JSON.parse(localStorage.getItem('vip_cart')) || [];
+        let mapReady = false;
+
+        window.showSection = (id) => {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            closeMobileMenu();
+            if (id === 'contact' && !mapReady) setTimeout(initMap, 300);
+            if (id === 'home' && heroSwiper) setTimeout(() => heroSwiper.update(), 100);
+        };
+
+        function initHeroSlider() {
+            heroSwiper = new Swiper('.heroSwiper', {
+                slidesPerView: 1,
+                loop: true,
+                autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                effect: 'fade',
+                fadeEffect: { crossFade: true }
+            });
         }
-    }
-    
-    function openModal(product) {
-        document.getElementById('modalImage').src = product.image_url;
-        document.getElementById('modalName').innerText = product.name;
-        document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
-        document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase()}`;
-        document.getElementById('modalDescription').innerHTML = product.description || 'Premium craftsmanship with attention to every detail. Limited edition piece.';
-        const modal = document.getElementById('productModal');
-        const modalBtn = document.getElementById('modalAddToCartBtn');
-        const newBtn = modalBtn.cloneNode(true);
-        modalBtn.parentNode.replaceChild(newBtn, modalBtn);
-        newBtn.onclick = () => { addToCart(product.id, product.name, product.price, product.image_url); closeModal(); };
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeModal() {
-        document.getElementById('productModal').classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    document.getElementById('productModal')?.addEventListener('click', (e) => { if (e.target === document.getElementById('productModal')) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) closeModal(); });
-    
-    async function loadProducts() {
-        const { data, error } = await _supabase.from('products').select('*');
-        if (error) { console.warn(error); document.getElementById('product-list').innerHTML = '<p style="color:var(--gray); text-align:center;">Unable to load products. Please check configuration.</p>'; return; }
-        const container = document.getElementById('product-list');
-        if (container && data && data.length > 0) {
-            container.innerHTML = data.map((p, idx) => {
-                const productData = { id: p.id, name: p.name, price: p.price, image_url: p.image_url, description: p.description || null };
-                const productJson = JSON.stringify(productData).replace(/</g, '\\u003c');
-                return `<div class="product-card" style="animation-delay: ${idx * 0.1}s">
-                    <div class="img-container" onclick='openModal(${productJson})'><img src="${p.image_url}" alt="${p.name}" loading="lazy"></div>
-                    <div class="product-info">
-                        <h3>${p.name}</h3>
-                        <p class="price">Rs. ${parseFloat(p.price).toLocaleString()}</p>
-                        <div class="button-group">
-                            <button class="btn-outline" onclick='event.stopPropagation(); openModal(${productJson})'>View</button>
-                            <button class="btn-primary" onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image_url}')"><span>Add to bag</span></button>
+
+        function initMap() {
+            if (typeof L !== 'undefined' && !mapReady && document.getElementById('shopMap')) {
+                const map = L.map('shopMap').setView([24.9246, 67.0311], 15);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([24.9246, 67.0311]).addTo(map).bindPopup('Shandar VIP Shoes').openPopup();
+                mapReady = true;
+            }
+        }
+
+        window.openModal = (product) => {
+            document.getElementById('modalImage').src = product.image_url;
+            document.getElementById('modalName').innerText = product.name;
+            document.getElementById('modalPrice').innerHTML = `Rs. ${parseFloat(product.price).toLocaleString()}`;
+            document.getElementById('modalSku').innerHTML = `SKU: VIP-${product.id.slice(-6).toUpperCase()}`;
+            document.getElementById('modalDescription').innerHTML = product.description || 'Crafted with precision and passion.';
+            const modal = document.getElementById('productModal');
+            const btn = document.getElementById('modalAddToCartBtn');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.onclick = () => {
+                window.addToCart(product.id, product.name, product.price, product.image_url);
+                window.closeModal();
+            };
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeModal = () => {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = '';
+        };
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productModal')) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('productModal').classList.contains('active')) closeModal();
+        });
+
+        async function loadProducts() {
+            if (typeof _supabase === 'undefined') {
+                document.getElementById('product-list').innerHTML = '<p style="color:var(--text-dim); text-align:center;">Database connection missing.</p>';
+                return;
+            }
+            const { data, error } = await _supabase.from('products').select('*');
+            if (error) {
+                document.getElementById('product-list').innerHTML = '<p style="color:var(--text-dim); text-align:center;">Unable to load products.</p>';
+                return;
+            }
+            const container = document.getElementById('product-list');
+            if (data && data.length > 0) {
+                container.innerHTML = data.map((p, idx) => {
+                    const prod = JSON.stringify({ id: p.id, name: p.name, price: p.price, image_url: p.image_url, description: p.description }).replace(/</g, '\\u003c');
+                    return `<div class="product-card" style="animation-delay:${idx*0.08}s">
+                        <div class="img-container" onclick='openModal(${prod})'><img src="${p.image_url}" alt="${p.name}"></div>
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p class="price">Rs. ${parseFloat(p.price).toLocaleString()}</p>
+                            <div class="button-group">
+                                <button class="btn-outline" onclick='event.stopPropagation(); openModal(${prod})'>View</button>
+                                <button class="btn-primary" onclick="addToCart('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.image_url}')">Add to bag</button>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-            }).join('');
-        } else if (data && data.length === 0) {
-            container.innerHTML = '<p style="color:var(--gray); text-align:center;">No products available at the moment.</p>';
+                    </div>`;
+                }).join('');
+            } else {
+                container.innerHTML = '<p style="color:var(--text-dim); text-align:center;">No products yet.</p>';
+            }
         }
-    }
-    
-    window.addToCart = function(id, name, price, img) {
-        const existing = cart.find(i => i.id === id);
-        if (existing) { existing.qty++; } else { cart.push({ id, name, price, img, qty: 1 }); }
-        updateCart();
-        const badge = document.getElementById('cart-count');
-        badge.classList.add('cart-updated');
-        setTimeout(() => badge.classList.remove('cart-updated'), 300);
-        
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 2200,
-            timerProgressBar: true,
-            background: '#0a0a0a',
-            color: '#fff',
-            iconColor: '#00f0ff',
-            customClass: { popup: 'swal2-toast' },
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
+
+        window.addToCart = (id, name, price, img) => {
+            const existing = cart.find(i => i.id === id);
+            existing ? existing.qty++ : cart.push({ id, name, price, img, qty: 1 });
+            updateCart();
+            document.getElementById('cart-count').classList.add('cart-updated');
+            setTimeout(() => document.getElementById('cart-count').classList.remove('cart-updated'), 300);
+            Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 2000,
+                background: '#0f0f0f',
+                color: '#fff',
+                iconColor: '#C9A96E'
+            }).fire({ icon: 'success', title: `${name} added` });
+        };
+
+        window.removeItem = (id) => { cart = cart.filter(i => i.id !== id); updateCart(); };
+
+        function updateCart() {
+            localStorage.setItem('vip_cart', JSON.stringify(cart));
+            const count = cart.reduce((a,b) => a + b.qty, 0);
+            document.getElementById('cart-count').innerText = count;
+            const container = document.getElementById('cart-items');
+            let total = 0;
+            if (!container) return;
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="padding:2rem; color:var(--text-dim); text-align:center;">Your bag is empty.</p>';
+            } else {
+                container.innerHTML = cart.map(i => {
+                    total += i.price * i.qty;
+                    return `<div class="cart-item">
+                        <img src="${i.img}" alt="${i.name}">
+                        <div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div>
+                        <i class="fa fa-trash" style="cursor:pointer; color:var(--text-muted);" onclick="removeItem('${i.id}')"></i>
+                    </div>`;
+                }).join('');
+            }
+            const totalEl = document.getElementById('cart-total');
+            if (totalEl) totalEl.innerText = 'Rs. ' + total.toLocaleString();
+        }
+
+        document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const { error } = await _supabase.from('contacts').insert([{
+                name: document.getElementById('c-name').value,
+                email: document.getElementById('c-email').value,
+                phone: document.getElementById('c-phone').value,
+                message: document.getElementById('c-message').value
+            }]);
+            if (!error) {
+                Swal.fire({ icon: 'success', title: 'Message sent', background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
+                e.target.reset();
+            } else {
+                Swal.fire({ icon: 'error', title: 'Error', background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
             }
         });
-        Toast.fire({ icon: 'success', title: `${name} added to bag ✨` });
-    };
-    
-    window.removeItem = function(id) { 
-        cart = cart.filter(i => i.id !== id); 
-        updateCart();
-        Swal.fire({ icon: 'info', title: 'Removed', text: 'Item has been removed from your bag.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', toast: true, position: 'bottom-end', showConfirmButton: false, timer: 1800 });
-    };
-    
-    function updateCart() {
-        localStorage.setItem('vip_cart', JSON.stringify(cart));
-        const totalItems = cart.reduce((a, b) => a + b.qty, 0);
-        const badge = document.getElementById('cart-count');
-        badge.innerText = totalItems;
-        const container = document.getElementById('cart-items');
-        let total = 0;
-        if (!container) return;
-        if (cart.length === 0) {
-            container.innerHTML = '<div style="padding: 2rem; background: var(--glass-bg); text-align: center; color: var(--gray); border-radius: 16px; border: 1px solid var(--glass-border);">Your bag is empty.</div>';
-        } else {
-            container.innerHTML = cart.map(i => { total += i.price * i.qty; return `<div class="cart-item"><img src="${i.img}" alt="${i.name}"><div style="flex:1"><h4>${i.name}</h4><p style="color:var(--accent);">Rs. ${i.price.toLocaleString()} x ${i.qty}</p></div><i class="fa fa-trash" style="cursor:pointer; color: var(--gray); transition: 0.3s; font-size: 1.2rem;" onmouseover="this.style.color='#ff4444'" onmouseout="this.style.color='var(--gray)'" onclick="removeItem('${i.id}')"></i></div>`; }).join('');
-        }
-        const cartTotal = document.getElementById('cart-total');
-        if (cartTotal) cartTotal.innerText = 'Rs. ' + total.toLocaleString();
-    }
-    
-    document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const payload = { name: document.getElementById('c-name').value, email: document.getElementById('c-email').value, phone: document.getElementById('c-phone').value, message: document.getElementById('c-message').value };
-        const { error } = await _supabase.from('contacts').insert([payload]);
-        if (!error) {
-            Swal.fire({ icon: 'success', title: 'Message Sent!', text: 'Mr. Khurshid will respond within 24 hours.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', backdrop: `rgba(0,0,0,0.8)` });
-            e.target.reset();
-        } else {
-            Swal.fire({ icon: 'error', title: 'Delivery Failed', text: 'Could not send message. Please try again.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' });
-        }
-    });
-    
-    document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (cart.length === 0) { Swal.fire({ icon: 'warning', title: 'Empty Bag', text: 'Add items to proceed.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' }); return; }
-        const customerName = document.getElementById('o-name').value.trim();
-        const phone = document.getElementById('o-phone').value.trim();
-        const address = document.getElementById('o-address').value.trim();
-        if (!customerName || !phone || !address) { Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please fill all fields.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' }); return; }
-        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        try {
-            const { data: orderData, error: orderError } = await _supabase.from('orders').insert([{ customer_name: customerName, phone: phone, address: address, total_price: total, status: 'pending' }]).select();
-            if (orderError) throw orderError;
-            if (!orderData || orderData.length === 0) throw new Error('Order insert failed');
-            const orderId = orderData[0].id;
-            const orderItems = cart.map(item => ({ order_id: orderId, product_id: item.id, product_name: item.name, product_image: item.img, quantity: item.qty, price_at_time: item.price }));
-            const { error: itemsError } = await _supabase.from('order_items').insert(orderItems);
-            if (itemsError) throw itemsError;
-            cart = []; updateCart();
-            Swal.fire({ icon: 'success', title: 'Order Confirmed!', text: `VIP order placed successfully. You will be contacted shortly on ${phone}.`, background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', backdrop: `rgba(0,0,0,0.8)` });
-            e.target.reset(); showSection('home');
-        } catch (err) {
-            console.error('Order submission error:', err);
-            Swal.fire({ icon: 'error', title: 'Order Failed', text: err.message || 'Could not place order. Please try again.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' });
-        }
-    });
-    
-    window.subscribeNewsletter = function() {
-        const email = document.getElementById('newsletterEmail').value;
-        if (email && email.includes('@')) {
-            Swal.fire({ icon: 'success', title: 'Subscribed!', text: 'You will receive exclusive VIP drops and offers.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff', toast: true, position: 'top-end', showConfirmButton: false, timer: 2500 });
-            document.getElementById('newsletterEmail').value = '';
-        } else {
-            Swal.fire({ icon: 'warning', title: 'Email Required', text: 'Please enter a valid email address.', background: '#0a0a0a', color: '#fff', confirmButtonColor: '#00f0ff' });
-        }
-    };
-    
-    window.onscroll = function() {
-        const btn = document.getElementById('backToTop');
-        if (window.scrollY > 300) btn.classList.add('show');
-        else btn.classList.remove('show');
-    };
-    
-    window.onload = () => {
-        initHeroSlider();
-        updateCart();
-        if (typeof _supabase !== 'undefined' && _supabase) { loadProducts(); } else { console.warn('Supabase client not defined'); const container = document.getElementById('product-list'); if (container) { container.innerHTML = '<p style="color:var(--gray); text-align:center;">Database connection pending. Please ensure config.js is loaded.</p>'; } }
-    };
+
+        document.getElementById('checkout-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (cart.length === 0) return Swal.fire({ icon: 'warning', title: 'Empty bag', background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
+            const name = document.getElementById('o-name').value.trim();
+            const phone = document.getElementById('o-phone').value.trim();
+            const address = document.getElementById('o-address').value.trim();
+            if (!name || !phone || !address) return Swal.fire({ icon: 'warning', title: 'Fill all fields', background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
+            const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            try {
+                const { data: order, error: err } = await _supabase.from('orders').insert([{
+                    customer_name: name, phone, address, total_price: total, status: 'pending'
+                }]).select();
+                if (err) throw err;
+                const orderId = order[0].id;
+                const items = cart.map(i => ({ order_id: orderId, product_id: i.id, product_name: i.name, product_image: i.img, quantity: i.qty, price_at_time: i.price }));
+                await _supabase.from('order_items').insert(items);
+                cart = []; updateCart();
+                Swal.fire({ icon: 'success', title: 'Order placed!', text: `We'll contact you at ${phone}`, background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
+                e.target.reset();
+                showSection('home');
+            } catch (ex) {
+                Swal.fire({ icon: 'error', title: 'Failed', text: ex.message, background: '#0f0f0f', color: '#fff', confirmButtonColor: '#C9A96E' });
+            }
+        });
+
+        window.onscroll = () => {
+            document.getElementById('backToTop').classList.toggle('show', window.scrollY > 400);
+        };
+
+        window.onload = () => {
+            initHeroSlider();
+            updateCart();
+            if (typeof _supabase !== 'undefined') loadProducts();
+            else document.getElementById('product-list').innerHTML = '<p style="color:var(--text-dim);">Database not configured.</p>';
+        };
+    })();
 </script>
 </body>
 </html>
