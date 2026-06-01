@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Shandar VIP Shoes · Premium Footwear</title>
-    
+      <meta name="google-site-verification" content="neDuNUl0ccP-O2fJlxnvOAzilBD999iQL2Sc4cKLHZ8" />
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -362,34 +362,6 @@
             .summary-box { position: sticky; top: 100px; padding: 2rem; }
         }
 
-        /* Checkout Progress – Enhanced */
-        .checkout-progress {
-            display: flex; justify-content: space-between; margin-bottom: 2.5rem;
-            position: relative; font-size: 0.85rem;
-            max-width: 500px; margin-left: auto; margin-right: auto;
-        }
-        .checkout-progress::before {
-            content: ''; position: absolute; top: 18px; left: 0; right: 0;
-            height: 2px; background: var(--border); z-index: 0;
-        }
-        .progress-step {
-            display: flex; flex-direction: column; align-items: center;
-            position: relative; z-index: 1; color: var(--text-muted);
-            font-weight: 500;
-        }
-        .progress-step .circle {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: var(--surface); border: 2px solid var(--border);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 0.4rem; font-weight: 700; transition: 0.3s;
-            position: relative;
-        }
-        .progress-step.active .circle { border-color: var(--accent); background: var(--accent); color: #000; }
-        .progress-step.completed .circle { border-color: var(--accent); background: var(--accent); color: #000; }
-        .progress-step.completed .circle::after {
-            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-        }
-
         .checkout-grid {
             display: grid; grid-template-columns: 1fr;
             gap: 2rem; max-width: 1200px; margin: auto;
@@ -414,14 +386,7 @@
             color: var(--text-dim);
             margin-bottom: 1.2rem;
         }
-        .order-summary-mini {
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: var(--surface);
-            border-radius: 12px;
-        }
 
-        /* Form inputs */
         input, textarea {
             font-family: 'Poppins', sans-serif;
         }
@@ -666,19 +631,12 @@
     </div>
 </section>
 
-<!-- ================= WORKING CHECKOUT SECTION ================= -->
+<!-- ================= SIMPLIFIED CHECKOUT (ONE STEP) ================= -->
 <section id="checkout">
     <h2 class="section-title">Secure Checkout</h2>
-    
-    <!-- Progress indicator (unchanged) -->
-    <div class="checkout-progress">
-        <div class="progress-step active" id="step1"><div class="circle">1</div><span>Details</span></div>
-        <div class="progress-step" id="step2"><div class="circle">2</div><span>Confirm</span></div>
-        <div class="progress-step" id="step3"><div class="circle">3</div><span>Complete</span></div>
-    </div>
 
     <div class="checkout-grid">
-        <!-- Left: delivery info + place order button -->
+        <!-- Left: delivery info + single Place Order button -->
         <div>
             <div class="checkout-panel animate-in">
                 <h3>Delivery Information</h3>
@@ -687,8 +645,7 @@
                     <input type="text" id="o-name" placeholder="Full Name" required style="width:100%; padding:0.9rem; background:var(--surface); border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
                     <input type="tel" id="o-phone" placeholder="Phone Number" required style="width:100%; padding:0.9rem; background:var(--surface); border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1rem;">
                     <textarea id="o-address" rows="3" placeholder="Complete Shipping Address" required style="width:100%; padding:0.9rem; background:var(--surface); border:1px solid var(--border); color:#fff; border-radius:8px; margin-bottom:1.2rem; resize:vertical;"></textarea>
-                    <button class="btn-primary" type="button" onclick="updateProgress(2)" style="width:100%; margin-bottom:1rem;">Continue</button>
-                    <button class="btn-primary" type="button" onclick="updateProgress(3)" style="width:100%; background: #b8933a;">Place Order</button>
+                    <button class="btn-primary" type="button" onclick="updateProgress(3)" style="width:100%;">Place Order</button>
                 </form>
             </div>
         </div>
@@ -704,6 +661,7 @@
         </div>
     </div>
 </section>
+<!-- ================= END OF SIMPLIFIED CHECKOUT ================= -->
 
 <footer>
     <div class="footer-grid">
