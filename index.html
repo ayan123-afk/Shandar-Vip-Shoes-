@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Website Suspended — Admin Notice</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Website Suspended</title>
 
   <style>
     * {
@@ -13,195 +15,307 @@
       font-family: Inter, Arial, sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: #fff;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255, 50, 50, .13), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(120, 30, 255, .12), transparent 30%),
-        #050609;
+    :root {
+      --red: #ff3b3b;
+      --red2: #ff1717;
+      --green: #00e676;
+      --text: #ffffff;
+      --muted: #a7adb9;
+      --panel: rgba(15, 18, 25, .72);
     }
 
-    /* Animated background */
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 40, 40, .14), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0, 230, 118, .08), transparent 28%),
+        #050608;
+    }
+
+    /* ---------- Animated Background ---------- */
+
     .background {
       position: fixed;
       inset: 0;
       overflow: hidden;
-      z-index: -1;
+      z-index: -10;
+    }
+
+    .grid {
+      position: absolute;
+      inset: -50%;
+      opacity: .16;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 55px 55px;
+      transform: perspective(500px) rotateX(60deg);
+      animation: gridMove 12s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from {
+        transform: perspective(500px) rotateX(60deg) translateY(0);
+      }
+      to {
+        transform: perspective(500px) rotateX(60deg) translateY(55px);
+      }
     }
 
     .orb {
       position: absolute;
-      width: 280px;
-      height: 280px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      filter: blur(90px);
-      opacity: .25;
-      animation: float 9s ease-in-out infinite alternate;
+      filter: blur(100px);
+      opacity: .18;
+      animation: orbMove 10s ease-in-out infinite alternate;
     }
 
-    .orb.one {
-      background: #ff2424;
+    .orb.red {
+      background: #ff2020;
       top: -100px;
       left: -80px;
     }
 
-    .orb.two {
-      background: #653cff;
+    .orb.green {
+      background: #00e676;
+      right: -100px;
       bottom: -100px;
-      right: -80px;
       animation-delay: 2s;
     }
 
-    @keyframes float {
-      from {
-        transform: translate(0, 0);
+    @keyframes orbMove {
+      0% {
+        transform: translate(0, 0) scale(1);
       }
-      to {
-        transform: translate(60px, -40px);
+      50% {
+        transform: translate(80px, 50px) scale(1.15);
+      }
+      100% {
+        transform: translate(-30px, -50px) scale(.9);
       }
     }
 
-    .container {
-      width: min(92%, 760px);
-      padding: 20px;
+    /* ---------- Layout ---------- */
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 18px;
     }
 
     .card {
       position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 28px;
-      padding: 42px;
+      width: min(820px, 100%);
+      padding: 48px;
+      border-radius: 30px;
       text-align: center;
-      background: rgba(12, 14, 20, .78);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.09);
+
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+
       box-shadow:
-        0 30px 90px rgba(0,0,0,.55),
+        0 40px 120px rgba(0,0,0,.65),
         inset 0 1px 0 rgba(255,255,255,.05);
+
+      animation: cardIn .8s ease forwards;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(35px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .top-line {
       position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
+      left: 8%;
+      width: 84%;
       height: 3px;
+
       background: linear-gradient(
         90deg,
         transparent,
-        #ff3030,
-        #ff6b6b,
-        #ff3030,
+        var(--red),
+        #ff7777,
+        var(--red),
         transparent
       );
-      box-shadow: 0 0 25px #ff3030;
+
+      box-shadow: 0 0 25px var(--red);
     }
 
-    .icon {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 24px;
+    /* ---------- Icon ---------- */
+
+    .icon-wrap {
+      position: relative;
+      width: 105px;
+      height: 105px;
+      margin: 0 auto 25px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       border-radius: 50%;
-      font-size: 42px;
-      background: rgba(255, 45, 45, .10);
-      border: 1px solid rgba(255, 75, 75, .35);
-      box-shadow:
-        0 0 0 10px rgba(255,45,45,.025),
-        0 0 45px rgba(255,45,45,.18);
-      animation: pulse 2.2s infinite;
+      background: rgba(255, 45, 45, .08);
+      border: 1px solid rgba(255,80,80,.28);
+
+      animation: iconFloat 3s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow:
-          0 0 0 10px rgba(255,45,45,.025),
-          0 0 45px rgba(255,45,45,.18);
+    .icon-wrap::before,
+    .icon-wrap::after {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border: 1px solid rgba(255,60,60,.12);
+      border-radius: 50%;
+      animation: ring 2.8s linear infinite;
+    }
+
+    .icon-wrap::after {
+      inset: -22px;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes ring {
+      0% {
+        transform: scale(.8);
+        opacity: .8;
       }
-      50% {
-        transform: scale(1.04);
-        box-shadow:
-          0 0 0 18px rgba(255,45,45,.015),
-          0 0 65px rgba(255,45,45,.28);
+
+      100% {
+        transform: scale(1.3);
+        opacity: 0;
       }
     }
+
+    @keyframes iconFloat {
+      0%,100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-7px);
+      }
+    }
+
+    .warning {
+      font-size: 47px;
+      color: #ff5050;
+      filter: drop-shadow(0 0 18px rgba(255,60,60,.55));
+    }
+
+    /* ---------- Badge ---------- */
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
+      gap: 9px;
+
+      padding: 9px 15px;
       margin-bottom: 18px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+
+      border-radius: 50px;
+      background: rgba(255,50,50,.07);
+      border: 1px solid rgba(255,80,80,.18);
+
       color: #ff7777;
-      background: rgba(255,50,50,.08);
-      border: 1px solid rgba(255,80,80,.2);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
     }
 
-    .dot {
+    .live-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #ff4444;
-      box-shadow: 0 0 12px #ff4444;
+      background: var(--red);
+      box-shadow: 0 0 12px var(--red);
+      animation: blink 1.3s infinite;
     }
 
+    @keyframes blink {
+      50% {
+        opacity: .3;
+      }
+    }
+
+    /* ---------- Text ---------- */
+
     h1 {
-      font-size: clamp(30px, 6vw, 48px);
-      line-height: 1.05;
-      margin-bottom: 16px;
-      letter-spacing: -1.5px;
+      font-size: clamp(34px, 6vw, 56px);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 18px;
     }
 
     h1 span {
-      color: #ff4c4c;
+      color: var(--red);
+      text-shadow: 0 0 25px rgba(255,50,50,.25);
     }
 
-    .description {
-      max-width: 570px;
-      margin: 0 auto;
-      color: #a8acb8;
-      line-height: 1.7;
+    .subtitle {
+      max-width: 620px;
+      margin: auto;
+      color: var(--muted);
       font-size: 15px;
+      line-height: 1.8;
     }
 
-    .reason-box {
-      margin: 30px 0 20px;
-      padding: 22px;
+    /* ---------- Info ---------- */
+
+    .info {
+      margin-top: 30px;
+      padding: 24px;
+
       text-align: left;
-      border-radius: 18px;
-      background: rgba(255,255,255,.035);
+      border-radius: 20px;
+
+      background: rgba(255,255,255,.025);
       border: 1px solid rgba(255,255,255,.07);
+
+      transition: .3s ease;
     }
 
-    .reason-title {
+    .info:hover {
+      border-color: rgba(255,70,70,.22);
+      transform: translateY(-2px);
+    }
+
+    .info-title {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
-      color: #fff;
+
+      font-weight: 800;
       font-size: 14px;
-      font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .reason-text {
-      color: #b6bac5;
+    .info p {
+      color: #aeb3bf;
       font-size: 14px;
-      line-height: 1.65;
+      line-height: 1.7;
     }
+
+    /* ---------- Status ---------- */
 
     .status-grid {
       display: grid;
@@ -211,144 +325,193 @@
     }
 
     .status {
-      padding: 16px;
+      padding: 17px;
       border-radius: 15px;
+
       background: rgba(255,255,255,.025);
       border: 1px solid rgba(255,255,255,.06);
-      text-align: left;
     }
 
-    .status small {
+    .status-label {
       display: block;
-      color: #747986;
-      margin-bottom: 6px;
-      font-size: 11px;
+      color: #6f7480;
+      font-size: 10px;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      letter-spacing: .8px;
-    }
-
-    .status strong {
-      font-size: 14px;
+      margin-bottom: 7px;
     }
 
     .offline {
-      color: #ff6666;
+      color: #ff6262;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .pending {
-      color: #ffc45c;
+    .payment {
+      color: #ffc857;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .actions {
+    /* ---------- Buttons ---------- */
+
+    .buttons {
       display: flex;
       justify-content: center;
       gap: 12px;
-      margin-top: 28px;
       flex-wrap: wrap;
+      margin-top: 28px;
     }
 
     button {
       border: 0;
+      outline: none;
       cursor: pointer;
-      padding: 13px 20px;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 700;
+
+      padding: 14px 21px;
+      border-radius: 13px;
+
+      color: white;
       font-size: 13px;
+      font-weight: 800;
+
       transition: .25s ease;
     }
 
-    .primary {
-      background: linear-gradient(135deg, #ff3030, #d71919);
-      box-shadow: 0 10px 30px rgba(255,40,40,.18);
+    .contact {
+      background: linear-gradient(135deg, #ff3c3c, #d71919);
+      box-shadow: 0 12px 35px rgba(255,40,40,.18);
     }
 
-    .primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 35px rgba(255,40,40,.3);
+    .contact:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 45px rgba(255,40,40,.32);
     }
 
-    .secondary {
-      background: rgba(255,255,255,.05);
+    .details {
+      background: rgba(255,255,255,.055);
       border: 1px solid rgba(255,255,255,.08);
     }
 
-    .secondary:hover {
+    .details:hover {
+      transform: translateY(-3px);
       background: rgba(255,255,255,.09);
-      transform: translateY(-2px);
     }
+
+    /* ---------- Footer ---------- */
 
     .footer {
       margin-top: 28px;
-      color: #626672;
+      color: #606570;
       font-size: 11px;
-      letter-spacing: .4px;
     }
 
-    .footer b {
-      color: #858996;
+    .footer span {
+      color: #858b98;
     }
 
-    /* Modal */
+    /* ---------- Modal ---------- */
+
     .modal {
       position: fixed;
       inset: 0;
-      display: none;
+
+      display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 20px;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(8px);
-      z-index: 20;
+
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(10px);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition: .25s ease;
+      z-index: 100;
     }
 
     .modal.active {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
     }
 
     .modal-box {
-      width: min(92%, 450px);
-      padding: 28px;
-      border-radius: 22px;
-      background: #101217;
+      width: min(480px, 100%);
+      padding: 30px;
+
+      border-radius: 23px;
+
+      background: #101319;
       border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 30px 100px rgba(0,0,0,.65);
+
+      box-shadow: 0 40px 100px rgba(0,0,0,.7);
+
+      transform: scale(.9);
+      transition: .25s ease;
+    }
+
+    .modal.active .modal-box {
+      transform: scale(1);
     }
 
     .modal-box h2 {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .modal-box p {
-      color: #a9adb7;
+      color: #a9aeba;
       font-size: 14px;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
     .close {
-      margin-top: 20px;
       width: 100%;
-      background: rgba(255,255,255,.07);
+      margin-top: 22px;
+      background: rgba(255,255,255,.06);
     }
 
+    /* ---------- Mobile ---------- */
+
     @media (max-width: 600px) {
-      .card {
-        padding: 30px 20px;
-        border-radius: 22px;
+
+      .wrapper {
+        padding: 20px 12px;
       }
 
-      .icon {
-        width: 78px;
-        height: 78px;
-        font-size: 34px;
+      .card {
+        padding: 34px 20px;
+        border-radius: 23px;
+      }
+
+      .icon-wrap {
+        width: 85px;
+        height: 85px;
+      }
+
+      .warning {
+        font-size: 38px;
+      }
+
+      h1 {
+        font-size: 35px;
+      }
+
+      .subtitle {
+        font-size: 14px;
       }
 
       .status-grid {
         grid-template-columns: 1fr;
       }
 
-      h1 {
-        font-size: 34px;
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
       }
     }
   </style>
@@ -356,97 +519,125 @@
 
 <body>
 
+  <!-- Animated Background -->
   <div class="background">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
+    <div class="grid"></div>
+    <div class="orb red"></div>
+    <div class="orb green"></div>
   </div>
 
-  <main class="container">
 
-    <section class="card">
+  <div class="wrapper">
+
+    <main class="card">
 
       <div class="top-line"></div>
 
-      <div class="icon">⚠</div>
+      <!-- Warning Icon -->
+      <div class="icon-wrap">
+        <div class="warning">⚠</div>
+      </div>
 
+      <!-- Status Badge -->
       <div class="badge">
-        <span class="dot"></span>
+        <span class="live-dot"></span>
         Website Suspended
       </div>
 
+      <!-- Main Heading -->
       <h1>
         This Website Is <span>Banned</span>
       </h1>
 
-      <p class="description">
+      <p class="subtitle">
         Access to this website has been temporarily suspended
-        by the administrator. The website is currently unavailable
-        to visitors.
+        by the website administrator. The website is currently
+        unavailable to visitors.
       </p>
 
-      <div class="reason-box">
 
-        <div class="reason-title">
-          <span>🔒</span>
-          Suspension Reason
+      <!-- Reason -->
+      <div class="info">
+
+        <div class="info-title">
+          🔒 Suspension Reason
         </div>
 
-        <div class="reason-text">
-          This website has been suspended due to unpaid monthly
-          website hosting and search engine service fees.
-          Please contact the administrator to resolve the issue
-          and restore website access.
-        </div>
+        <p>
+          This website has been suspended because the required
+          monthly website and search engine service fees have
+          not been paid. Please contact the administrator to
+          resolve the outstanding payment and restore access.
+        </p>
 
+        <!-- Status Cards -->
         <div class="status-grid">
 
           <div class="status">
-            <small>Website Status</small>
-            <strong class="offline">● Suspended</strong>
+            <span class="status-label">
+              Website Status
+            </span>
+
+            <span class="offline">
+              ● Suspended
+            </span>
           </div>
 
           <div class="status">
-            <small>Service Status</small>
-            <strong class="pending">● Payment Required</strong>
+            <span class="status-label">
+              Service Status
+            </span>
+
+            <span class="payment">
+              ● Payment Required
+            </span>
           </div>
 
         </div>
 
       </div>
 
-      <div class="actions">
-        <button class="primary" onclick="contactAdmin()">
-          Contact Administrator
+
+      <!-- Actions -->
+      <div class="buttons">
+
+        <button class="contact" onclick="contactAdmin()">
+          ✉ Contact Administrator
         </button>
 
-        <button class="secondary" onclick="showDetails()">
+        <button class="details" onclick="openDetails()">
           View Details
         </button>
+
       </div>
 
+
+      <!-- Footer -->
       <div class="footer">
-        Protected by <b>Website Administration System</b>
-        • Automated Suspension Notice
+        Automated Website Suspension Notice
+        <br>
+        <span>Website Administration System</span>
       </div>
 
-    </section>
+    </main>
 
-  </main>
+  </div>
+
 
   <!-- Details Modal -->
-  <div class="modal" id="detailsModal">
+  <div class="modal" id="modal">
 
     <div class="modal-box">
 
-      <h2>Website Access Restricted</h2>
+      <h2>Access Restricted</h2>
 
       <p>
-        The administrator has temporarily disabled this website
-        because the required monthly service fees have not been
-        received.
+        This website is currently unavailable because the required
+        monthly service payment has not been received.
         <br><br>
-        Once the outstanding payment is completed, the administrator
-        can restore the website and its associated services.
+        Please contact the website administrator regarding the
+        outstanding service fee. Once the payment issue has been
+        resolved, website access may be restored by the administrator.
       </p>
 
       <button class="close" onclick="closeDetails()">
@@ -457,25 +648,70 @@
 
   </div>
 
+
   <script>
+
+    /*
+      UNIVERSAL ADMIN CONTACT
+      -----------------------
+      Change only this email if you ever want
+      to use another administrator email.
+    */
+
+    const ADMIN_EMAIL = "professorayanxoffical@gmail.com";
+
+
     function contactAdmin() {
-      // Change this to your admin contact
-      window.location.href = "mailto:admin@example.com?subject=Website%20Suspension";
+
+      const subject =
+        encodeURIComponent("Website Suspension - Payment Inquiry");
+
+      const body =
+        encodeURIComponent(
+          "Hello Administrator,\n\n" +
+          "I am contacting you regarding the suspended website.\n" +
+          "Please provide the required payment/service information.\n\n" +
+          "Thank you."
+        );
+
+      window.location.href =
+        `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
     }
 
-    function showDetails() {
-      document.getElementById("detailsModal").classList.add("active");
+
+    function openDetails() {
+      document
+        .getElementById("modal")
+        .classList.add("active");
     }
+
 
     function closeDetails() {
-      document.getElementById("detailsModal").classList.remove("active");
+      document
+        .getElementById("modal")
+        .classList.remove("active");
     }
 
-    document.getElementById("detailsModal").addEventListener("click", function(e) {
-      if (e.target === this) {
+
+    document
+      .getElementById("modal")
+      .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+          closeDetails();
+        }
+
+      });
+
+
+    document.addEventListener("keydown", function(event) {
+
+      if (event.key === "Escape") {
         closeDetails();
       }
+
     });
+
   </script>
 
 </body>
