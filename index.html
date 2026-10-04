@@ -3,514 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Website Suspended</title>
+  <title>Shandar VIP Shoes — Coming Soon</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Inter, Arial, sans-serif;
-    }
-
-    :root {
-      --red: #ff3b3b;
-      --red2: #ff1717;
-      --green: #00e676;
-      --text: #ffffff;
-      --muted: #a7adb9;
-      --panel: rgba(15, 18, 25, .72);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      color: var(--text);
-      overflow-x: hidden;
       background:
-        radial-gradient(circle at 10% 20%, rgba(255, 40, 40, .14), transparent 30%),
-        radial-gradient(circle at 90% 80%, rgba(0, 230, 118, .08), transparent 28%),
-        #050608;
-    }
-
-    /* ---------- Animated Background ---------- */
-
-    .background {
-      position: fixed;
-      inset: 0;
+        radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.12), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(255, 87, 34, 0.10), transparent 30%),
+        #080808;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      z-index: -10;
     }
 
-    .grid {
-      position: absolute;
-      inset: -50%;
-      opacity: .16;
-      background-image:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 55px 55px;
-      transform: perspective(500px) rotateX(60deg);
-      animation: gridMove 12s linear infinite;
-    }
-
-    @keyframes gridMove {
-      from {
-        transform: perspective(500px) rotateX(60deg) translateY(0);
-      }
-      to {
-        transform: perspective(500px) rotateX(60deg) translateY(55px);
-      }
-    }
-
-    .orb {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: .18;
-      animation: orbMove 10s ease-in-out infinite alternate;
-    }
-
-    .orb.red {
-      background: #ff2020;
-      top: -100px;
-      left: -80px;
-    }
-
-    .orb.green {
-      background: #00e676;
-      right: -100px;
-      bottom: -100px;
-      animation-delay: 2s;
-    }
-
-    @keyframes orbMove {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
-      50% {
-        transform: translate(80px, 50px) scale(1.15);
-      }
-      100% {
-        transform: translate(-30px, -50px) scale(.9);
-      }
-    }
-
-    /* ---------- Layout ---------- */
-
-    .wrapper {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 18px;
-    }
-
-    .card {
-      position: relative;
-      width: min(820px, 100%);
-      padding: 48px;
-      border-radius: 30px;
+    .container {
+      width: min(1100px, 92%);
       text-align: center;
-
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,.09);
-
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
-
-      box-shadow:
-        0 40px 120px rgba(0,0,0,.65),
-        inset 0 1px 0 rgba(255,255,255,.05);
-
-      animation: cardIn .8s ease forwards;
-    }
-
-    @keyframes cardIn {
-      from {
-        opacity: 0;
-        transform: translateY(35px) scale(.97);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .top-line {
-      position: absolute;
-      top: 0;
-      left: 8%;
-      width: 84%;
-      height: 3px;
-
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--red),
-        #ff7777,
-        var(--red),
-        transparent
-      );
-
-      box-shadow: 0 0 25px var(--red);
-    }
-
-    /* ---------- Icon ---------- */
-
-    .icon-wrap {
       position: relative;
-      width: 105px;
-      height: 105px;
-      margin: 0 auto 25px;
+      z-index: 2;
+    }
 
+    .logo {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 25px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-
-      border-radius: 50%;
-      background: rgba(255, 45, 45, .08);
-      border: 1px solid rgba(255,80,80,.28);
-
-      animation: iconFloat 3s ease-in-out infinite;
+      background: linear-gradient(135deg, #ffd54a, #b8860b);
+      color: #080808;
+      font-size: 38px;
+      box-shadow: 0 0 45px rgba(255, 193, 7, .25);
+      animation: float 3s ease-in-out infinite;
     }
 
-    .icon-wrap::before,
-    .icon-wrap::after {
-      content: "";
-      position: absolute;
-      inset: -10px;
-      border: 1px solid rgba(255,60,60,.12);
-      border-radius: 50%;
-      animation: ring 2.8s linear infinite;
-    }
-
-    .icon-wrap::after {
-      inset: -22px;
-      animation-delay: 1.2s;
-    }
-
-    @keyframes ring {
-      0% {
-        transform: scale(.8);
-        opacity: .8;
-      }
-
-      100% {
-        transform: scale(1.3);
-        opacity: 0;
-      }
-    }
-
-    @keyframes iconFloat {
-      0%,100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-7px);
-      }
-    }
-
-    .warning {
-      font-size: 47px;
-      color: #ff5050;
-      filter: drop-shadow(0 0 18px rgba(255,60,60,.55));
-    }
-
-    /* ---------- Badge ---------- */
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-
-      padding: 9px 15px;
-      margin-bottom: 18px;
-
+    .tag {
+      display: inline-block;
+      padding: 8px 18px;
+      border: 1px solid rgba(255, 213, 74, .35);
       border-radius: 50px;
-      background: rgba(255,50,50,.07);
-      border: 1px solid rgba(255,80,80,.18);
-
-      color: #ff7777;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
+      color: #ffd54a;
+      font-size: 13px;
+      letter-spacing: 3px;
       text-transform: uppercase;
+      margin-bottom: 20px;
     }
-
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--red);
-      box-shadow: 0 0 12px var(--red);
-      animation: blink 1.3s infinite;
-    }
-
-    @keyframes blink {
-      50% {
-        opacity: .3;
-      }
-    }
-
-    /* ---------- Text ---------- */
 
     h1 {
-      font-size: clamp(34px, 6vw, 56px);
-      letter-spacing: -2px;
+      font-size: clamp(42px, 8vw, 88px);
       line-height: 1;
-      margin-bottom: 18px;
-    }
-
-    h1 span {
-      color: var(--red);
-      text-shadow: 0 0 25px rgba(255,50,50,.25);
+      font-weight: 900;
+      letter-spacing: -3px;
+      background: linear-gradient(90deg, #fff, #ffd54a, #fff);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 4s linear infinite;
     }
 
     .subtitle {
-      max-width: 620px;
-      margin: auto;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-    }
-
-    /* ---------- Info ---------- */
-
-    .info {
-      margin-top: 30px;
-      padding: 24px;
-
-      text-align: left;
-      border-radius: 20px;
-
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.07);
-
-      transition: .3s ease;
-    }
-
-    .info:hover {
-      border-color: rgba(255,70,70,.22);
-      transform: translateY(-2px);
-    }
-
-    .info-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      font-weight: 800;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .info p {
-      color: #aeb3bf;
-      font-size: 14px;
+      margin: 22px auto 0;
+      max-width: 650px;
+      color: #bdbdbd;
+      font-size: 17px;
       line-height: 1.7;
     }
 
-    /* ---------- Status ---------- */
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 15px;
+    .divider {
+      width: 90px;
+      height: 3px;
+      margin: 30px auto;
+      background: linear-gradient(90deg, transparent, #ffd54a, transparent);
     }
 
-    .status {
-      padding: 17px;
-      border-radius: 15px;
-
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.06);
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
     }
 
-    .status-label {
+    .time {
+      min-width: 105px;
+      padding: 20px 15px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(15px);
+    }
+
+    .time strong {
       display: block;
-      color: #6f7480;
-      font-size: 10px;
-      letter-spacing: 1px;
+      font-size: 30px;
+      color: #ffd54a;
+    }
+
+    .time span {
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 7px;
     }
-
-    .offline {
-      color: #ff6262;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .payment {
-      color: #ffc857;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    /* ---------- Buttons ---------- */
 
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-top: 28px;
+      margin-top: 30px;
     }
 
-    button {
-      border: 0;
-      outline: none;
-      cursor: pointer;
-
-      padding: 14px 21px;
-      border-radius: 13px;
-
-      color: white;
-      font-size: 13px;
-      font-weight: 800;
-
-      transition: .25s ease;
+    .btn {
+      padding: 14px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: .3s;
     }
 
-    .contact {
-      background: linear-gradient(135deg, #ff3c3c, #d71919);
-      box-shadow: 0 12px 35px rgba(255,40,40,.18);
+    .primary {
+      background: #ffd54a;
+      color: #080808;
+      box-shadow: 0 10px 35px rgba(255, 193, 7, .18);
     }
 
-    .contact:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 45px rgba(255,40,40,.32);
+    .secondary {
+      color: #fff;
+      border: 1px solid #333;
+      background: rgba(255,255,255,.04);
     }
 
-    .details {
-      background: rgba(255,255,255,.055);
-      border: 1px solid rgba(255,255,255,.08);
+    .btn:hover {
+      transform: translateY(-4px);
     }
 
-    .details:hover {
-      transform: translateY(-3px);
-      background: rgba(255,255,255,.09);
+    footer {
+      margin-top: 55px;
+      color: #666;
+      font-size: 12px;
+      letter-spacing: 1px;
     }
 
-    /* ---------- Footer ---------- */
-
-    .footer {
-      margin-top: 28px;
-      color: #606570;
-      font-size: 11px;
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 213, 74, .08);
+      pointer-events: none;
     }
 
-    .footer span {
-      color: #858b98;
+    .c1 {
+      width: 500px;
+      height: 500px;
+      top: -250px;
+      left: -250px;
     }
 
-    /* ---------- Modal ---------- */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-
-      background: rgba(0,0,0,.75);
-      backdrop-filter: blur(10px);
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .25s ease;
-      z-index: 100;
+    .c2 {
+      width: 650px;
+      height: 650px;
+      bottom: -350px;
+      right: -300px;
     }
 
-    .modal.active {
-      opacity: 1;
-      visibility: visible;
+    @keyframes shine {
+      0% { background-position: 0%; }
+      100% { background-position: 200%; }
     }
 
-    .modal-box {
-      width: min(480px, 100%);
-      padding: 30px;
-
-      border-radius: 23px;
-
-      background: #101319;
-      border: 1px solid rgba(255,255,255,.1);
-
-      box-shadow: 0 40px 100px rgba(0,0,0,.7);
-
-      transform: scale(.9);
-      transition: .25s ease;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
-    .modal.active .modal-box {
-      transform: scale(1);
-    }
-
-    .modal-box h2 {
-      margin-bottom: 12px;
-    }
-
-    .modal-box p {
-      color: #a9aeba;
-      font-size: 14px;
-      line-height: 1.75;
-    }
-
-    .close {
-      width: 100%;
-      margin-top: 22px;
-      background: rgba(255,255,255,.06);
-    }
-
-    /* ---------- Mobile ---------- */
-
-    @media (max-width: 600px) {
-
-      .wrapper {
-        padding: 20px 12px;
+    @media(max-width: 600px) {
+      .time {
+        min-width: 75px;
+        padding: 15px 10px;
       }
 
-      .card {
-        padding: 34px 20px;
-        border-radius: 23px;
-      }
-
-      .icon-wrap {
-        width: 85px;
-        height: 85px;
-      }
-
-      .warning {
-        font-size: 38px;
-      }
-
-      h1 {
-        font-size: 35px;
+      .time strong {
+        font-size: 24px;
       }
 
       .subtitle {
-        font-size: 14px;
-      }
-
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .buttons {
-        flex-direction: column;
-      }
-
-      button {
-        width: 100%;
+        font-size: 15px;
       }
     }
   </style>
@@ -518,201 +206,104 @@
 
 <body>
 
-  <!-- Animated Background -->
-  <div class="background">
-    <div class="grid"></div>
-    <div class="orb red"></div>
-    <div class="orb green"></div>
-  </div>
+  <div class="circle c1"></div>
+  <div class="circle c2"></div>
 
+  <main class="container">
 
-  <div class="wrapper">
+    <div class="logo">VIP</div>
 
-    <main class="card">
+    <div class="tag">Something Premium Is Coming</div>
 
-      <div class="top-line"></div>
+    <h1>Shandar VIP Shoes</h1>
 
-      <!-- Warning Icon -->
-      <div class="icon-wrap">
-        <div class="warning">⚠</div>
+    <p class="subtitle">
+      We're crafting something special for you.
+      Our new premium shoe collection and online store
+      will be launching very soon.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="countdown">
+      <div class="time">
+        <strong id="days">00</strong>
+        <span>Days</span>
       </div>
 
-      <!-- Status Badge -->
-      <div class="badge">
-        <span class="live-dot"></span>
-        Website Suspended
+      <div class="time">
+        <strong id="hours">00</strong>
+        <span>Hours</span>
       </div>
 
-      <!-- Main Heading -->
-      <h1>
-        This Website Is <span>Banned</span>
-      </h1>
-
-      <p class="subtitle">
-        Access to this website has been temporarily suspended
-        by the website administrator. The website is currently
-        unavailable to visitors.
-      </p>
-
-
-      <!-- Reason -->
-      <div class="info">
-
-        <div class="info-title">
-          🔒 Suspension Reason
-        </div>
-
-        <p>
-          This website has been suspended because the required
-          monthly website and search engine service fees have
-          not been paid. Please contact the administrator to
-          resolve the outstanding payment and restore access.
-        </p>
-
-        <!-- Status Cards -->
-        <div class="status-grid">
-
-          <div class="status">
-            <span class="status-label">
-              Website Status
-            </span>
-
-            <span class="offline">
-              ● Suspended
-            </span>
-          </div>
-
-          <div class="status">
-            <span class="status-label">
-              Service Status
-            </span>
-
-            <span class="payment">
-              ● Payment Required
-            </span>
-          </div>
-
-        </div>
-
+      <div class="time">
+        <strong id="minutes">00</strong>
+        <span>Minutes</span>
       </div>
 
-
-      <!-- Actions -->
-      <div class="buttons">
-
-        <button class="contact" onclick="contactAdmin()">
-          ✉ Contact Administrator
-        </button>
-
-        <button class="details" onclick="openDetails()">
-          View Details
-        </button>
-
+      <div class="time">
+        <strong id="seconds">00</strong>
+        <span>Seconds</span>
       </div>
-
-
-      <!-- Footer -->
-      <div class="footer">
-        Automated Website Suspension Notice
-        <br>
-        <span>Website Administration System</span>
-      </div>
-
-    </main>
-
-  </div>
-
-
-  <!-- Details Modal -->
-  <div class="modal" id="modal">
-
-    <div class="modal-box">
-
-      <h2>Access Restricted</h2>
-
-      <p>
-        This website is currently unavailable because the required
-        monthly service payment has not been received.
-        <br><br>
-        Please contact the website administrator regarding the
-        outstanding service fee. Once the payment issue has been
-        resolved, website access may be restored by the administrator.
-      </p>
-
-      <button class="close" onclick="closeDetails()">
-        Close
-      </button>
-
     </div>
 
-  </div>
+    <div class="buttons">
+      <a href="https://wa.me/923000000000" class="btn primary">
+        Contact Us
+      </a>
 
+      <a href="#" class="btn secondary">
+        Follow Us
+      </a>
+    </div>
+
+    <footer>
+      © 2026 Shandar VIP Shoes — All Rights Reserved
+    </footer>
+
+  </main>
 
   <script>
+    // Change this date to your actual launch date
+    const launchDate = new Date("2026-12-01T00:00:00").getTime();
 
-    /*
-      UNIVERSAL ADMIN CONTACT
-      -----------------------
-      Change only this email if you ever want
-      to use another administrator email.
-    */
+    function updateCountdown() {
+      const now = Date.now();
+      const distance = launchDate - now;
 
-    const ADMIN_EMAIL = "professorayanxoffical@gmail.com";
-
-
-    function contactAdmin() {
-
-      const subject =
-        encodeURIComponent("Website Suspension - Payment Inquiry");
-
-      const body =
-        encodeURIComponent(
-          "Hello Administrator,\n\n" +
-          "I am contacting you regarding the suspended website.\n" +
-          "Please provide the required payment/service information.\n\n" +
-          "Thank you."
-        );
-
-      window.location.href =
-        `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-    }
-
-
-    function openDetails() {
-      document
-        .getElementById("modal")
-        .classList.add("active");
-    }
-
-
-    function closeDetails() {
-      document
-        .getElementById("modal")
-        .classList.remove("active");
-    }
-
-
-    document
-      .getElementById("modal")
-      .addEventListener("click", function(event) {
-
-        if (event.target === this) {
-          closeDetails();
-        }
-
-      });
-
-
-    document.addEventListener("keydown", function(event) {
-
-      if (event.key === "Escape") {
-        closeDetails();
+      if (distance <= 0) {
+        document.querySelector(".countdown").innerHTML =
+          "<h2 style='color:#ffd54a'>WE ARE LIVE!</h2>";
+        return;
       }
 
-    });
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor(
+        (distance % (1000 * 60)) / 1000
+      );
 
+      document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+
+      document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+      document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+
+      document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 
 </body>
 </html>
-```
