@@ -7,13 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="config.js"></script>
 <style>
-:root{--bg:#05070f;--bg-2:#0a0f1e;--bg-card:#0f172a;--bg-elev:#131c35;--blue:#3b82f6;--blue-light:#60a5fa;--blue-glow:rgba(59,130,246,0.35);--accent:#06b6d4;--accent-glow:rgba(6,182,212,0.3);--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--text:#e2e8f0;--text-muted:#94a3b8;--border:#1e293b;--border-hi:#334155;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
+:root{--bg:#05070f;--bg-2:#0a0f1e;--bg-card:#0f172a;--bg-elev:#131c35;--blue:#3b82f6;--blue-light:#60a5fa;--blue-glow:rgba(59,130,246,0.35);--accent:#06b6d4;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--text:#e2e8f0;--text-muted:#94a3b8;--border:#1e293b;--border-hi:#334155;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
@@ -34,16 +33,12 @@ img{max-width:100%;display:block}
 .nav-item:hover{background:var(--bg-elev);color:var(--text)}
 .nav-item.active{background:rgba(59,130,246,0.12);color:var(--blue-light);box-shadow:inset 3px 0 0 var(--blue)}
 .nav-item .badge{margin-left:auto;background:var(--accent);color:#fff;font-size:0.68rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:700}
-.nav-item.logout{color:var(--danger);margin-top:0.5rem}
-.nav-item.logout:hover{background:rgba(239,68,68,0.1)}
 .main{margin-left:260px;min-height:100vh;transition:margin-left var(--transition)}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(5,7,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .topbar-left{display:flex;align-items:center;gap:1rem}
 .menu-btn{display:none;width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
 .topbar h1{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;letter-spacing:-0.5px}
 .topbar-right{display:flex;align-items:center;gap:0.75rem}
-.user-chip{display:flex;align-items:center;gap:0.6rem;background:var(--bg-card);border:1px solid var(--border);padding:0.4rem 0.9rem 0.4rem 0.4rem;border-radius:30px;font-size:0.85rem;font-weight:600}
-.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem}
 .icon-btn{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
 .icon-btn:hover{color:var(--blue-light);border-color:var(--blue);background:rgba(59,130,246,0.08)}
 .content{padding:2rem 1.75rem}
@@ -78,8 +73,6 @@ img{max-width:100%;display:block}
 .btn-secondary:hover{background:var(--border);transform:translateY(-2px)}
 .btn-danger{background:rgba(239,68,68,0.1);color:#fca5a5;border:1.5px solid rgba(239,68,68,0.3)}
 .btn-danger:hover{background:rgba(239,68,68,0.2);transform:translateY(-2px)}
-.btn-success{background:rgba(16,185,129,0.1);color:#6ee7b7;border:1.5px solid rgba(16,185,129,0.3)}
-.btn-success:hover{background:rgba(16,185,129,0.2)}
 .btn-sm{padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:16px}
 .btn-xs{padding:0.3rem 0.6rem;font-size:0.7rem;border-radius:12px}
 .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:var(--bg-elev)}
@@ -116,29 +109,15 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 .empty-state i{font-size:3rem;opacity:0.25;margin-bottom:1rem;display:block;color:var(--blue)}
 .empty-state h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text);margin-bottom:0.5rem}
 .msg-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem;transition:all var(--transition)}
-.msg-card:hover{border-color:var(--blue);box-shadow:0 8px 24px rgba(59,130,246,0.1)}
-.msg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.75rem;flex-wrap:wrap}
-.msg-name{font-weight:700;color:var(--blue-light);display:flex;align-items:center;gap:0.5rem}
+.msg-card:hover{border-color:var(--blue)}
+.msg-name{font-weight:700;color:var(--blue-light);display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem}
 .msg-body{color:var(--text);margin-bottom:0.75rem;line-height:1.7}
 .msg-meta{display:flex;flex-wrap:wrap;gap:1rem;font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)}
-.msg-meta span{display:flex;align-items:center;gap:0.35rem}
-.setting-item{display:flex;justify-content:space-between;align-items:center;padding:1.15rem 0;border-bottom:1px solid var(--border);gap:1rem}
-.setting-item:last-child{border-bottom:none}
-.setting-info{display:flex;align-items:center;gap:1rem;flex:1}
-.setting-info i{color:var(--blue-light);font-size:1.2rem;width:22px;text-align:center}
-.setting-info h4{font-size:0.92rem;font-weight:700;margin-bottom:0.15rem}
-.setting-info p{font-size:0.8rem;color:var(--text-muted)}
-.switch{position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0}
-.switch input{opacity:0;width:0;height:0}
-.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border-hi);transition:var(--transition);border-radius:34px}
-.slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background:#fff;transition:var(--transition);border-radius:50%}
-input:checked+.slider{background:linear-gradient(135deg,var(--blue),var(--accent))}
-input:checked+.slider:before{transform:translateX(20px)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity var(--transition)}
 .modal-overlay.open{opacity:1;pointer-events:auto}
-.modal{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:20px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:scale(0.95);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);box-shadow:0 40px 100px rgba(0,0,0,0.7),0 0 80px var(--blue-glow)}
+.modal{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:20px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:scale(0.95);transition:transform 0.3s;box-shadow:0 40px 100px rgba(0,0,0,0.7)}
 .modal-overlay.open .modal{transform:scale(1)}
-.modal-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg-card);z-index:2}
+.modal-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .modal-head h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900}
 .modal-close{width:36px;height:36px;border-radius:50%;background:var(--bg-elev);border:1px solid var(--border-hi);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:0.95rem;transition:all var(--transition)}
 .modal-close:hover{background:var(--danger);color:#fff;transform:rotate(90deg)}
@@ -148,18 +127,14 @@ input:checked+.slider:before{transform:translateX(20px)}
 .detail-item.full{grid-column:span 2}
 .detail-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:0.3rem}
 .detail-value{font-weight:600;font-size:0.9rem}
-.order-items-list{list-style:none;margin-top:0.5rem}
-.order-items-list li{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem}
-.order-items-list li:last-child{border-bottom:none}
 .chart-wrap{height:300px;position:relative}
-.debug-badge{position:fixed;bottom:1rem;right:1rem;background:var(--bg-card);border:1px solid var(--border-hi);padding:0.6rem 1rem;border-radius:30px;font-size:0.75rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.5);display:flex;align-items:center;gap:0.5rem;cursor:pointer;transition:all var(--transition)}
-.debug-badge:hover{transform:scale(1.05)}
-.debug-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
-.debug-badge .dot.warn{background:var(--warning)}
-.debug-badge .dot.err{background:var(--danger)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.alert-box{padding:1rem 1.25rem;border-radius:12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:0.75rem;font-size:0.88rem;font-weight:500}
+.alert-box i{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem}
+.alert-box.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7}
+.alert-box.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5}
+.alert-box.info{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:var(--blue-light)}
 @media(max-width:1024px){.sidebar{transform:translateX(-100%);box-shadow:0 0 60px rgba(0,0,0,0.8)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-btn{display:flex}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:span 1}.detail-grid{grid-template-columns:1fr}.detail-item.full{grid-column:span 1}}
-@media(max-width:768px){.content{padding:1.25rem 1rem}.topbar{padding:0.9rem 1rem}.topbar h1{font-size:1.1rem}.user-chip span:not(.user-avatar){display:none}.stats-grid{grid-template-columns:1fr}.section-header h2{font-size:1.3rem}.header-actions{width:100%}}
+@media(max-width:768px){.content{padding:1.25rem 1rem}.topbar{padding:0.9rem 1rem}.topbar h1{font-size:1.1rem}.stats-grid{grid-template-columns:1fr}.section-header h2{font-size:1.3rem}.header-actions{width:100%}}
 </style>
 </head>
 <body>
@@ -184,7 +159,6 @@ input:checked+.slider:before{transform:translateX(20px)}
   <div class="nav-section">
     <div class="nav-title">Account</div>
     <div class="nav-item" data-sec="settings" onclick="switchSection('settings')"><i class="fas fa-cog"></i><span>Settings</span></div>
-    <div class="nav-item logout" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
   </div>
 </aside>
 
@@ -195,16 +169,17 @@ input:checked+.slider:before{transform:translateX(20px)}
       <h1 id="pageTitle">Dashboard</h1>
     </div>
     <div class="topbar-right">
-      <button class="icon-btn" onclick="runDiagnostic()" title="Run Diagnostic"><i class="fas fa-stethoscope"></i></button>
       <button class="icon-btn" onclick="refreshAll()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
-      <div class="user-chip">
-        <div class="user-avatar" id="userAvatar">KA</div>
-        <span id="adminName">Loading...</span>
+      <div style="display:flex;align-items:center;gap:0.6rem;background:var(--bg-card);border:1px solid var(--border);padding:0.4rem 0.9rem;border-radius:30px;font-size:0.85rem;font-weight:600">
+        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem">KA</div>
+        <span>Khurshid Alam</span>
       </div>
     </div>
   </div>
 
   <div class="content">
+    <div id="statusBanner"></div>
+
     <section class="section active" id="sec-dashboard">
       <div class="section-header"><h2><i class="fas fa-chart-pie"></i> Overview</h2></div>
       <div class="stats-grid">
@@ -293,6 +268,7 @@ input:checked+.slider:before{transform:translateX(20px)}
     <section class="section" id="sec-addproduct">
       <div class="section-header"><h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add New Product</h2></div>
       <div class="card">
+        <div id="formAlert"></div>
         <form id="productForm" onsubmit="saveProduct(event)">
           <input type="hidden" id="pEditId">
           <div class="form-grid">
@@ -313,7 +289,7 @@ input:checked+.slider:before{transform:translateX(20px)}
             <div class="form-group full"><label>Description</label><textarea id="pDesc" placeholder="Describe the product..."></textarea></div>
           </div>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Product</button>
+            <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save Product</button>
             <button type="button" class="btn btn-secondary" onclick="resetProductForm()"><i class="fas fa-undo"></i> Reset</button>
           </div>
         </form>
@@ -341,30 +317,17 @@ input:checked+.slider:before{transform:translateX(20px)}
     <section class="section" id="sec-settings">
       <div class="section-header"><h2><i class="fas fa-cog"></i> Settings</h2></div>
       <div class="card">
-        <div class="setting-item">
-          <div class="setting-info"><i class="fas fa-user-tie"></i><div><h4>Owner</h4><p>Khurshid Alam</p></div></div>
+        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-user-tie" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Owner</h4><p style="font-size:0.8rem;color:var(--text-muted)">Khurshid Alam</p></div></div>
         </div>
-        <div class="setting-item">
-          <div class="setting-info"><i class="fas fa-envelope"></i><div><h4>Email Notifications</h4><p>Receive updates via email</p></div></div>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-        </div>
-        <div class="setting-item">
-          <div class="setting-info"><i class="fas fa-bell"></i><div><h4>Order Alerts</h4><p>Notify on new orders</p></div></div>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-        </div>
-        <div class="setting-item">
-          <div class="setting-info"><i class="fas fa-comment"></i><div><h4>Message Alerts</h4><p>Notify on new messages</p></div></div>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-database" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Firestore Connection</h4><p style="font-size:0.8rem;color:var(--text-muted)" id="dbStatusText">Testing...</p></div></div>
+          <button class="btn btn-secondary btn-sm" onclick="testConnection()"><i class="fas fa-plug"></i> Test</button>
         </div>
       </div>
     </section>
   </div>
 </main>
-
-<div class="debug-badge" onclick="runDiagnostic()">
-  <div class="dot" id="debugDot"></div>
-  <span id="debugText">Checking...</span>
-</div>
 
 <div class="modal-overlay" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
   <div class="modal">
@@ -376,88 +339,50 @@ input:checked+.slider:before{transform:translateX(20px)}
 <script>
 // ============ STATE ============
 let allOrders=[],allProducts=[],allMessages=[];
-let currentUser=null;
 
-// ============ AUTH GUARD ============
-auth.onAuthStateChanged(user=>{
-  if(!user){window.location.href='/admin-login';return;}
-  currentUser=user;
-  const name=user.email?.split('@')[0]||'Admin';
-  document.getElementById('adminName').textContent=name;
-  document.getElementById('userAvatar').textContent=name.slice(0,2).toUpperCase();
-  console.log('✅ Logged in as:',user.email);
-  loadAll();
-  setTimeout(checkFirestoreWrite,1500);
+// ============ START ============
+window.addEventListener('load',()=>{
+  console.log('🚀 Admin starting...');
+  showBanner('info','Loading data from Firebase...','fa-spinner fa-spin');
+  loadAll().then(()=>{
+    testConnection();
+  });
 });
 
-// ============ WRITE PERMISSION CHECK ============
-async function checkFirestoreWrite(){
-  const dot=document.getElementById('debugDot');
-  const txt=document.getElementById('debugText');
+// ============ BANNER ============
+function showBanner(type,msg,icon){
+  const banner=document.getElementById('statusBanner');
+  const icons={success:'fa-check-circle',error:'fa-exclamation-circle',info:'fa-info-circle'};
+  banner.innerHTML=`<div class="alert-box ${type}"><i class="fas ${icon||icons[type]}"></i><div>${msg}</div></div>`;
+  if(type==='success'||type==='info'){setTimeout(()=>{if(banner.querySelector('.alert-box'))banner.innerHTML='';},5000);}
+}
+
+// ============ CONNECTION TEST ============
+async function testConnection(){
+  const txt=document.getElementById('dbStatusText');
+  if(txt)txt.textContent='Testing...';
   try{
-    const ref=await db.collection('__test__').add({
-      ping:true,
-      uid:currentUser.uid,
-      ts:firebase.firestore.FieldValue.serverTimestamp()
-    });
+    const ref=await db.collection('__test__').add({t:Date.now()});
     await ref.delete();
-    dot.className='dot';
-    txt.textContent='✓ Write OK';
-    console.log('✅ Firestore WRITE permission OK');
+    console.log('✅ Firestore WRITE: OK');
+    if(txt)txt.textContent='✅ Connected · Write OK';
     return true;
   }catch(e){
-    dot.className='dot err';
-    txt.textContent='✗ Write FAIL';
     console.error('❌ Firestore WRITE FAILED:',e.code,e.message);
-    console.error('👉 Fix: Firestore Rules → allow read,write if auth != null');
+    if(txt)txt.textContent='❌ '+e.code+' — '+e.message;
+    showBanner('error',`<b>Database write failed:</b> ${e.code}<br><small>Firestore Rules mein "allow read, write: if true;" paste karke Publish karein.</small>`,'fa-exclamation-triangle');
     return false;
   }
 }
 
-// ============ DIAGNOSTIC ============
-async function runDiagnostic(){
-  const user=auth.currentUser;
-  const results=[];
-  results.push(`<b>User:</b> ${user?('✅ '+user.email):'❌ Not logged in'}`);
-  results.push(`<b>Firebase:</b> ${typeof firebase!=='undefined'?'✅':'❌'}`);
-  results.push(`<b>Firestore:</b> ${typeof db!=='undefined'?'✅':'❌'}`);
-  // Test write
-  let writeOK=false;
-  try{
-    const ref=await db.collection('__diag__').add({t:Date.now()});
-    await ref.delete();
-    writeOK=true;
-    results.push(`<b>Write Test:</b> ✅ SUCCESS`);
-  }catch(e){
-    results.push(`<b>Write Test:</b> ❌ ${e.code} — ${e.message}`);
-  }
-  // Test read
-  try{
-    await db.collection('products').limit(1).get();
-    results.push(`<b>Read Test:</b> ✅ SUCCESS`);
-  }catch(e){
-    results.push(`<b>Read Test:</b> ❌ ${e.code} — ${e.message}`);
-  }
-  Swal.fire({
-    title:'🔬 Diagnostic Report',
-    html:`<div style="text-align:left;font-size:0.9rem;line-height:2">${results.join('<br>')}</div>
-      ${!writeOK?'<div style="margin-top:1rem;padding:0.75rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;font-size:0.85rem">⚠️ <b>Write fail ho raha hai!</b><br>Firebase Console → Firestore → Rules → ye paste karein:<br><code style="font-size:0.75rem;display:block;margin-top:0.5rem;background:#000;padding:0.5rem;border-radius:6px;overflow-x:auto">allow read, write: if request.auth != null;</code> phir Publish dabayein.</div>':''}`,
-    width:600,
-    background:'#0f172a',color:'#e2e8f0',confirmButtonColor:'#3b82f6'
-  });
-  checkFirestoreWrite();
-}
-
 // ============ SECTION SWITCH ============
-const sectionTitles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics',settings:'Settings'};
+const titles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics',settings:'Settings'};
 function switchSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const sec=document.getElementById('sec-'+id);
-  const nav=document.querySelector(`.nav-item[data-sec="${id}"]`);
-  if(sec)sec.classList.add('active');
-  if(nav)nav.classList.add('active');
-  document.getElementById('pageTitle').textContent=sectionTitles[id]||id;
+  document.getElementById('sec-'+id)?.classList.add('active');
+  document.querySelector(`.nav-item[data-sec="${id}"]`)?.classList.add('active');
+  document.getElementById('pageTitle').textContent=titles[id]||id;
   if(id==='addproduct'&&!document.getElementById('pEditId').value)resetProductForm();
   if(id==='analytics')setTimeout(loadAnalytics,100);
   if(window.innerWidth<=1024)document.getElementById('sidebar').classList.remove('open');
@@ -468,15 +393,16 @@ async function loadAll(){
   await Promise.all([loadOrders(),loadProducts(),loadMessages()]);
   updateDashboard();
 }
-async function refreshAll(){await loadAll();checkFirestoreWrite();fireToast('Data refreshed!');}
+async function refreshAll(){await loadAll();testConnection();fireToast('Data refreshed!');}
 
 // ============ ORDERS ============
 async function loadOrders(){
   try{
-    const snap=await db.collection('orders').orderBy('createdAt','desc').get();
+    const snap=await db.collection('orders').get();
     allOrders=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allOrders.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderOrders();
-  }catch(e){console.error('Orders load error:',e);}
+  }catch(e){console.error('Orders:',e);}
 }
 function renderOrders(){
   const body=document.getElementById('ordersBody');
@@ -485,20 +411,19 @@ function renderOrders(){
   let list=[...allOrders];
   if(filter!=='all')list=list.filter(o=>(o.status||'pending')===filter);
   if(search)list=list.filter(o=>(o.customer_name||'').toLowerCase().includes(search)||(o.phone||'').toLowerCase().includes(search)||(o.city||'').toLowerCase().includes(search));
-  if(!list.length){body.innerHTML='<tr><td colspan="8"><div class="empty-state"><i class="fas fa-inbox"></i><h3>No orders found</h3><p>Orders will appear here as customers place them</p></div></td></tr>';return;}
+  if(!list.length){body.innerHTML='<tr><td colspan="8"><div class="empty-state"><i class="fas fa-inbox"></i><h3>No orders found</h3></div></td></tr>';return;}
   body.innerHTML=list.map((o,i)=>{
     const name=o.customer_name||'N/A';
     const initials=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
     const date=o.createdAt?.toDate?o.createdAt.toDate().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
     const status=o.status||'pending';
-    const total=Number(o.total_price||0).toLocaleString();
     return `<tr>
       <td><span class="order-id" onclick="viewOrder('${o.id}')">#ORD${String(i+1).padStart(4,'0')}</span></td>
       <td><div class="customer-cell"><div class="cust-avatar">${initials}</div><div><strong>${name}</strong><div style="font-size:0.72rem;color:var(--text-muted)">${o.email||''}</div></div></div></td>
       <td>${o.phone||'—'}</td>
       <td>${o.city||'—'}</td>
       <td>${date}</td>
-      <td><strong style="color:var(--blue-light)">Rs. ${total}</strong></td>
+      <td><strong style="color:var(--blue-light)">Rs. ${Number(o.total_price||0).toLocaleString()}</strong></td>
       <td><span class="status-badge ${status}" onclick="changeStatus('${o.id}')">${status.charAt(0).toUpperCase()+status.slice(1)}</span></td>
       <td><button class="btn btn-secondary btn-xs" onclick="viewOrder('${o.id}')"><i class="fas fa-eye"></i></button></td>
     </tr>`;
@@ -506,24 +431,22 @@ function renderOrders(){
 }
 async function viewOrder(id){
   const o=allOrders.find(x=>x.id===id);if(!o)return;
-  const name=o.customer_name||'N/A';
   const date=o.createdAt?.toDate?o.createdAt.toDate().toLocaleString():'—';
   const items=o.items||[];
-  const itemsHTML=items.map(it=>`<li><span>${it.name} x${it.qty}</span><span>Rs. ${(it.price*it.qty).toLocaleString()}</span></li>`).join('');
+  const itemsHTML=items.map(it=>`<li style="display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span>${it.name} x${it.qty}</span><span>Rs. ${(it.price*it.qty).toLocaleString()}</span></li>`).join('');
   document.getElementById('orderModalTitle').textContent=`Order #${id.slice(-6).toUpperCase()}`;
   document.getElementById('orderModalBody').innerHTML=`
     <div class="detail-grid">
-      <div class="detail-item"><div class="detail-label">Customer</div><div class="detail-value">${name}</div></div>
+      <div class="detail-item"><div class="detail-label">Customer</div><div class="detail-value">${o.customer_name||'N/A'}</div></div>
       <div class="detail-item"><div class="detail-label">Phone</div><div class="detail-value">${o.phone||'—'}</div></div>
       <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${o.email||'—'}</div></div>
       <div class="detail-item"><div class="detail-label">City</div><div class="detail-value">${o.city||'—'}</div></div>
       <div class="detail-item full"><div class="detail-label">Address</div><div class="detail-value">${o.address||'—'}</div></div>
-      <div class="detail-item full"><div class="detail-label">Order Notes</div><div class="detail-value">${o.notes||'—'}</div></div>
+      <div class="detail-item full"><div class="detail-label">Notes</div><div class="detail-value">${o.notes||'—'}</div></div>
       <div class="detail-item"><div class="detail-label">Date</div><div class="detail-value">${date}</div></div>
       <div class="detail-item"><div class="detail-label">Payment</div><div class="detail-value">${(o.payment_method||'COD').toUpperCase()}</div></div>
-      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="status-badge ${o.status||'pending'}">${(o.status||'pending').toUpperCase()}</span></div></div>
       <div class="detail-item"><div class="detail-label">Total</div><div class="detail-value" style="color:var(--blue-light);font-size:1.1rem">Rs. ${Number(o.total_price||0).toLocaleString()}</div></div>
-      <div class="detail-item full"><div class="detail-label">Items Ordered</div><ul class="order-items-list">${itemsHTML||'<li>No items</li>'}</ul></div>
+      <div class="detail-item full"><div class="detail-label">Items</div><ul style="list-style:none;margin-top:0.5rem">${itemsHTML||'<li>No items</li>'}</ul></div>
     </div>
     <div style="margin-top:1.25rem;display:flex;gap:0.6rem;flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="changeStatus('${o.id}')"><i class="fas fa-edit"></i> Update Status</button>
@@ -537,35 +460,28 @@ async function changeStatus(id){
   if(status){await db.collection('orders').doc(id).update({status});fireToast('Status updated!');await loadOrders();updateDashboard();}
 }
 async function deleteOrder(id){
-  const r=await Swal.fire({title:'Delete Order?',text:'This cannot be undone!',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
+  const r=await Swal.fire({title:'Delete Order?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
   if(r.isConfirmed){await db.collection('orders').doc(id).delete();fireToast('Order deleted');closeOrderModal();loadOrders();updateDashboard();}
 }
 function exportOrders(){
   if(!allOrders.length)return fireToast('No orders to export','warning');
   const rows=[['Order ID','Name','Email','Phone','City','Address','Total','Status','Payment','Date']];
-  allOrders.forEach((o,i)=>{rows.push([`ORD${String(i+1).padStart(4,'0')}`,o.customer_name||'',o.email||'',o.phone||'',o.city||'',o.address||'',o.total_price||0,o.status||'pending',o.payment_method||'cod',o.createdAt?.toDate?.().toISOString()||'']);});
+  allOrders.forEach((o,i)=>rows.push([`ORD${String(i+1).padStart(4,'0')}`,o.customer_name||'',o.email||'',o.phone||'',o.city||'',o.address||'',o.total_price||0,o.status||'pending',o.payment_method||'cod',o.createdAt?.toDate?.().toISOString()||'']));
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`orders-${Date.now()}.csv`;a.click();
-  URL.revokeObjectURL(url);fireToast('Orders exported!');
+  const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`orders-${Date.now()}.csv`;a.click();URL.revokeObjectURL(url);
+  fireToast('Orders exported!');
 }
 
 // ============ PRODUCTS ============
 async function loadProducts(){
   try{
-    const snap=await db.collection('products').orderBy('createdAt','desc').get();
+    const snap=await db.collection('products').get();
     allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allProducts.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderProducts();
-  }catch(e){
-    console.error('Products load error:',e);
-    // Fallback: try without orderBy (in case some docs missing createdAt)
-    try{
-      const snap=await db.collection('products').get();
-      allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
-      renderProducts();
-    }catch(e2){console.error('Fallback also failed:',e2);}
-  }
+    console.log(`✅ Loaded ${allProducts.length} products`);
+  }catch(e){console.error('Products load error:',e);}
 }
 function renderProducts(){
   const body=document.getElementById('productsBody');
@@ -574,7 +490,7 @@ function renderProducts(){
   let list=[...allProducts];
   if(cat!=='all')list=list.filter(p=>p.category===cat);
   if(search)list=list.filter(p=>(p.name||'').toLowerCase().includes(search));
-  if(!list.length){body.innerHTML='<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products</h3><p>Click "Add Product" to create your first product</p></div></td></tr>';return;}
+  if(!list.length){body.innerHTML='<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Click "Add Product" to add your first product</p></div></td></tr>';return;}
   body.innerHTML=list.map(p=>`<tr>
     <td><img src="${p.image||''}" class="product-thumb" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect fill=%22%23131c35%22 width=%2248%22 height=%2248%22/></svg>'"></td>
     <td><strong>${p.name||'Unnamed'}</strong>${p.badge?` <span style="font-size:0.68rem;background:rgba(6,182,212,0.15);color:var(--accent);padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.4rem">${p.badge}</span>`:''}</td>
@@ -590,6 +506,7 @@ function resetProductForm(){
   document.getElementById('productForm').reset();
   document.getElementById('pEditId').value='';
   document.getElementById('productFormTitle').innerHTML='<i class="fas fa-plus-circle"></i> Add New Product';
+  document.getElementById('formAlert').innerHTML='';
 }
 function editProduct(id){
   const p=allProducts.find(x=>x.id===id);if(!p)return;
@@ -602,66 +519,94 @@ function editProduct(id){
   document.getElementById('pImage').value=p.image||'';
   document.getElementById('pDesc').value=p.description||'';
   document.getElementById('productFormTitle').innerHTML='<i class="fas fa-edit"></i> Edit Product';
+  document.getElementById('formAlert').innerHTML='';
   switchSection('addproduct');
 }
 
+// ============ SAVE PRODUCT (SIMPLE + CLEAR) ============
 async function saveProduct(e){
   e.preventDefault();
+  const alertEl=document.getElementById('formAlert');
+  const saveBtn=document.getElementById('saveBtn');
+  alertEl.innerHTML='';
+
   const id=document.getElementById('pEditId').value;
-  const data={
-    name:document.getElementById('pName').value.trim(),
-    category:document.getElementById('pCategory').value,
-    price:parseFloat(document.getElementById('pPrice').value)||0,
-    oldPrice:parseFloat(document.getElementById('pOldPrice').value)||0,
-    badge:document.getElementById('pBadge').value.trim(),
-    image:document.getElementById('pImage').value.trim(),
-    description:document.getElementById('pDesc').value.trim()
-  };
-  if(!data.name||!data.category||!data.price||!data.image){
-    Swal.fire({icon:'warning',title:'Missing Fields',text:'Please fill all required fields',background:'#0f172a',color:'#e2e8f0'});
+  const name=document.getElementById('pName').value.trim();
+  const category=document.getElementById('pCategory').value;
+  const price=parseFloat(document.getElementById('pPrice').value)||0;
+  const oldPrice=parseFloat(document.getElementById('pOldPrice').value)||0;
+  const badge=document.getElementById('pBadge').value.trim();
+  const image=document.getElementById('pImage').value.trim();
+  const description=document.getElementById('pDesc').value.trim();
+
+  // Validation
+  if(!name||!category||!price||!image){
+    alertEl.innerHTML='<div class="alert-box error"><i class="fas fa-exclamation-circle"></i><div><b>❌ Not Added</b><br>Please fill all required fields: Name, Category, Price, Image</div></div>';
     return;
   }
-  Swal.fire({title:'Saving...',allowOutsideClick:false,didOpen:()=>Swal.showLoading(),background:'#0f172a',color:'#e2e8f0'});
+
+  // Show saving state
+  saveBtn.disabled=true;
+  saveBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving...';
+  alertEl.innerHTML='<div class="alert-box info"><i class="fas fa-spinner fa-spin"></i><div>Saving to Firebase...</div></div>';
+
+  const data={name,category,price,oldPrice,badge,image,description};
+
   try{
     if(id){
+      // UPDATE
       await db.collection('products').doc(id).update(data);
-      Swal.fire({icon:'success',title:'Product Updated!',timer:1500,showConfirmButton:false,background:'#0f172a',color:'#e2e8f0'});
+      console.log('✅ Product updated:',id);
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Updated!</b><br>"${name}" has been updated.</div></div>`;
+      fireToast('Product updated!','success');
     }else{
+      // ADD
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
       const ref=await db.collection('products').add(data);
-      console.log('✅ Product saved! ID:',ref.id,'Name:',data.name);
-      Swal.fire({icon:'success',title:'Product Added!',html:`<p>"<b>${data.name}</b>" saved!</p><p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem">ID: ${ref.id.slice(-8)}</p>`,confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'});
+      console.log('✅✅✅ Product ADDED! ID:',ref.id);
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Added!</b><br>"${name}" has been saved to database.<br><small style="opacity:0.8">ID: ${ref.id.slice(-8)}</small></div></div>`;
+      fireToast('Product added successfully!','success');
     }
     resetProductForm();
     await loadProducts();
     updateDashboard();
-    setTimeout(()=>switchSection('products'),800);
+    // Keep success message visible
+    setTimeout(()=>{alertEl.innerHTML='';},6000);
   }catch(err){
-    console.error('❌ Save FAILED:',err);
-    const tips={
-      'permission-denied':'Firestore Rules allow nahi kar rahe. Rules tab mein "allow read, write: if request.auth != null;" paste karke Publish karein.',
-      'unavailable':'Internet ya Firestore enable nahi hai.',
-      'not-found':'Firestore database hi nahi bana. Firebase Console se Create database karein.',
-      'unauthenticated':'Aap logged in nahi hain. /admin-login pe jayein.',
-      'failed-precondition':'Firestore abhi tak ready nahi hua.'
-    };
-    const tip=tips[err.code]||'Firebase Console → Firestore → Rules check karein.';
-    Swal.fire({icon:'error',title:'Save Failed ❌',html:`<div style="text-align:left"><p style="margin-bottom:0.75rem"><b>Error Code:</b> <code style="background:#000;padding:0.2rem 0.5rem;border-radius:4px;color:#fca5a5">${err.code||'unknown'}</code></p><p style="margin-bottom:1rem"><b>Message:</b> ${err.message}</p><div style="padding:0.75rem;background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;border-radius:6px;font-size:0.85rem"><b>💡 Fix:</b> ${tip}</div></div>`,width:600,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
+    console.error('❌❌❌ Save failed:',err);
+    let fixMsg='Firebase Console → Firestore → Rules check karein.';
+    if(err.code==='permission-denied') fixMsg='Firestore Rules mein "allow read, write: if true;" paste karke Publish karein.';
+    else if(err.code==='unavailable') fixMsg='Internet connection check karein ya Firestore enable karein.';
+    else if(err.code==='not-found') fixMsg='Firebase Console se Firestore database create karein.';
+    alertEl.innerHTML=`<div class="alert-box error"><i class="fas fa-times-circle"></i><div><b>❌ Not Added</b><br>Error: <code>${err.code||'unknown'}</code><br>${err.message}<br><small style="margin-top:0.5rem;display:block">💡 <b>Fix:</b> ${fixMsg}</small></div></div>`;
+    fireToast('Failed: '+err.code,'error');
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.innerHTML='<i class="fas fa-save"></i> Save Product';
   }
 }
 
 async function deleteProduct(id){
-  const r=await Swal.fire({title:'Delete Product?',text:'This cannot be undone!',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){await db.collection('products').doc(id).delete();fireToast('Product deleted');loadProducts();updateDashboard();}
+  const r=await Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
+  if(r.isConfirmed){
+    try{
+      await db.collection('products').doc(id).delete();
+      fireToast('Product deleted');
+      loadProducts();updateDashboard();
+    }catch(e){
+      Swal.fire({icon:'error',title:'Delete Failed',text:e.message,background:'#0f172a',color:'#e2e8f0'});
+    }
+  }
 }
 
 // ============ MESSAGES ============
 async function loadMessages(){
   try{
-    const snap=await db.collection('contacts').orderBy('createdAt','desc').get();
+    const snap=await db.collection('contacts').get();
     allMessages=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allMessages.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderMessages();
-  }catch(e){console.error('Messages load error:',e);}
+  }catch(e){console.error('Messages:',e);}
 }
 function renderMessages(){
   const wrap=document.getElementById('messagesList');
@@ -669,15 +614,16 @@ function renderMessages(){
   wrap.innerHTML=allMessages.map(m=>{
     const date=m.createdAt?.toDate?m.createdAt.toDate().toLocaleString():'—';
     return `<div class="msg-card">
-      <div class="msg-head"><div class="msg-name"><i class="fas fa-user-circle"></i> ${m.name||'Anonymous'}</div>
-      <button class="btn btn-secondary btn-xs" onclick="replyMsg('${m.email}')"><i class="fas fa-reply"></i> Reply</button></div>
+      <div class="msg-name"><i class="fas fa-user-circle"></i> ${m.name||'Anonymous'}</div>
       <div class="msg-body">${m.message||''}</div>
-      <div class="msg-meta"><span><i class="fas fa-envelope"></i> ${m.email||'—'}</span><span><i class="fas fa-phone"></i> ${m.phone||'—'}</span><span><i class="fas fa-clock"></i> ${date}</span><span style="margin-left:auto"><button class="btn btn-danger btn-xs" onclick="deleteMessage('${m.id}')"><i class="fas fa-trash"></i></button></span></div>
+      <div class="msg-meta">
+        <span><i class="fas fa-envelope"></i> ${m.email||'—'}</span>
+        <span><i class="fas fa-phone"></i> ${m.phone||'—'}</span>
+        <span><i class="fas fa-clock"></i> ${date}</span>
+        <span style="margin-left:auto"><button class="btn btn-danger btn-xs" onclick="deleteMessage('${m.id}')"><i class="fas fa-trash"></i></button></span>
+      </div>
     </div>`;
   }).join('');
-}
-function replyMsg(email){
-  Swal.fire({title:`Reply to ${email}`,input:'textarea',inputPlaceholder:'Type your reply...',showCancelButton:true,confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'}).then(r=>{if(r.isConfirmed&&r.value){fireToast('Opening email...');window.location.href=`mailto:${email}?body=${encodeURIComponent(r.value)}`;}});
 }
 async function deleteMessage(id){
   const r=await Swal.fire({title:'Delete Message?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
@@ -699,32 +645,31 @@ function updateDashboard(){
 function renderSalesChart(){
   const canvas=document.getElementById('salesChart');if(!canvas)return;
   const ctx=canvas.getContext('2d');if(!ctx)return;
-  try{if(window.salesChart&&typeof window.salesChart.destroy==='function'){window.salesChart.destroy();}}catch(e){}
+  try{if(window.salesChart&&typeof window.salesChart.destroy==='function')window.salesChart.destroy();}catch(e){}
   window.salesChart=null;
   const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const now=new Date();
   const totals=new Array(7).fill(0);
-  allOrders.forEach(o=>{if(!o.createdAt?.toDate)return;const d=o.createdAt.toDate();const diff=Math.floor((now-d)/(1000*60*60*24));if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);});
+  allOrders.forEach(o=>{if(!o.createdAt?.toDate)return;const d=o.createdAt.toDate();const diff=Math.floor((now-d)/(864e5));if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);});
   try{
     window.salesChart=new Chart(ctx,{type:'line',data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}});
-  }catch(e){console.error('Chart error:',e);}
+  }catch(e){}
 }
 function loadAnalytics(){
   const canvas=document.getElementById('catChart');if(!canvas)return;
   const ctx=canvas.getContext('2d');if(!ctx)return;
-  try{if(window.catChart&&typeof window.catChart.destroy==='function'){window.catChart.destroy();}}catch(e){}
+  try{if(window.catChart&&typeof window.catChart.destroy==='function')window.catChart.destroy();}catch(e){}
   window.catChart=null;
   const cats={Sneakers:0,Formal:0,Casual:0,Boots:0};
   allOrders.forEach(o=>(o.items||[]).forEach(it=>{const p=allProducts.find(x=>x.id===it.id);if(p&&cats[p.category]!==undefined)cats[p.category]+=Number(it.price||0)*Number(it.qty||1);}));
   try{
     window.catChart=new Chart(ctx,{type:'bar',data:{labels:Object.keys(cats),datasets:[{label:'Sales (Rs.)',data:Object.values(cats),backgroundColor:['rgba(59,130,246,0.8)','rgba(6,182,212,0.8)','rgba(16,185,129,0.8)','rgba(245,158,11,0.8)'],borderRadius:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}});
-  }catch(e){console.error('CatChart error:',e);}
+  }catch(e){}
 }
 
-// ============ LOGOUT ============
-async function handleLogout(){
-  const r=await Swal.fire({title:'Logout?',text:'Are you sure?',icon:'question',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){await auth.signOut();window.location.href='/admin-login';}
+// ============ TOAST ============
+function fireToast(msg,icon='success'){
+  Swal.fire({toast:true,position:'top-end',icon,title:msg,showConfirmButton:false,timer:2600,timerProgressBar:true,background:'#0f172a',color:'#e2e8f0'});
 }
 </script>
 </body>
