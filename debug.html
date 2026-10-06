@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Debug</title>
+<style>
+body{font-family:Arial;background:#0a0f1e;color:#e2e8f0;padding:2rem}
+button{background:#3b82f6;color:#fff;padding:1rem 2rem;border:none;border-radius:8px;font-size:1rem;cursor:pointer;margin:0.5rem}
+#out{margin-top:2rem;padding:1rem;background:#000;border-radius:8px;white-space:pre-wrap;font-family:monospace;font-size:0.9rem;min-height:200px}
+</style>
+</head>
+<body>
+<h1>Debug Test</h1>
+<button onclick="test1()">Test 1: HTTP Check</button>
+<button onclick="test2()">Test 2: Write Test</button>
+<button onclick="clearOut()">Clear</button>
+<div id="out">Ready...</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const cfg = {
+  apiKey: "AIzaSyCsbAdGKmEDA5R31dPuZXCq43332ZpE05A",
+  authDomain: "shandar-vip.firebaseapp.com",
+  projectId: "shandar-vip",
+  storageBucket: "shandar-vip.firebasestorage.app",
+  messagingSenderId: "217113477423",
+  appId: "1:217113477423:web:f64fd0ff63c06d504961da"
+};
+firebase.initializeApp(cfg);
+const db = firebase.firestore();
+
+function log(msg) {
+  document.getElementById('out').innerHTML += msg + '\n';
+}
+function clearOut() {
+  document.getElementById('out').innerHTML = '';
+}
+
+async function test1() {
+  clearOut();
+  log('=== TEST 1: Direct HTTP Check ===');
+  log('Time: ' + new Date().toLocaleTimeString());
+  try {
+    const r = await fetch("https://firestore.googleapis.com/v1/projects/shandar-vip/databases/(default)/documents/products?pageSize=1");
+    const txt = await r.text();
+    log('STATUS: ' + r.status);
+    log('RESPONSE: ' + txt.substring(0, 400));
+    log('');
+    if (r.status === 200) log('✅ Firestore reachable');
+    else if (r.status === 403) log('⚠️ Rules block kar rahe hain');
+    else if (r.status === 404) log('❌ DATABASE EXIST NAHI KARTA');
+    else log('⚠️ Unknown status');
+  } catch(e) {
+    log('ERROR: ' + e.message);
+  }
+}
+
+async function test2() {
+  clearOut();
+  log('=== TEST 2: SDK Write Test ===');
+  log('Time: ' + new Date().toLocaleTimeString());
+  try {
+    log('Trying to add doc...');
+    const r = await Promise.race([
+      db.collection('products').add({name:"TEST_"+Date.now(), price:1, cat:"test"}),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error("TIMEOUT_20s")), 20000))
+    ]);
+    log('✅ WRITE OK! ID: ' + r.id);
+    await db.collection('products').doc(r.id).delete();
+    log('✅ DELETE OK');
+    log('🎉 SAB KAAM KAR RAHA HAI!');
+  } catch(e) {
+    log('❌ FAIL');
+    log('Code: ' + (e.code || 'none'));
+    log('Message: ' + e.message);
+    log('');
+    if (e.code === 'permission-denied') log('👉 FIX: Firestore Rules mein allow write: if true;');
+    if (e.code === 'not-found') log('👉 FIX: Firebase Console se Firestore Create database');
+    if (e.message && e.message.includes('TIMEOUT')) log('👉 FIX: Network/VPN/AdBlock block kar raha hai');
+  }
+}
+</script>
+</body>
+</html>
