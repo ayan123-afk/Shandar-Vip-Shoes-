@@ -1,146 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Firebase Test</title>
+<title>FINAL TEST</title>
 <style>
-body{font-family:monospace;background:#0a0f1e;color:#e2e8f0;padding:2rem;line-height:1.8}
-button{background:#3b82f6;color:#fff;padding:1rem 2rem;border:none;border-radius:8px;font-size:1rem;font-weight:bold;cursor:pointer;margin:0.5rem 0}
-button:hover{background:#2563eb}
-#result{margin-top:2rem;padding:1.5rem;background:#0f172a;border:1px solid #1e293b;border-radius:8px;white-space:pre-wrap;font-size:0.9rem;min-height:100px}
-.ok{color:#10b981}
-.err{color:#ef4444}
-.warn{color:#f59e0b}
+body{font-family:Arial;background:#000;color:#0f0;padding:2rem;font-size:1.1rem;line-height:1.8}
+#out{margin-top:1rem;padding:1rem;background:#111;border:2px solid #0f0;border-radius:8px;white-space:pre-wrap;font-family:monospace;min-height:300px}
 </style>
 </head>
 <body>
-<h1>🔥 Firebase Connection Test</h1>
-<p>Sirf 1 button dabayein — result neeche aayega</p>
-
-<button onclick="runTest()">▶ RUN TEST</button>
-<button onclick="document.getElementById('result').textContent=''">Clear</button>
-
-<div id="result">Ready...</div>
+<h1>🔬 FINAL TEST</h1>
+<div id="out">Starting... wait 5 seconds...</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script>
-const firebaseConfig = {
+const out = document.getElementById('out');
+function log(s) { out.innerHTML += '\n' + s; }
+
+out.innerHTML = '';
+
+firebase.initializeApp({
   apiKey: "AIzaSyCsbAdGKmEDA5R31dPuZXCq43332ZpE05A",
   authDomain: "shandar-vip.firebaseapp.com",
   projectId: "shandar-vip",
   storageBucket: "shandar-vip.firebasestorage.app",
   messagingSenderId: "217113477423",
   appId: "1:217113477423:web:f64fd0ff63c06d504961da"
-};
+});
 
-firebase.initializeApp(firebaseConfig);
+log('1. Firebase loaded ✅');
+
 const db = firebase.firestore();
+log('2. Firestore ready ✅');
 
-function log(msg, cls) {
-  const el = document.getElementById('result');
-  el.innerHTML += (cls ? `<span class="${cls}">${msg}</span>` : msg) + '\n';
-}
-
-async function runTest() {
-  document.getElementById('result').textContent = '';
-  log('🔬 Starting Firebase test...\n');
-  log('Project: shandar-vip');
-  log('Time: ' + new Date().toLocaleString() + '\n');
-  
-  // Step 1
-  log('STEP 1: Check Firebase loaded');
-  if (typeof firebase === 'undefined') {
-    log('❌ Firebase SDK not loaded', 'err');
-    return;
-  }
-  log('✅ Firebase SDK loaded\n', 'ok');
-  
-  // Step 2
-  log('STEP 2: Check Firestore');
-  if (typeof db === 'undefined') {
-    log('❌ Firestore not initialized', 'err');
-    return;
-  }
-  log('✅ Firestore initialized\n', 'ok');
-  
-  // Step 3 - READ
-  log('STEP 3: Test READ (products collection)');
-  try {
-    const snap = await db.collection('products').limit(5).get();
-    log(`✅ READ OK — ${snap.size} products found`, 'ok');
-    if (snap.size > 0) {
-      log('Products in DB:');
-      snap.forEach(d => log('  · ' + (d.data().name || 'Unnamed')));
-    }
+log('3. Testing HTTP connection...');
+fetch("https://firestore.googleapis.com/v1/projects/shandar-vip/databases/(default)/documents/products?pageSize=1")
+  .then(r => {
+    log('   HTTP Status: ' + r.status);
+    if (r.status === 200) log('   ✅ Database exists!');
+    else if (r.status === 404) log('   ❌ DATABASE DOES NOT EXIST!');
+    else if (r.status === 403) log('   ❌ Rules block kar rahe hain');
+    return r.text();
+  })
+  .then(t => {
+    log('   Response: ' + t.substring(0, 200));
     log('');
-  } catch(e) {
-    log('❌ READ FAILED', 'err');
-    log('  Code: ' + e.code, 'err');
-    log('  Message: ' + e.message, 'err');
+    log('4. Testing SDK WRITE...');
+    return Promise.race([
+      db.collection('products').add({name:"TEST_" + Date.now(), price: 5000, category: "Sneakers", image: "https://via.placeholder.com/300", description: "test", createdAt: firebase.firestore.FieldValue.serverTimestamp()}),
+      new Promise((_,rej) => setTimeout(() => rej(new Error("TIMEOUT_15s")), 15000))
+    ]);
+  })
+  .then(r => {
+    log('   ✅✅✅ WRITE OK! ID: ' + r.id);
     log('');
-  }
-  
-  // Step 4 - WRITE
-  log('STEP 4: Test WRITE (adding test doc to "tests" collection)');
-  try {
-    const ref = await db.collection('tests').add({
-      message: 'Hello from test',
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      userAgent: navigator.userAgent
-    });
-    log('✅ WRITE OK — Doc ID: ' + ref.id, 'ok');
-    log('Testing delete...');
-    await db.collection('tests').doc(ref.id).delete();
-    log('✅ DELETE OK\n', 'ok');
-    log('🎉🎉🎉 ALL TESTS PASSED! 🎉🎉🎉', 'ok');
-    log('Firebase bilkul theek kaam kar raha hai!', 'ok');
-    log('Ab admin panel bhi kaam karega.', 'ok');
-  } catch(e) {
-    log('❌ WRITE FAILED', 'err');
-    log('  Code: ' + e.code, 'err');
-    log('  Message: ' + e.message, 'err');
+    log('🎉🎉🎉 SAB KAAM KAR RAHA HAI! 🎉🎉🎉');
     log('');
-    log('👉 SOLUTION:', 'warn');
-    if (e.code === 'permission-denied') {
-      log('Firestore Rules write allow nahi kar rahe!', 'warn');
-      log('');
-      log('Karein ye:', 'warn');
-      log('1. https://console.firebase.google.com/project/shandar-vip/firestore/rules', 'warn');
-      log('2. Ye code paste karein:', 'warn');
-      log('');
-      log('rules_version = \'2\';');
-      log('service cloud.firestore {');
-      log('  match /databases/{database}/documents {');
-      log('    match /{document=**} {');
-      log('      allow read, write: if true;');
-      log('    }');
-      log('  }');
-      log('}');
-      log('');
-      log('3. Publish button dabayein (blue button)', 'warn');
-      log('4. Ye page refresh karke dobara RUN TEST karein', 'warn');
-    } else if (e.code === 'unavailable') {
-      log('Internet issue ya Firestore band hai', 'warn');
-      log('https://console.firebase.google.com/project/shandar-vip/firestore', 'warn');
-      log('check karein ke database enable hai', 'warn');
-    } else if (e.code === 'not-found') {
-      log('Firestore database exist nahi karta!', 'warn');
-      log('https://console.firebase.google.com/project/shandar-vip/firestore', 'warn');
-      log('pe jaakar "Create database" dabayein', 'warn');
-    }
-  }
-  
-  // Step 5 - AUTH
-  log('\nSTEP 5: Check Auth (optional)');
-  try {
-    if (typeof firebase.auth !== 'undefined') {
-      const auth = firebase.auth();
-      log('Auth current user: ' + (auth.currentUser ? auth.currentUser.email : 'None (not logged in)'));
-    }
-  } catch(e) {}
-}
+    log('Ab admin panel bhi chalega.');
+    log('Product add karein, order aayenge, sab chalega.');
+    return db.collection('products').doc(r.id).delete();
+  })
+  .catch(e => {
+    log('   ❌ FAILED');
+    log('   Code: ' + (e.code || 'none'));
+    log('   Message: ' + e.message);
+    log('');
+    log('👉 PROBLEM:');
+    if (e.message && e.message.includes('TIMEOUT')) log('   Network ya Firestore block');
+    else if (e.code === 'permission-denied') log('   Rules allow nahi kar rahe');
+    else if (e.code === 'not-found') log('   Database exist nahi karta');
+  });
 </script>
 </body>
 </html>
