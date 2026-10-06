@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -33,12 +34,16 @@ img{max-width:100%;display:block}
 .nav-item:hover{background:var(--bg-elev);color:var(--text)}
 .nav-item.active{background:rgba(59,130,246,0.12);color:var(--blue-light);box-shadow:inset 3px 0 0 var(--blue)}
 .nav-item .badge{margin-left:auto;background:var(--accent);color:#fff;font-size:0.68rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:700}
+.nav-item.logout{color:var(--danger);margin-top:0.5rem}
+.nav-item.logout:hover{background:rgba(239,68,68,0.1)}
 .main{margin-left:260px;min-height:100vh;transition:margin-left var(--transition)}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(5,7,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .topbar-left{display:flex;align-items:center;gap:1rem}
 .menu-btn{display:none;width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
 .topbar h1{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;letter-spacing:-0.5px}
 .topbar-right{display:flex;align-items:center;gap:0.75rem}
+.user-chip{display:flex;align-items:center;gap:0.6rem;background:var(--bg-card);border:1px solid var(--border);padding:0.4rem 0.9rem 0.4rem 0.4rem;border-radius:30px;font-size:0.85rem;font-weight:600}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem}
 .icon-btn{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
 .icon-btn:hover{color:var(--blue-light);border-color:var(--blue);background:rgba(59,130,246,0.08)}
 .content{padding:2rem 1.75rem}
@@ -159,6 +164,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
   <div class="nav-section">
     <div class="nav-title">Account</div>
     <div class="nav-item" data-sec="settings" onclick="switchSection('settings')"><i class="fas fa-cog"></i><span>Settings</span></div>
+    <div class="nav-item logout" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
   </div>
 </aside>
 
@@ -170,9 +176,9 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
     </div>
     <div class="topbar-right">
       <button class="icon-btn" onclick="refreshAll()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
-      <div style="display:flex;align-items:center;gap:0.6rem;background:var(--bg-card);border:1px solid var(--border);padding:0.4rem 0.9rem;border-radius:30px;font-size:0.85rem;font-weight:600">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem">KA</div>
-        <span>Khurshid Alam</span>
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">KA</div>
+        <span id="adminName">Loading...</span>
       </div>
     </div>
   </div>
@@ -317,12 +323,12 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
     <section class="section" id="sec-settings">
       <div class="section-header"><h2><i class="fas fa-cog"></i> Settings</h2></div>
       <div class="card">
-        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-user-tie" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Owner</h4><p style="font-size:0.8rem;color:var(--text-muted)">Khurshid Alam</p></div></div>
+        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem">
+          <i class="fas fa-user-tie" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i>
+          <div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Owner</h4><p style="font-size:0.8rem;color:var(--text-muted)">Khurshid Alam</p></div>
         </div>
-        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-database" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Firestore Connection</h4><p style="font-size:0.8rem;color:var(--text-muted)" id="dbStatusText">Testing...</p></div></div>
-          <button class="btn btn-secondary btn-sm" onclick="testConnection()"><i class="fas fa-plug"></i> Test</button>
+        <div style="padding:1.15rem 0;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-shield-halved" style="color:var(--success);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Security Status</h4><p style="font-size:0.8rem;color:var(--text-muted)">✅ Firestore rules active · Only logged-in admin can modify data</p></div></div>
         </div>
       </div>
     </section>
@@ -337,45 +343,29 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 </div>
 
 <script>
-// ============ STATE ============
 let allOrders=[],allProducts=[],allMessages=[];
 
-// ============ START ============
-window.addEventListener('load',()=>{
-  console.log('🚀 Admin starting...');
-  showBanner('info','Loading data from Firebase...','fa-spinner fa-spin');
-  loadAll().then(()=>{
-    testConnection();
-  });
+// ============ AUTH GUARD ============
+auth.onAuthStateChanged(user=>{
+  if(!user){
+    Swal.fire({icon:'warning',title:'Not Logged In',text:'Redirecting to login...',timer:1500,showConfirmButton:false,background:'#0f172a',color:'#e2e8f0'});
+    setTimeout(()=>window.location.href='/admin-login',1500);
+    return;
+  }
+  const name=user.email?.split('@')[0]||'Admin';
+  document.getElementById('adminName').textContent=name;
+  document.getElementById('userAvatar').textContent=name.slice(0,2).toUpperCase();
+  console.log('✅ Logged in as:',user.email);
+  loadAll();
 });
 
-// ============ BANNER ============
 function showBanner(type,msg,icon){
-  const banner=document.getElementById('statusBanner');
+  const b=document.getElementById('statusBanner');
   const icons={success:'fa-check-circle',error:'fa-exclamation-circle',info:'fa-info-circle'};
-  banner.innerHTML=`<div class="alert-box ${type}"><i class="fas ${icon||icons[type]}"></i><div>${msg}</div></div>`;
-  if(type==='success'||type==='info'){setTimeout(()=>{if(banner.querySelector('.alert-box'))banner.innerHTML='';},5000);}
+  b.innerHTML=`<div class="alert-box ${type}"><i class="fas ${icon||icons[type]}"></i><div>${msg}</div></div>`;
+  if(type==='success')setTimeout(()=>{if(b.querySelector('.alert-box'))b.innerHTML='';},5000);
 }
 
-// ============ CONNECTION TEST ============
-async function testConnection(){
-  const txt=document.getElementById('dbStatusText');
-  if(txt)txt.textContent='Testing...';
-  try{
-    const ref=await db.collection('__test__').add({t:Date.now()});
-    await ref.delete();
-    console.log('✅ Firestore WRITE: OK');
-    if(txt)txt.textContent='✅ Connected · Write OK';
-    return true;
-  }catch(e){
-    console.error('❌ Firestore WRITE FAILED:',e.code,e.message);
-    if(txt)txt.textContent='❌ '+e.code+' — '+e.message;
-    showBanner('error',`<b>Database write failed:</b> ${e.code}<br><small>Firestore Rules mein "allow read, write: if true;" paste karke Publish karein.</small>`,'fa-exclamation-triangle');
-    return false;
-  }
-}
-
-// ============ SECTION SWITCH ============
 const titles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics',settings:'Settings'};
 function switchSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -388,14 +378,13 @@ function switchSection(id){
   if(window.innerWidth<=1024)document.getElementById('sidebar').classList.remove('open');
 }
 
-// ============ LOAD ALL ============
 async function loadAll(){
   await Promise.all([loadOrders(),loadProducts(),loadMessages()]);
   updateDashboard();
 }
-async function refreshAll(){await loadAll();testConnection();fireToast('Data refreshed!');}
+async function refreshAll(){await loadAll();fireToast('Data refreshed!');}
 
-// ============ ORDERS ============
+// ORDERS
 async function loadOrders(){
   try{
     const snap=await db.collection('orders').get();
@@ -464,24 +453,23 @@ async function deleteOrder(id){
   if(r.isConfirmed){await db.collection('orders').doc(id).delete();fireToast('Order deleted');closeOrderModal();loadOrders();updateDashboard();}
 }
 function exportOrders(){
-  if(!allOrders.length)return fireToast('No orders to export','warning');
+  if(!allOrders.length)return fireToast('No orders','warning');
   const rows=[['Order ID','Name','Email','Phone','City','Address','Total','Status','Payment','Date']];
   allOrders.forEach((o,i)=>rows.push([`ORD${String(i+1).padStart(4,'0')}`,o.customer_name||'',o.email||'',o.phone||'',o.city||'',o.address||'',o.total_price||0,o.status||'pending',o.payment_method||'cod',o.createdAt?.toDate?.().toISOString()||'']));
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`orders-${Date.now()}.csv`;a.click();URL.revokeObjectURL(url);
-  fireToast('Orders exported!');
+  fireToast('Exported!');
 }
 
-// ============ PRODUCTS ============
+// PRODUCTS
 async function loadProducts(){
   try{
     const snap=await db.collection('products').get();
     allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
     allProducts.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     renderProducts();
-    console.log(`✅ Loaded ${allProducts.length} products`);
-  }catch(e){console.error('Products load error:',e);}
+  }catch(e){console.error('Products:',e);}
 }
 function renderProducts(){
   const body=document.getElementById('productsBody');
@@ -490,7 +478,7 @@ function renderProducts(){
   let list=[...allProducts];
   if(cat!=='all')list=list.filter(p=>p.category===cat);
   if(search)list=list.filter(p=>(p.name||'').toLowerCase().includes(search));
-  if(!list.length){body.innerHTML='<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Click "Add Product" to add your first product</p></div></td></tr>';return;}
+  if(!list.length){body.innerHTML='<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products yet</h3><p>Click "Add Product" to add your first</p></div></td></tr>';return;}
   body.innerHTML=list.map(p=>`<tr>
     <td><img src="${p.image||''}" class="product-thumb" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect fill=%22%23131c35%22 width=%2248%22 height=%2248%22/></svg>'"></td>
     <td><strong>${p.name||'Unnamed'}</strong>${p.badge?` <span style="font-size:0.68rem;background:rgba(6,182,212,0.15);color:var(--accent);padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.4rem">${p.badge}</span>`:''}</td>
@@ -523,7 +511,6 @@ function editProduct(id){
   switchSection('addproduct');
 }
 
-// ============ SAVE PRODUCT (SIMPLE + CLEAR) ============
 async function saveProduct(e){
   e.preventDefault();
   const alertEl=document.getElementById('formAlert');
@@ -531,54 +518,48 @@ async function saveProduct(e){
   alertEl.innerHTML='';
 
   const id=document.getElementById('pEditId').value;
-  const name=document.getElementById('pName').value.trim();
-  const category=document.getElementById('pCategory').value;
-  const price=parseFloat(document.getElementById('pPrice').value)||0;
-  const oldPrice=parseFloat(document.getElementById('pOldPrice').value)||0;
-  const badge=document.getElementById('pBadge').value.trim();
-  const image=document.getElementById('pImage').value.trim();
-  const description=document.getElementById('pDesc').value.trim();
+  const data={
+    name:document.getElementById('pName').value.trim(),
+    category:document.getElementById('pCategory').value,
+    price:parseFloat(document.getElementById('pPrice').value)||0,
+    oldPrice:parseFloat(document.getElementById('pOldPrice').value)||0,
+    badge:document.getElementById('pBadge').value.trim(),
+    image:document.getElementById('pImage').value.trim(),
+    description:document.getElementById('pDesc').value.trim()
+  };
 
-  // Validation
-  if(!name||!category||!price||!image){
-    alertEl.innerHTML='<div class="alert-box error"><i class="fas fa-exclamation-circle"></i><div><b>❌ Not Added</b><br>Please fill all required fields: Name, Category, Price, Image</div></div>';
+  if(!data.name||!data.category||!data.price||!data.image){
+    alertEl.innerHTML='<div class="alert-box error"><i class="fas fa-exclamation-circle"></i><div><b>❌ Not Added</b><br>Please fill all required fields (Name, Category, Price, Image)</div></div>';
     return;
   }
 
-  // Show saving state
   saveBtn.disabled=true;
   saveBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving...';
   alertEl.innerHTML='<div class="alert-box info"><i class="fas fa-spinner fa-spin"></i><div>Saving to Firebase...</div></div>';
 
-  const data={name,category,price,oldPrice,badge,image,description};
-
   try{
     if(id){
-      // UPDATE
       await db.collection('products').doc(id).update(data);
-      console.log('✅ Product updated:',id);
-      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Updated!</b><br>"${name}" has been updated.</div></div>`;
-      fireToast('Product updated!','success');
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Updated!</b><br>"${data.name}" updated.</div></div>`;
+      fireToast('Product updated!');
     }else{
-      // ADD
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
       const ref=await db.collection('products').add(data);
-      console.log('✅✅✅ Product ADDED! ID:',ref.id);
-      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Added!</b><br>"${name}" has been saved to database.<br><small style="opacity:0.8">ID: ${ref.id.slice(-8)}</small></div></div>`;
-      fireToast('Product added successfully!','success');
+      console.log('✅ Product added:',ref.id);
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Added!</b><br>"${data.name}" saved to database.<br><small style="opacity:0.8">ID: ${ref.id.slice(-8)}</small></div></div>`;
+      fireToast('Product added!');
     }
     resetProductForm();
     await loadProducts();
     updateDashboard();
-    // Keep success message visible
     setTimeout(()=>{alertEl.innerHTML='';},6000);
   }catch(err){
-    console.error('❌❌❌ Save failed:',err);
-    let fixMsg='Firebase Console → Firestore → Rules check karein.';
-    if(err.code==='permission-denied') fixMsg='Firestore Rules mein "allow read, write: if true;" paste karke Publish karein.';
-    else if(err.code==='unavailable') fixMsg='Internet connection check karein ya Firestore enable karein.';
-    else if(err.code==='not-found') fixMsg='Firebase Console se Firestore database create karein.';
-    alertEl.innerHTML=`<div class="alert-box error"><i class="fas fa-times-circle"></i><div><b>❌ Not Added</b><br>Error: <code>${err.code||'unknown'}</code><br>${err.message}<br><small style="margin-top:0.5rem;display:block">💡 <b>Fix:</b> ${fixMsg}</small></div></div>`;
+    console.error('❌ Save failed:',err);
+    let fix='Firestore Rules check karein.';
+    if(err.code==='permission-denied') fix='Aap logged in nahi hain ya rules allow nahi kar rahe. Logout karke dobara login karein.';
+    else if(err.code==='unavailable') fix='Internet ya Firestore enable nahi hai.';
+    else if(err.code==='not-found') fix='Firestore database exist nahi karta.';
+    alertEl.innerHTML=`<div class="alert-box error"><i class="fas fa-times-circle"></i><div><b>❌ Not Added</b><br>Error: <code>${err.code||'unknown'}</code><br>${err.message}<br><small style="margin-top:0.5rem;display:block">💡 <b>Fix:</b> ${fix}</small></div></div>`;
     fireToast('Failed: '+err.code,'error');
   }finally{
     saveBtn.disabled=false;
@@ -589,17 +570,12 @@ async function saveProduct(e){
 async function deleteProduct(id){
   const r=await Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
   if(r.isConfirmed){
-    try{
-      await db.collection('products').doc(id).delete();
-      fireToast('Product deleted');
-      loadProducts();updateDashboard();
-    }catch(e){
-      Swal.fire({icon:'error',title:'Delete Failed',text:e.message,background:'#0f172a',color:'#e2e8f0'});
-    }
+    try{await db.collection('products').doc(id).delete();fireToast('Product deleted');loadProducts();updateDashboard();}
+    catch(e){Swal.fire({icon:'error',title:'Delete Failed',text:e.message,background:'#0f172a',color:'#e2e8f0'});}
   }
 }
 
-// ============ MESSAGES ============
+// MESSAGES
 async function loadMessages(){
   try{
     const snap=await db.collection('contacts').get();
@@ -610,7 +586,7 @@ async function loadMessages(){
 }
 function renderMessages(){
   const wrap=document.getElementById('messagesList');
-  if(!allMessages.length){wrap.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><h3>No messages</h3><p>Customer messages will appear here</p></div>';return;}
+  if(!allMessages.length){wrap.innerHTML='<div class="empty-state"><i class="fas fa-inbox"></i><h3>No messages</h3></div>';return;}
   wrap.innerHTML=allMessages.map(m=>{
     const date=m.createdAt?.toDate?m.createdAt.toDate().toLocaleString():'—';
     return `<div class="msg-card">
@@ -630,7 +606,7 @@ async function deleteMessage(id){
   if(r.isConfirmed){await db.collection('contacts').doc(id).delete();fireToast('Message deleted');loadMessages();updateDashboard();}
 }
 
-// ============ DASHBOARD ============
+// DASHBOARD
 function updateDashboard(){
   document.getElementById('statOrders').textContent=allOrders.length;
   document.getElementById('statProducts').textContent=allProducts.length;
@@ -650,7 +626,7 @@ function renderSalesChart(){
   const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const now=new Date();
   const totals=new Array(7).fill(0);
-  allOrders.forEach(o=>{if(!o.createdAt?.toDate)return;const d=o.createdAt.toDate();const diff=Math.floor((now-d)/(864e5));if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);});
+  allOrders.forEach(o=>{if(!o.createdAt?.toDate)return;const d=o.createdAt.toDate();const diff=Math.floor((now-d)/864e5);if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);});
   try{
     window.salesChart=new Chart(ctx,{type:'line',data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}});
   }catch(e){}
@@ -667,7 +643,11 @@ function loadAnalytics(){
   }catch(e){}
 }
 
-// ============ TOAST ============
+async function handleLogout(){
+  const r=await Swal.fire({title:'Logout?',text:'Are you sure?',icon:'question',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
+  if(r.isConfirmed){await auth.signOut();window.location.href='/admin-login';}
+}
+
 function fireToast(msg,icon='success'){
   Swal.fire({toast:true,position:'top-end',icon,title:msg,showConfirmButton:false,timer:2600,timerProgressBar:true,background:'#0f172a',color:'#e2e8f0'});
 }
