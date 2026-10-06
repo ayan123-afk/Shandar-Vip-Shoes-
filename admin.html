@@ -15,21 +15,19 @@
 <style>
 :root{--bg:#05070f;--bg-2:#0a0f1e;--bg-card:#0f172a;--bg-elev:#131c35;--blue:#3b82f6;--blue-light:#60a5fa;--blue-glow:rgba(59,130,246,0.35);--accent:#06b6d4;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--text:#e2e8f0;--text-muted:#94a3b8;--border:#1e293b;--border-hi:#334155;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg-2)}
 ::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:20px}
-::-webkit-scrollbar-thumb:hover{background:var(--blue)}
 .sidebar{position:fixed;top:0;left:0;bottom:0;width:260px;background:var(--bg-2);border-right:1px solid var(--border);padding:1.5rem 1rem;overflow-y:auto;z-index:100;transition:transform var(--transition)}
 .sidebar-logo{display:flex;align-items:center;gap:0.7rem;padding:0 0.5rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
-.sidebar-logo img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 6px 20px var(--blue-glow);border:1px solid var(--border-hi)}
+.sidebar-logo img{width:42px;height:42px;border-radius:12px;object-fit:cover;border:1px solid var(--border-hi)}
 .sidebar-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#fff 30%,var(--blue-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-section{margin-bottom:1.5rem}
 .nav-title{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);padding:0 0.7rem;margin-bottom:0.5rem}
-.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem 0.7rem;border-radius:10px;color:var(--text-muted);font-size:0.88rem;font-weight:500;transition:all var(--transition);cursor:pointer;margin-bottom:0.15rem}
+.nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.7rem;border-radius:10px;color:var(--text-muted);font-size:0.88rem;font-weight:500;transition:all var(--transition);cursor:pointer;margin-bottom:0.15rem}
 .nav-item i{width:20px;text-align:center;font-size:1rem}
 .nav-item:hover{background:var(--bg-elev);color:var(--text)}
 .nav-item.active{background:rgba(59,130,246,0.12);color:var(--blue-light);box-shadow:inset 3px 0 0 var(--blue)}
@@ -40,72 +38,62 @@ img{max-width:100%;display:block}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(5,7,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .topbar-left{display:flex;align-items:center;gap:1rem}
 .menu-btn{display:none;width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-.topbar h1{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;letter-spacing:-0.5px}
+.topbar h1{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900}
 .topbar-right{display:flex;align-items:center;gap:0.75rem}
 .user-chip{display:flex;align-items:center;gap:0.6rem;background:var(--bg-card);border:1px solid var(--border);padding:0.4rem 0.9rem 0.4rem 0.4rem;border-radius:30px;font-size:0.85rem;font-weight:600}
 .user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem}
 .icon-btn{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
-.icon-btn:hover{color:var(--blue-light);border-color:var(--blue);background:rgba(59,130,246,0.08)}
+.icon-btn:hover{color:var(--blue-light);border-color:var(--blue)}
 .content{padding:2rem 1.75rem}
 .section{display:none}
 .section.active{display:block;animation:fadeIn 0.4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .section-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.75rem}
-.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;display:flex;align-items:center;gap:0.6rem;letter-spacing:-0.5px}
+.section-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;display:flex;align-items:center;gap:0.6rem}
 .section-header h2 i{color:var(--blue-light);font-size:1.3rem}
 .header-actions{display:flex;gap:0.6rem;flex-wrap:wrap}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:1.75rem}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:all var(--transition);position:relative;overflow:hidden;cursor:pointer}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent));opacity:0;transition:opacity var(--transition)}
-.stat-card:hover::before{opacity:1}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.4rem;cursor:pointer;transition:all var(--transition)}
 .stat-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(59,130,246,0.15);border-color:var(--blue)}
-.stat-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem}
+.stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:1rem}
 .stat-icon.blue{background:rgba(59,130,246,0.12);color:var(--blue-light)}
 .stat-icon.green{background:rgba(16,185,129,0.12);color:var(--success)}
 .stat-icon.cyan{background:rgba(6,182,212,0.12);color:var(--accent)}
 .stat-icon.orange{background:rgba(245,158,11,0.12);color:var(--warning)}
-.stat-value{font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;font-family:'Playfair Display',serif}
-.stat-label{font-size:0.82rem;color:var(--text-muted);font-weight:500}
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.card-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.card-header h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:0.5rem}
-.card-header h3 i{color:var(--blue-light)}
-.btn{padding:0.65rem 1.2rem;border-radius:24px;font-weight:600;font-size:0.85rem;letter-spacing:-0.2px;transition:all var(--transition);display:inline-flex;align-items:center;gap:0.5rem;white-space:nowrap;font-family:inherit;cursor:pointer;border:none}
+.stat-value{font-size:1.9rem;font-weight:800;font-family:'Playfair Display',serif}
+.stat-label{font-size:0.82rem;color:var(--text-muted)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem}
+.btn{padding:0.65rem 1.2rem;border-radius:24px;font-weight:600;font-size:0.85rem;transition:all var(--transition);display:inline-flex;align-items:center;gap:0.5rem;white-space:nowrap;font-family:inherit;cursor:pointer;border:none}
 .btn-primary{background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;box-shadow:0 4px 14px var(--blue-glow)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,0.5)}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 .btn-secondary{background:var(--bg-elev);color:var(--text);border:1.5px solid var(--border-hi)}
-.btn-secondary:hover{background:var(--border);transform:translateY(-2px)}
+.btn-secondary:hover{background:var(--border)}
 .btn-danger{background:rgba(239,68,68,0.1);color:#fca5a5;border:1.5px solid rgba(239,68,68,0.3)}
-.btn-danger:hover{background:rgba(239,68,68,0.2);transform:translateY(-2px)}
-.btn-sm{padding:0.4rem 0.8rem;font-size:0.75rem;border-radius:16px}
+.btn-danger:hover{background:rgba(239,68,68,0.2)}
 .btn-xs{padding:0.3rem 0.6rem;font-size:0.7rem;border-radius:12px}
 .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:var(--bg-elev)}
 table{width:100%;border-collapse:collapse;min-width:800px}
 thead{background:var(--bg-2)}
-th{text-align:left;padding:0.9rem 1rem;color:var(--text-muted);font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid var(--border);white-space:nowrap}
+th{text-align:left;padding:0.9rem 1rem;color:var(--text-muted);font-weight:700;font-size:0.72rem;text-transform:uppercase;border-bottom:2px solid var(--border)}
 td{padding:0.85rem 1rem;border-bottom:1px solid var(--border);font-size:0.88rem;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tbody tr{transition:background var(--transition)}
 tbody tr:hover{background:rgba(59,130,246,0.05)}
-.order-id{color:var(--blue-light);font-weight:700;cursor:pointer}
-.order-id:hover{text-decoration:underline}
 .customer-cell{display:flex;align-items:center;gap:0.6rem}
-.cust-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0}
+.cust-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem}
 .product-thumb{width:48px;height:48px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
-.status-badge{padding:0.3rem 0.75rem;border-radius:20px;font-size:0.72rem;font-weight:700;display:inline-flex;align-items:center;gap:0.3rem;white-space:nowrap;cursor:pointer;transition:all var(--transition)}
+.status-badge{padding:0.3rem 0.75rem;border-radius:20px;font-size:0.72rem;font-weight:700;cursor:pointer;display:inline-block}
 .status-badge.pending{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)}
 .status-badge.processing{background:rgba(59,130,246,0.15);color:var(--blue-light);border:1px solid rgba(59,130,246,0.3)}
 .status-badge.delivered{background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3)}
 .status-badge.cancelled{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
 .filters{display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.filters select,.filters input{background:var(--bg-elev);border:1.5px solid var(--border);padding:0.65rem 1rem;border-radius:12px;color:var(--text);font-family:inherit;font-size:0.88rem;outline:none;transition:all var(--transition)}
+.filters select,.filters input{background:var(--bg-elev);border:1.5px solid var(--border);padding:0.65rem 1rem;border-radius:12px;color:var(--text);font-family:inherit;font-size:0.88rem;outline:none}
 .filters select:focus,.filters input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-glow)}
-.filters select{min-width:160px;cursor:pointer}
 .filters input{flex:1;min-width:200px}
 .form-group{margin-bottom:1.15rem}
-.form-group label{display:block;font-size:0.82rem;font-weight:600;color:var(--text-muted);margin-bottom:0.4rem;letter-spacing:0.3px}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:0.8rem 1rem;background:var(--bg-elev);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:0.9rem;outline:none;transition:all var(--transition)}
+.form-group label{display:block;font-size:0.82rem;font-weight:600;color:var(--text-muted);margin-bottom:0.4rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:0.8rem 1rem;background:var(--bg-elev);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:inherit;font-size:0.9rem;outline:none}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-glow)}
 .form-group textarea{resize:vertical;min-height:100px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
@@ -113,40 +101,38 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 .empty-state{text-align:center;padding:3rem 1rem;color:var(--text-muted)}
 .empty-state i{font-size:3rem;opacity:0.25;margin-bottom:1rem;display:block;color:var(--blue)}
 .empty-state h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--text);margin-bottom:0.5rem}
-.msg-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem;transition:all var(--transition)}
-.msg-card:hover{border-color:var(--blue)}
+.msg-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem}
 .msg-name{font-weight:700;color:var(--blue-light);display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem}
 .msg-body{color:var(--text);margin-bottom:0.75rem;line-height:1.7}
 .msg-meta{display:flex;flex-wrap:wrap;gap:1rem;font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity var(--transition)}
 .modal-overlay.open{opacity:1;pointer-events:auto}
-.modal{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:20px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:scale(0.95);transition:transform 0.3s;box-shadow:0 40px 100px rgba(0,0,0,0.7)}
-.modal-overlay.open .modal{transform:scale(1)}
+.modal{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:20px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto}
 .modal-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .modal-head h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900}
-.modal-close{width:36px;height:36px;border-radius:50%;background:var(--bg-elev);border:1px solid var(--border-hi);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:0.95rem;transition:all var(--transition)}
-.modal-close:hover{background:var(--danger);color:#fff;transform:rotate(90deg)}
+.modal-close{width:36px;height:36px;border-radius:50%;background:var(--bg-elev);border:1px solid var(--border-hi);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:0.95rem}
+.modal-close:hover{background:var(--danger);color:#fff}
 .modal-body{padding:1.5rem}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .detail-item{background:var(--bg-elev);padding:0.9rem 1rem;border-radius:12px;border:1px solid var(--border)}
 .detail-item.full{grid-column:span 2}
-.detail-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:0.3rem}
+.detail-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem}
 .detail-value{font-weight:600;font-size:0.9rem}
 .chart-wrap{height:300px;position:relative}
-.alert-box{padding:1rem 1.25rem;border-radius:12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:0.75rem;font-size:0.88rem;font-weight:500}
-.alert-box i{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem}
+.alert-box{padding:1rem 1.25rem;border-radius:12px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:0.75rem;font-size:0.88rem}
+.alert-box i{font-size:1.2rem;flex-shrink:0}
 .alert-box.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7}
 .alert-box.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5}
 .alert-box.info{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);color:var(--blue-light)}
-@media(max-width:1024px){.sidebar{transform:translateX(-100%);box-shadow:0 0 60px rgba(0,0,0,0.8)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-btn{display:flex}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:span 1}.detail-grid{grid-template-columns:1fr}.detail-item.full{grid-column:span 1}}
-@media(max-width:768px){.content{padding:1.25rem 1rem}.topbar{padding:0.9rem 1rem}.topbar h1{font-size:1.1rem}.stats-grid{grid-template-columns:1fr}.section-header h2{font-size:1.3rem}.header-actions{width:100%}}
+@media(max-width:1024px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-btn{display:flex}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:span 1}.detail-grid{grid-template-columns:1fr}.detail-item.full{grid-column:span 1}}
+@media(max-width:768px){.content{padding:1.25rem 1rem}.stats-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <img src="https://i.postimg.cc/fknXYM5L/4bdb1cf1-6c9d-47ab-89e6-54df8247d1b6.png" alt="Shandar VIP">
+    <img src="https://i.postimg.cc/fknXYM5L/4bdb1cf1-6c9d-47ab-89e6-54df8247d1b6.png" alt="Logo">
     <div class="sidebar-logo-text">Shandar VIP</div>
   </div>
   <div class="nav-section">
@@ -163,7 +149,6 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
   </div>
   <div class="nav-section">
     <div class="nav-title">Account</div>
-    <div class="nav-item" data-sec="settings" onclick="switchSection('settings')"><i class="fas fa-cog"></i><span>Settings</span></div>
     <div class="nav-item logout" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
   </div>
 </aside>
@@ -175,7 +160,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
       <h1 id="pageTitle">Dashboard</h1>
     </div>
     <div class="topbar-right">
-      <button class="icon-btn" onclick="refreshAll()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+      <button class="icon-btn" onclick="refreshAll()"><i class="fas fa-sync-alt"></i></button>
       <div class="user-chip">
         <div class="user-avatar" id="userAvatar">KA</div>
         <span id="adminName">Loading...</span>
@@ -184,34 +169,32 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
   </div>
 
   <div class="content">
-    <div id="statusBanner"></div>
-
     <section class="section active" id="sec-dashboard">
       <div class="section-header"><h2><i class="fas fa-chart-pie"></i> Overview</h2></div>
       <div class="stats-grid">
         <div class="stat-card" onclick="switchSection('orders')">
-          <div class="stat-head"><div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div></div>
+          <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
           <div class="stat-value" id="statOrders">0</div>
           <div class="stat-label">Total Orders</div>
         </div>
         <div class="stat-card">
-          <div class="stat-head"><div class="stat-icon green"><i class="fas fa-rupee-sign"></i></div></div>
+          <div class="stat-icon green"><i class="fas fa-rupee-sign"></i></div>
           <div class="stat-value" id="statRevenue">Rs. 0</div>
           <div class="stat-label">Total Revenue</div>
         </div>
         <div class="stat-card" onclick="switchSection('products')">
-          <div class="stat-head"><div class="stat-icon cyan"><i class="fas fa-box"></i></div></div>
+          <div class="stat-icon cyan"><i class="fas fa-box"></i></div>
           <div class="stat-value" id="statProducts">0</div>
           <div class="stat-label">Products</div>
         </div>
         <div class="stat-card" onclick="switchSection('messages')">
-          <div class="stat-head"><div class="stat-icon orange"><i class="fas fa-envelope"></i></div></div>
+          <div class="stat-icon orange"><i class="fas fa-envelope"></i></div>
           <div class="stat-value" id="statMessages">0</div>
           <div class="stat-label">Messages</div>
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><h3><i class="fas fa-chart-line"></i> Sales Overview (Last 7 Days)</h3></div>
+        <h3 style="margin-bottom:1rem;font-family:'Playfair Display',serif"><i class="fas fa-chart-line" style="color:var(--blue-light)"></i> Sales Overview (Last 7 Days)</h3>
         <div class="chart-wrap"><canvas id="salesChart"></canvas></div>
       </div>
     </section>
@@ -220,7 +203,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
       <div class="section-header">
         <h2><i class="fas fa-shopping-bag"></i> Customer Orders</h2>
         <div class="header-actions">
-          <button class="btn btn-secondary" onclick="exportOrders()"><i class="fas fa-download"></i> Export CSV</button>
+          <button class="btn btn-secondary" onclick="exportOrders()"><i class="fas fa-download"></i> Export</button>
           <button class="btn btn-primary" onclick="loadOrders()"><i class="fas fa-sync-alt"></i> Refresh</button>
         </div>
       </div>
@@ -233,7 +216,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
             <option value="delivered">Delivered</option>
             <option value="cancelled">Cancelled</option>
           </select>
-          <input type="text" id="orderSearch" placeholder="Search by name, phone, city..." oninput="renderOrders()">
+          <input type="text" id="orderSearch" placeholder="Search..." oninput="renderOrders()">
         </div>
         <div class="table-wrap">
           <table>
@@ -246,7 +229,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 
     <section class="section" id="sec-products">
       <div class="section-header">
-        <h2><i class="fas fa-box"></i> Products Inventory</h2>
+        <h2><i class="fas fa-box"></i> Products</h2>
         <div class="header-actions">
           <button class="btn btn-primary" onclick="switchSection('addproduct')"><i class="fas fa-plus"></i> Add Product</button>
         </div>
@@ -260,7 +243,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
             <option value="Casual">Casual</option>
             <option value="Boots">Boots</option>
           </select>
-          <input type="text" id="productSearch" placeholder="Search products..." oninput="renderProducts()">
+          <input type="text" id="productSearch" placeholder="Search..." oninput="renderProducts()">
         </div>
         <div class="table-wrap">
           <table>
@@ -272,16 +255,16 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
     </section>
 
     <section class="section" id="sec-addproduct">
-      <div class="section-header"><h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add New Product</h2></div>
+      <div class="section-header"><h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add Product</h2></div>
       <div class="card">
         <div id="formAlert"></div>
         <form id="productForm" onsubmit="saveProduct(event)">
           <input type="hidden" id="pEditId">
           <div class="form-grid">
-            <div class="form-group"><label>Product Name *</label><input id="pName" required placeholder="e.g. Royal Oxford Black"></div>
+            <div class="form-group"><label>Name *</label><input id="pName" required placeholder="Royal Oxford Black"></div>
             <div class="form-group"><label>Category *</label>
               <select id="pCategory" required>
-                <option value="">Select category...</option>
+                <option value="">Select...</option>
                 <option value="Sneakers">Sneakers</option>
                 <option value="Formal">Formal</option>
                 <option value="Casual">Casual</option>
@@ -289,10 +272,10 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
               </select>
             </div>
             <div class="form-group"><label>Price (PKR) *</label><input type="number" id="pPrice" required placeholder="8500"></div>
-            <div class="form-group"><label>Old Price (optional)</label><input type="number" id="pOldPrice" placeholder="12000"></div>
-            <div class="form-group"><label>Badge (optional)</label><input id="pBadge" placeholder="New / Sale / Bestseller"></div>
+            <div class="form-group"><label>Old Price</label><input type="number" id="pOldPrice" placeholder="12000"></div>
+            <div class="form-group"><label>Badge</label><input id="pBadge" placeholder="New / Sale"></div>
             <div class="form-group"><label>Image URL *</label><input id="pImage" required placeholder="https://..."></div>
-            <div class="form-group full"><label>Description</label><textarea id="pDesc" placeholder="Describe the product..."></textarea></div>
+            <div class="form-group full"><label>Description</label><textarea id="pDesc" placeholder="Product description..."></textarea></div>
           </div>
           <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
             <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save Product</button>
@@ -303,11 +286,8 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
     </section>
 
     <section class="section" id="sec-messages">
-      <div class="section-header">
-        <h2><i class="fas fa-envelope"></i> Customer Messages</h2>
-        <div class="header-actions">
-          <button class="btn btn-primary" onclick="loadMessages()"><i class="fas fa-sync-alt"></i> Refresh</button>
-        </div>
+      <div class="section-header"><h2><i class="fas fa-envelope"></i> Messages</h2>
+        <div class="header-actions"><button class="btn btn-primary" onclick="loadMessages()"><i class="fas fa-sync-alt"></i> Refresh</button></div>
       </div>
       <div class="card" id="messagesList"></div>
     </section>
@@ -315,21 +295,8 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
     <section class="section" id="sec-analytics">
       <div class="section-header"><h2><i class="fas fa-chart-line"></i> Analytics</h2></div>
       <div class="card">
-        <div class="card-header"><h3><i class="fas fa-chart-bar"></i> Sales by Category</h3></div>
+        <h3 style="margin-bottom:1rem;font-family:'Playfair Display',serif">Sales by Category</h3>
         <div class="chart-wrap"><canvas id="catChart"></canvas></div>
-      </div>
-    </section>
-
-    <section class="section" id="sec-settings">
-      <div class="section-header"><h2><i class="fas fa-cog"></i> Settings</h2></div>
-      <div class="card">
-        <div style="padding:1.15rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem">
-          <i class="fas fa-user-tie" style="color:var(--blue-light);font-size:1.2rem;width:22px"></i>
-          <div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Owner</h4><p style="font-size:0.8rem;color:var(--text-muted)">Khurshid Alam</p></div>
-        </div>
-        <div style="padding:1.15rem 0;display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;gap:1rem"><i class="fas fa-shield-halved" style="color:var(--success);font-size:1.2rem;width:22px"></i><div><h4 style="font-size:0.92rem;font-weight:700;margin-bottom:0.15rem">Security Status</h4><p style="font-size:0.8rem;color:var(--text-muted)">✅ Firestore rules active · Only logged-in admin can modify data</p></div></div>
-        </div>
       </div>
     </section>
   </div>
@@ -337,7 +304,7 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 
 <div class="modal-overlay" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
   <div class="modal">
-    <div class="modal-head"><h3 id="orderModalTitle">Order Details</h3><button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div>
+    <div class="modal-head"><h3 id="orderModalTitle">Order</h3><button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div>
     <div class="modal-body" id="orderModalBody"></div>
   </div>
 </div>
@@ -345,28 +312,20 @@ tbody tr:hover{background:rgba(59,130,246,0.05)}
 <script>
 let allOrders=[],allProducts=[],allMessages=[];
 
-// ============ AUTH GUARD ============
 auth.onAuthStateChanged(user=>{
   if(!user){
-    Swal.fire({icon:'warning',title:'Not Logged In',text:'Redirecting to login...',timer:1500,showConfirmButton:false,background:'#0f172a',color:'#e2e8f0'});
-    setTimeout(()=>window.location.href='/admin-login',1500);
+    Swal.fire({icon:'warning',title:'Please Login',text:'Redirecting...',timer:1200,showConfirmButton:false,background:'#0f172a',color:'#e2e8f0'});
+    setTimeout(()=>window.location.href='/admin-login',1200);
     return;
   }
   const name=user.email?.split('@')[0]||'Admin';
   document.getElementById('adminName').textContent=name;
   document.getElementById('userAvatar').textContent=name.slice(0,2).toUpperCase();
-  console.log('✅ Logged in as:',user.email);
+  console.log('✅ Logged in:',user.email);
   loadAll();
 });
 
-function showBanner(type,msg,icon){
-  const b=document.getElementById('statusBanner');
-  const icons={success:'fa-check-circle',error:'fa-exclamation-circle',info:'fa-info-circle'};
-  b.innerHTML=`<div class="alert-box ${type}"><i class="fas ${icon||icons[type]}"></i><div>${msg}</div></div>`;
-  if(type==='success')setTimeout(()=>{if(b.querySelector('.alert-box'))b.innerHTML='';},5000);
-}
-
-const titles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics',settings:'Settings'};
+const titles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics'};
 function switchSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -382,7 +341,7 @@ async function loadAll(){
   await Promise.all([loadOrders(),loadProducts(),loadMessages()]);
   updateDashboard();
 }
-async function refreshAll(){await loadAll();fireToast('Data refreshed!');}
+async function refreshAll(){await loadAll();fireToast('Refreshed!');}
 
 // ORDERS
 async function loadOrders(){
@@ -407,7 +366,7 @@ function renderOrders(){
     const date=o.createdAt?.toDate?o.createdAt.toDate().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
     const status=o.status||'pending';
     return `<tr>
-      <td><span class="order-id" onclick="viewOrder('${o.id}')">#ORD${String(i+1).padStart(4,'0')}</span></td>
+      <td><span style="color:var(--blue-light);font-weight:700;cursor:pointer" onclick="viewOrder('${o.id}')">#ORD${String(i+1).padStart(4,'0')}</span></td>
       <td><div class="customer-cell"><div class="cust-avatar">${initials}</div><div><strong>${name}</strong><div style="font-size:0.72rem;color:var(--text-muted)">${o.email||''}</div></div></div></td>
       <td>${o.phone||'—'}</td>
       <td>${o.city||'—'}</td>
@@ -450,7 +409,7 @@ async function changeStatus(id){
 }
 async function deleteOrder(id){
   const r=await Swal.fire({title:'Delete Order?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){await db.collection('orders').doc(id).delete();fireToast('Order deleted');closeOrderModal();loadOrders();updateDashboard();}
+  if(r.isConfirmed){await db.collection('orders').doc(id).delete();fireToast('Deleted');closeOrderModal();loadOrders();updateDashboard();}
 }
 function exportOrders(){
   if(!allOrders.length)return fireToast('No orders','warning');
@@ -493,7 +452,7 @@ function renderProducts(){
 function resetProductForm(){
   document.getElementById('productForm').reset();
   document.getElementById('pEditId').value='';
-  document.getElementById('productFormTitle').innerHTML='<i class="fas fa-plus-circle"></i> Add New Product';
+  document.getElementById('productFormTitle').innerHTML='<i class="fas fa-plus-circle"></i> Add Product';
   document.getElementById('formAlert').innerHTML='';
 }
 function editProduct(id){
@@ -516,7 +475,6 @@ async function saveProduct(e){
   const alertEl=document.getElementById('formAlert');
   const saveBtn=document.getElementById('saveBtn');
   alertEl.innerHTML='';
-
   const id=document.getElementById('pEditId').value;
   const data={
     name:document.getElementById('pName').value.trim(),
@@ -527,26 +485,22 @@ async function saveProduct(e){
     image:document.getElementById('pImage').value.trim(),
     description:document.getElementById('pDesc').value.trim()
   };
-
   if(!data.name||!data.category||!data.price||!data.image){
-    alertEl.innerHTML='<div class="alert-box error"><i class="fas fa-exclamation-circle"></i><div><b>❌ Not Added</b><br>Please fill all required fields (Name, Category, Price, Image)</div></div>';
+    alertEl.innerHTML='<div class="alert-box error"><i class="fas fa-exclamation-circle"></i><div><b>❌ Missing Fields</b><br>Fill: Name, Category, Price, Image</div></div>';
     return;
   }
-
   saveBtn.disabled=true;
   saveBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Saving...';
   alertEl.innerHTML='<div class="alert-box info"><i class="fas fa-spinner fa-spin"></i><div>Saving to Firebase...</div></div>';
-
   try{
     if(id){
       await db.collection('products').doc(id).update(data);
-      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Updated!</b><br>"${data.name}" updated.</div></div>`;
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Updated!</b><br>"${data.name}" updated.</div></div>`;
       fireToast('Product updated!');
     }else{
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
       const ref=await db.collection('products').add(data);
-      console.log('✅ Product added:',ref.id);
-      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Added!</b><br>"${data.name}" saved to database.<br><small style="opacity:0.8">ID: ${ref.id.slice(-8)}</small></div></div>`;
+      alertEl.innerHTML=`<div class="alert-box success"><i class="fas fa-check-circle"></i><div><b>✅ Successfully Added!</b><br>"${data.name}" saved.<br><small style="opacity:0.8">ID: ${ref.id.slice(-8)}</small></div></div>`;
       fireToast('Product added!');
     }
     resetProductForm();
@@ -554,11 +508,9 @@ async function saveProduct(e){
     updateDashboard();
     setTimeout(()=>{alertEl.innerHTML='';},6000);
   }catch(err){
-    console.error('❌ Save failed:',err);
-    let fix='Firestore Rules check karein.';
-    if(err.code==='permission-denied') fix='Aap logged in nahi hain ya rules allow nahi kar rahe. Logout karke dobara login karein.';
-    else if(err.code==='unavailable') fix='Internet ya Firestore enable nahi hai.';
-    else if(err.code==='not-found') fix='Firestore database exist nahi karta.';
+    let fix='Firebase Console → Firestore → Rules check karein.';
+    if(err.code==='permission-denied') fix='Logout karke dobara login karein. Ya Firestore Rules mein allow write: if request.auth != null; set karein.';
+    else if(err.code==='unavailable') fix='Internet ya Firestore enable nahi.';
     alertEl.innerHTML=`<div class="alert-box error"><i class="fas fa-times-circle"></i><div><b>❌ Not Added</b><br>Error: <code>${err.code||'unknown'}</code><br>${err.message}<br><small style="margin-top:0.5rem;display:block">💡 <b>Fix:</b> ${fix}</small></div></div>`;
     fireToast('Failed: '+err.code,'error');
   }finally{
@@ -570,7 +522,7 @@ async function saveProduct(e){
 async function deleteProduct(id){
   const r=await Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
   if(r.isConfirmed){
-    try{await db.collection('products').doc(id).delete();fireToast('Product deleted');loadProducts();updateDashboard();}
+    try{await db.collection('products').doc(id).delete();fireToast('Deleted');loadProducts();updateDashboard();}
     catch(e){Swal.fire({icon:'error',title:'Delete Failed',text:e.message,background:'#0f172a',color:'#e2e8f0'});}
   }
 }
@@ -603,7 +555,7 @@ function renderMessages(){
 }
 async function deleteMessage(id){
   const r=await Swal.fire({title:'Delete Message?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){await db.collection('contacts').doc(id).delete();fireToast('Message deleted');loadMessages();updateDashboard();}
+  if(r.isConfirmed){await db.collection('contacts').doc(id).delete();fireToast('Deleted');loadMessages();updateDashboard();}
 }
 
 // DASHBOARD
@@ -647,7 +599,6 @@ async function handleLogout(){
   const r=await Swal.fire({title:'Logout?',text:'Are you sure?',icon:'question',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
   if(r.isConfirmed){await auth.signOut();window.location.href='/admin-login';}
 }
-
 function fireToast(msg,icon='success'){
   Swal.fire({toast:true,position:'top-end',icon,title:msg,showConfirmButton:false,timer:2600,timerProgressBar:true,background:'#0f172a',color:'#e2e8f0'});
 }
