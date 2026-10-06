@@ -377,6 +377,7 @@ input:checked+.slider:before{transform:translateX(20px)}
 // ============ STATE ============
 let allOrders=[],allProducts=[],allMessages=[];
 let currentAdminEmail='';
+let productsUnsubscribe=null,ordersUnsubscribe=null,messagesUnsubscribe=null;
 
 // ============ AUTH GUARD ============
 auth.onAuthStateChanged(user=>{
@@ -397,7 +398,7 @@ function switchSection(id){
   if(nav)nav.classList.add('active');
   document.getElementById('pageTitle').textContent=sectionTitles[id]||id;
   if(id==='addproduct'&&!document.getElementById('pEditId').value)resetProductForm();
-  if(id==='analytics')loadAnalytics();
+  if(id==='analytics')setTimeout(loadAnalytics,100);
   if(window.innerWidth<=1024)document.getElementById('sidebar').classList.remove('open');
 }
 
@@ -415,7 +416,7 @@ async function loadOrders(){
     const snap=await db.collection('orders').orderBy('createdAt','desc').get();
     allOrders=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderOrders();
-  }catch(e){console.error(e);}
+  }catch(e){console.error('Orders load error:',e);}
 }
 function renderOrders(){
   const body=document.getElementById('ordersBody');
@@ -516,7 +517,7 @@ async function loadProducts(){
     const snap=await db.collection('products').orderBy('createdAt','desc').get();
     allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderProducts();
-  }catch(e){console.error(e);}
+  }catch(e){console.error('Products load error:',e);}
 }
 function renderProducts(){
   const body=document.getElementById('productsBody');
@@ -563,25 +564,49 @@ async function saveProduct(e){
   const data={
     name:document.getElementById('pName').value.trim(),
     category:document.getElementById('pCategory').value,
-    price:parseFloat(document.getElementById('pPrice').value),
+    price:parseFloat(document.getElementById('pPrice').value)||0,
     oldPrice:parseFloat(document.getElementById('pOldPrice').value)||0,
     badge:document.getElementById('pBadge').value.trim(),
     image:document.getElementById('pImage').value.trim(),
     description:document.getElementById('pDesc').value.trim()
   };
+
+  if(!data.name||!data.category||!data.price||!data.image){
+    Swal.fire({icon:'warning',title:'Missing Fields',text:'Please fill all required fields (Name, Category, Price, Image)',
+      background:'#0f172a',color:'#e2e8f0'});
+    return;
+  }
+
+  Swal.fire({title:'Saving...',allowOutsideClick:false,didOpen:()=>Swal.showLoading(),
+    background:'#0f172a',color:'#e2e8f0'});
+
   try{
     if(id){
       await db.collection('products').doc(id).update(data);
-      fireToast('Product updated!');
+      Swal.fire({icon:'success',title:'Product Updated!',timer:1500,showConfirmButton:false,
+        background:'#0f172a',color:'#e2e8f0'});
     }else{
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-      await db.collection('products').add(data);
-      fireToast('Product added!');
+      const ref=await db.collection('products').add(data);
+      console.log('✅ Product added with ID:',ref.id);
+      Swal.fire({icon:'success',title:'Product Added!',text:`"${data.name}" saved successfully`,
+        confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'});
     }
     resetProductForm();
-    await loadProducts();updateDashboard();
+    await loadProducts();
+    updateDashboard();
     switchSection('products');
-  }catch(err){console.error(err);fireToast('Failed to save','error');}
+  }catch(err){
+    console.error('❌ Save error:',err);
+    Swal.fire({
+      icon:'error',
+      title:'Save Failed',
+      html:`<p style="margin-bottom:0.5rem">${err.message}</p>
+            <p style="font-size:0.8rem;color:#94a3b8">Code: <code>${err.code||'unknown'}</code></p>`,
+      confirmButtonColor:'#ef4444',
+      background:'#0f172a',color:'#e2e8f0'
+    });
+  }
 }
 
 async function deleteProduct(id){
@@ -599,7 +624,7 @@ async function loadMessages(){
     const snap=await db.collection('contacts').orderBy('createdAt','desc').get();
     allMessages=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderMessages();
-  }catch(e){console.error(e);}
+  }catch(e){console.error('Messages load error:',e);}
 }
 function renderMessages(){
   const wrap=document.getElementById('messagesList');
@@ -628,7 +653,7 @@ function replyMsg(email){
     inputPlaceholder:'Type your reply...',
     showCancelButton:true,confirmButtonColor:'#3b82f6',
     background:'#0f172a',color:'#e2e8f0'
-  }).then(r=>{if(r.isConfirmed&&r.value){fireToast('Reply sent!');window.location.href=`mailto:${email}?body=${encodeURIComponent(r.value)}`;}});
+  }).then(r=>{if(r.isConfirmed&&r.value){fireToast('Opening email client...');window.location.href=`mailto:${email}?body=${encodeURIComponent(r.value)}`;}});
 }
 async function deleteMessage(id){
   const r=await Swal.fire({title:'Delete Message?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
@@ -649,8 +674,17 @@ function updateDashboard(){
 }
 
 function renderSalesChart(){
-  const ctx=document.getElementById('salesChart')?.getContext('2d');if(!ctx)return;
-  if(window.salesChart)window.salesChart.destroy();
+  const canvas=document.getElementById('salesChart');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  try{
+    if(window.salesChart&&typeof window.salesChart.destroy==='function'){
+      window.salesChart.destroy();
+    }
+  }catch(e){console.warn('Chart destroy err:',e);}
+  window.salesChart=null;
+
   const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const now=new Date();
   const totals=new Array(7).fill(0);
@@ -660,26 +694,41 @@ function renderSalesChart(){
     const diff=Math.floor((now-d)/(1000*60*60*24));
     if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);
   });
-  window.salesChart=new Chart(ctx,{
-    type:'line',
-    data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
-  });
+
+  try{
+    window.salesChart=new Chart(ctx,{
+      type:'line',
+      data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
+    });
+  }catch(e){console.error('Chart creation error:',e);}
 }
 
 function loadAnalytics(){
-  const ctx=document.getElementById('catChart')?.getContext('2d');if(!ctx)return;
-  if(window.catChart)window.catChart.destroy();
+  const canvas=document.getElementById('catChart');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  if(!ctx)return;
+  try{
+    if(window.catChart&&typeof window.catChart.destroy==='function'){
+      window.catChart.destroy();
+    }
+  }catch(e){console.warn('CatChart destroy err:',e);}
+  window.catChart=null;
+
   const cats={Sneakers:0,Formal:0,Casual:0,Boots:0};
   allOrders.forEach(o=>(o.items||[]).forEach(it=>{
     const p=allProducts.find(x=>x.id===it.id);
     if(p&&cats[p.category]!==undefined)cats[p.category]+=Number(it.price||0)*Number(it.qty||1);
   }));
-  window.catChart=new Chart(ctx,{
-    type:'bar',
-    data:{labels:Object.keys(cats),datasets:[{label:'Sales (Rs.)',data:Object.values(cats),backgroundColor:['rgba(59,130,246,0.8)','rgba(6,182,212,0.8)','rgba(16,185,129,0.8)','rgba(245,158,11,0.8)'],borderRadius:10}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
-  });
+
+  try{
+    window.catChart=new Chart(ctx,{
+      type:'bar',
+      data:{labels:Object.keys(cats),datasets:[{label:'Sales (Rs.)',data:Object.values(cats),backgroundColor:['rgba(59,130,246,0.8)','rgba(6,182,212,0.8)','rgba(16,185,129,0.8)','rgba(245,158,11,0.8)'],borderRadius:10}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
+    });
+  }catch(e){console.error('CatChart creation error:',e);}
 }
 
 // ============ LOGOUT ============
