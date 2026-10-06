@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="config.js"></script>
 <style>
-:root{--bg:#05070f;--bg-2:#0a0f1e;--bg-card:#0f172a;--bg-elev:#131c35;--blue:#3b82f6;--blue-light:#60a5fa;--blue-glow:rgba(59,130,246,0.35);--blue-deep:#1e40af;--accent:#06b6d4;--accent-glow:rgba(6,182,212,0.3);--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--text:#e2e8f0;--text-muted:#94a3b8;--border:#1e293b;--border-hi:#334155;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
+:root{--bg:#05070f;--bg-2:#0a0f1e;--bg-card:#0f172a;--bg-elev:#131c35;--blue:#3b82f6;--blue-light:#60a5fa;--blue-glow:rgba(59,130,246,0.35);--accent:#06b6d4;--accent-glow:rgba(6,182,212,0.3);--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--text:#e2e8f0;--text-muted:#94a3b8;--border:#1e293b;--border-hi:#334155;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
@@ -152,6 +152,12 @@ input:checked+.slider:before{transform:translateX(20px)}
 .order-items-list li{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem}
 .order-items-list li:last-child{border-bottom:none}
 .chart-wrap{height:300px;position:relative}
+.debug-badge{position:fixed;bottom:1rem;right:1rem;background:var(--bg-card);border:1px solid var(--border-hi);padding:0.6rem 1rem;border-radius:30px;font-size:0.75rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.5);display:flex;align-items:center;gap:0.5rem;cursor:pointer;transition:all var(--transition)}
+.debug-badge:hover{transform:scale(1.05)}
+.debug-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
+.debug-badge .dot.warn{background:var(--warning)}
+.debug-badge .dot.err{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 @media(max-width:1024px){.sidebar{transform:translateX(-100%);box-shadow:0 0 60px rgba(0,0,0,0.8)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-btn{display:flex}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:span 1}.detail-grid{grid-template-columns:1fr}.detail-item.full{grid-column:span 1}}
 @media(max-width:768px){.content{padding:1.25rem 1rem}.topbar{padding:0.9rem 1rem}.topbar h1{font-size:1.1rem}.user-chip span:not(.user-avatar){display:none}.stats-grid{grid-template-columns:1fr}.section-header h2{font-size:1.3rem}.header-actions{width:100%}}
 </style>
@@ -189,16 +195,16 @@ input:checked+.slider:before{transform:translateX(20px)}
       <h1 id="pageTitle">Dashboard</h1>
     </div>
     <div class="topbar-right">
-      <button class="icon-btn" onclick="refreshAll()"><i class="fas fa-sync-alt"></i></button>
+      <button class="icon-btn" onclick="runDiagnostic()" title="Run Diagnostic"><i class="fas fa-stethoscope"></i></button>
+      <button class="icon-btn" onclick="refreshAll()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
       <div class="user-chip">
-        <div class="user-avatar">KA</div>
-        <span id="adminName">Khurshid Alam</span>
+        <div class="user-avatar" id="userAvatar">KA</div>
+        <span id="adminName">Loading...</span>
       </div>
     </div>
   </div>
 
   <div class="content">
-    <!-- DASHBOARD -->
     <section class="section active" id="sec-dashboard">
       <div class="section-header"><h2><i class="fas fa-chart-pie"></i> Overview</h2></div>
       <div class="stats-grid">
@@ -229,7 +235,6 @@ input:checked+.slider:before{transform:translateX(20px)}
       </div>
     </section>
 
-    <!-- ORDERS -->
     <section class="section" id="sec-orders">
       <div class="section-header">
         <h2><i class="fas fa-shopping-bag"></i> Customer Orders</h2>
@@ -251,16 +256,13 @@ input:checked+.slider:before{transform:translateX(20px)}
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>City</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr>
-            </thead>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>City</th><th>Date</th><th>Total</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="ordersBody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- PRODUCTS -->
     <section class="section" id="sec-products">
       <div class="section-header">
         <h2><i class="fas fa-box"></i> Products Inventory</h2>
@@ -281,16 +283,13 @@ input:checked+.slider:before{transform:translateX(20px)}
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Actions</th></tr>
-            </thead>
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead>
             <tbody id="productsBody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- ADD/EDIT PRODUCT -->
     <section class="section" id="sec-addproduct">
       <div class="section-header"><h2 id="productFormTitle"><i class="fas fa-plus-circle"></i> Add New Product</h2></div>
       <div class="card">
@@ -321,7 +320,6 @@ input:checked+.slider:before{transform:translateX(20px)}
       </div>
     </section>
 
-    <!-- MESSAGES -->
     <section class="section" id="sec-messages">
       <div class="section-header">
         <h2><i class="fas fa-envelope"></i> Customer Messages</h2>
@@ -332,7 +330,6 @@ input:checked+.slider:before{transform:translateX(20px)}
       <div class="card" id="messagesList"></div>
     </section>
 
-    <!-- ANALYTICS -->
     <section class="section" id="sec-analytics">
       <div class="section-header"><h2><i class="fas fa-chart-line"></i> Analytics</h2></div>
       <div class="card">
@@ -341,7 +338,6 @@ input:checked+.slider:before{transform:translateX(20px)}
       </div>
     </section>
 
-    <!-- SETTINGS -->
     <section class="section" id="sec-settings">
       <div class="section-header"><h2><i class="fas fa-cog"></i> Settings</h2></div>
       <div class="card">
@@ -365,7 +361,11 @@ input:checked+.slider:before{transform:translateX(20px)}
   </div>
 </main>
 
-<!-- ORDER MODAL -->
+<div class="debug-badge" onclick="runDiagnostic()">
+  <div class="dot" id="debugDot"></div>
+  <span id="debugText">Checking...</span>
+</div>
+
 <div class="modal-overlay" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
   <div class="modal">
     <div class="modal-head"><h3 id="orderModalTitle">Order Details</h3><button class="modal-close" onclick="closeOrderModal()"><i class="fas fa-times"></i></button></div>
@@ -376,16 +376,77 @@ input:checked+.slider:before{transform:translateX(20px)}
 <script>
 // ============ STATE ============
 let allOrders=[],allProducts=[],allMessages=[];
-let currentAdminEmail='';
-let productsUnsubscribe=null,ordersUnsubscribe=null,messagesUnsubscribe=null;
+let currentUser=null;
 
 // ============ AUTH GUARD ============
 auth.onAuthStateChanged(user=>{
   if(!user){window.location.href='/admin-login';return;}
-  currentAdminEmail=user.email||'';
-  document.getElementById('adminName').textContent=user.email?.split('@')[0]||'Admin';
+  currentUser=user;
+  const name=user.email?.split('@')[0]||'Admin';
+  document.getElementById('adminName').textContent=name;
+  document.getElementById('userAvatar').textContent=name.slice(0,2).toUpperCase();
+  console.log('✅ Logged in as:',user.email);
   loadAll();
+  setTimeout(checkFirestoreWrite,1500);
 });
+
+// ============ WRITE PERMISSION CHECK ============
+async function checkFirestoreWrite(){
+  const dot=document.getElementById('debugDot');
+  const txt=document.getElementById('debugText');
+  try{
+    const ref=await db.collection('__test__').add({
+      ping:true,
+      uid:currentUser.uid,
+      ts:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await ref.delete();
+    dot.className='dot';
+    txt.textContent='✓ Write OK';
+    console.log('✅ Firestore WRITE permission OK');
+    return true;
+  }catch(e){
+    dot.className='dot err';
+    txt.textContent='✗ Write FAIL';
+    console.error('❌ Firestore WRITE FAILED:',e.code,e.message);
+    console.error('👉 Fix: Firestore Rules → allow read,write if auth != null');
+    return false;
+  }
+}
+
+// ============ DIAGNOSTIC ============
+async function runDiagnostic(){
+  const user=auth.currentUser;
+  const results=[];
+  results.push(`<b>User:</b> ${user?('✅ '+user.email):'❌ Not logged in'}`);
+  results.push(`<b>Firebase:</b> ${typeof firebase!=='undefined'?'✅':'❌'}`);
+  results.push(`<b>Firestore:</b> ${typeof db!=='undefined'?'✅':'❌'}`);
+  // Test write
+  let writeOK=false;
+  try{
+    const ref=await db.collection('__diag__').add({t:Date.now()});
+    await ref.delete();
+    writeOK=true;
+    results.push(`<b>Write Test:</b> ✅ SUCCESS`);
+  }catch(e){
+    results.push(`<b>Write Test:</b> ❌ ${e.code} — ${e.message}`);
+  }
+  // Test read
+  try{
+    await db.collection('products').limit(1).get();
+    results.push(`<b>Read Test:</b> ✅ SUCCESS`);
+  }catch(e){
+    results.push(`<b>Read Test:</b> ❌ ${e.code} — ${e.message}`);
+  }
+  Swal.fire({
+    title:'🔬 Diagnostic Report',
+    html:`<div style="text-align:left;font-size:0.9rem;line-height:2">${results.join('<br>')}</div>
+      ${!writeOK?'<div style="margin-top:1rem;padding:0.75rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;font-size:0.85rem">⚠️ <b>Write fail ho raha hai!</b><br>Firebase Console → Firestore → Rules → ye paste karein:<br><code style="font-size:0.75rem;display:block;margin-top:0.5rem;background:#000;padding:0.5rem;border-radius:6px;overflow-x:auto">allow read, write: if request.auth != null;</code> phir Publish dabayein.</div>':''}`,
+    width:600,
+    background:'#0f172a',color:'#e2e8f0',confirmButtonColor:'#3b82f6'
+  });
+  checkFirestoreWrite();
+}
 
 // ============ SECTION SWITCH ============
 const sectionTitles={dashboard:'Dashboard',orders:'Orders',products:'Products',addproduct:'Add Product',messages:'Messages',analytics:'Analytics',settings:'Settings'};
@@ -407,8 +468,7 @@ async function loadAll(){
   await Promise.all([loadOrders(),loadProducts(),loadMessages()]);
   updateDashboard();
 }
-
-async function refreshAll(){await loadAll();fireToast('Data refreshed!');}
+async function refreshAll(){await loadAll();checkFirestoreWrite();fireToast('Data refreshed!');}
 
 // ============ ORDERS ============
 async function loadOrders(){
@@ -444,7 +504,6 @@ function renderOrders(){
     </tr>`;
   }).join('');
 }
-
 async function viewOrder(id){
   const o=allOrders.find(x=>x.id===id);if(!o)return;
   const name=o.customer_name||'N/A';
@@ -473,42 +532,23 @@ async function viewOrder(id){
   document.getElementById('orderModal').classList.add('open');
 }
 function closeOrderModal(){document.getElementById('orderModal').classList.remove('open');}
-
 async function changeStatus(id){
-  const {value:status}=await Swal.fire({
-    title:'Update Status',
-    input:'select',
-    inputOptions:{pending:'Pending',processing:'Processing',delivered:'Delivered',cancelled:'Cancelled'},
-    inputValue:(allOrders.find(o=>o.id===id)?.status)||'pending',
-    showCancelButton:true,confirmButtonColor:'#3b82f6',
-    background:'#0f172a',color:'#e2e8f0'
-  });
-  if(status){
-    await db.collection('orders').doc(id).update({status});
-    fireToast('Status updated!');
-    await loadOrders();updateDashboard();
-  }
+  const {value:status}=await Swal.fire({title:'Update Status',input:'select',inputOptions:{pending:'Pending',processing:'Processing',delivered:'Delivered',cancelled:'Cancelled'},inputValue:(allOrders.find(o=>o.id===id)?.status)||'pending',showCancelButton:true,confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'});
+  if(status){await db.collection('orders').doc(id).update({status});fireToast('Status updated!');await loadOrders();updateDashboard();}
 }
 async function deleteOrder(id){
   const r=await Swal.fire({title:'Delete Order?',text:'This cannot be undone!',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){
-    await db.collection('orders').doc(id).delete();
-    fireToast('Order deleted');
-    closeOrderModal();loadOrders();updateDashboard();
-  }
+  if(r.isConfirmed){await db.collection('orders').doc(id).delete();fireToast('Order deleted');closeOrderModal();loadOrders();updateDashboard();}
 }
 function exportOrders(){
   if(!allOrders.length)return fireToast('No orders to export','warning');
   const rows=[['Order ID','Name','Email','Phone','City','Address','Total','Status','Payment','Date']];
-  allOrders.forEach((o,i)=>{
-    rows.push([`ORD${String(i+1).padStart(4,'0')}`,o.customer_name||'',o.email||'',o.phone||'',o.city||'',o.address||'',o.total_price||0,o.status||'pending',o.payment_method||'cod',o.createdAt?.toDate?.().toISOString()||'']);
-  });
+  allOrders.forEach((o,i)=>{rows.push([`ORD${String(i+1).padStart(4,'0')}`,o.customer_name||'',o.email||'',o.phone||'',o.city||'',o.address||'',o.total_price||0,o.status||'pending',o.payment_method||'cod',o.createdAt?.toDate?.().toISOString()||'']);});
   const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`orders-${Date.now()}.csv`;a.click();
-  URL.revokeObjectURL(url);
-  fireToast('Orders exported!');
+  URL.revokeObjectURL(url);fireToast('Orders exported!');
 }
 
 // ============ PRODUCTS ============
@@ -517,7 +557,15 @@ async function loadProducts(){
     const snap=await db.collection('products').orderBy('createdAt','desc').get();
     allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderProducts();
-  }catch(e){console.error('Products load error:',e);}
+  }catch(e){
+    console.error('Products load error:',e);
+    // Fallback: try without orderBy (in case some docs missing createdAt)
+    try{
+      const snap=await db.collection('products').get();
+      allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderProducts();
+    }catch(e2){console.error('Fallback also failed:',e2);}
+  }
 }
 function renderProducts(){
   const body=document.getElementById('productsBody');
@@ -528,8 +576,8 @@ function renderProducts(){
   if(search)list=list.filter(p=>(p.name||'').toLowerCase().includes(search));
   if(!list.length){body.innerHTML='<tr><td colspan="5"><div class="empty-state"><i class="fas fa-box-open"></i><h3>No products</h3><p>Click "Add Product" to create your first product</p></div></td></tr>';return;}
   body.innerHTML=list.map(p=>`<tr>
-    <td><img src="${p.image}" class="product-thumb" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect fill=%22%23131c35%22 width=%2248%22 height=%2248%22/></svg>'"></td>
-    <td><strong>${p.name}</strong>${p.badge?` <span style="font-size:0.68rem;background:rgba(6,182,212,0.15);color:var(--accent);padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.4rem">${p.badge}</span>`:''}</td>
+    <td><img src="${p.image||''}" class="product-thumb" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><rect fill=%22%23131c35%22 width=%2248%22 height=%2248%22/></svg>'"></td>
+    <td><strong>${p.name||'Unnamed'}</strong>${p.badge?` <span style="font-size:0.68rem;background:rgba(6,182,212,0.15);color:var(--accent);padding:0.15rem 0.5rem;border-radius:10px;margin-left:0.4rem">${p.badge}</span>`:''}</td>
     <td>${p.category||'—'}</td>
     <td><strong style="color:var(--blue-light)">Rs. ${Number(p.price||0).toLocaleString()}</strong></td>
     <td>
@@ -538,7 +586,6 @@ function renderProducts(){
     </td>
   </tr>`).join('');
 }
-
 function resetProductForm(){
   document.getElementById('productForm').reset();
   document.getElementById('pEditId').value='';
@@ -570,52 +617,42 @@ async function saveProduct(e){
     image:document.getElementById('pImage').value.trim(),
     description:document.getElementById('pDesc').value.trim()
   };
-
   if(!data.name||!data.category||!data.price||!data.image){
-    Swal.fire({icon:'warning',title:'Missing Fields',text:'Please fill all required fields (Name, Category, Price, Image)',
-      background:'#0f172a',color:'#e2e8f0'});
+    Swal.fire({icon:'warning',title:'Missing Fields',text:'Please fill all required fields',background:'#0f172a',color:'#e2e8f0'});
     return;
   }
-
-  Swal.fire({title:'Saving...',allowOutsideClick:false,didOpen:()=>Swal.showLoading(),
-    background:'#0f172a',color:'#e2e8f0'});
-
+  Swal.fire({title:'Saving...',allowOutsideClick:false,didOpen:()=>Swal.showLoading(),background:'#0f172a',color:'#e2e8f0'});
   try{
     if(id){
       await db.collection('products').doc(id).update(data);
-      Swal.fire({icon:'success',title:'Product Updated!',timer:1500,showConfirmButton:false,
-        background:'#0f172a',color:'#e2e8f0'});
+      Swal.fire({icon:'success',title:'Product Updated!',timer:1500,showConfirmButton:false,background:'#0f172a',color:'#e2e8f0'});
     }else{
       data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
       const ref=await db.collection('products').add(data);
-      console.log('✅ Product added with ID:',ref.id);
-      Swal.fire({icon:'success',title:'Product Added!',text:`"${data.name}" saved successfully`,
-        confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'});
+      console.log('✅ Product saved! ID:',ref.id,'Name:',data.name);
+      Swal.fire({icon:'success',title:'Product Added!',html:`<p>"<b>${data.name}</b>" saved!</p><p style="font-size:0.8rem;color:#94a3b8;margin-top:0.5rem">ID: ${ref.id.slice(-8)}</p>`,confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'});
     }
     resetProductForm();
     await loadProducts();
     updateDashboard();
-    switchSection('products');
+    setTimeout(()=>switchSection('products'),800);
   }catch(err){
-    console.error('❌ Save error:',err);
-    Swal.fire({
-      icon:'error',
-      title:'Save Failed',
-      html:`<p style="margin-bottom:0.5rem">${err.message}</p>
-            <p style="font-size:0.8rem;color:#94a3b8">Code: <code>${err.code||'unknown'}</code></p>`,
-      confirmButtonColor:'#ef4444',
-      background:'#0f172a',color:'#e2e8f0'
-    });
+    console.error('❌ Save FAILED:',err);
+    const tips={
+      'permission-denied':'Firestore Rules allow nahi kar rahe. Rules tab mein "allow read, write: if request.auth != null;" paste karke Publish karein.',
+      'unavailable':'Internet ya Firestore enable nahi hai.',
+      'not-found':'Firestore database hi nahi bana. Firebase Console se Create database karein.',
+      'unauthenticated':'Aap logged in nahi hain. /admin-login pe jayein.',
+      'failed-precondition':'Firestore abhi tak ready nahi hua.'
+    };
+    const tip=tips[err.code]||'Firebase Console → Firestore → Rules check karein.';
+    Swal.fire({icon:'error',title:'Save Failed ❌',html:`<div style="text-align:left"><p style="margin-bottom:0.75rem"><b>Error Code:</b> <code style="background:#000;padding:0.2rem 0.5rem;border-radius:4px;color:#fca5a5">${err.code||'unknown'}</code></p><p style="margin-bottom:1rem"><b>Message:</b> ${err.message}</p><div style="padding:0.75rem;background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;border-radius:6px;font-size:0.85rem"><b>💡 Fix:</b> ${tip}</div></div>`,width:600,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
   }
 }
 
 async function deleteProduct(id){
   const r=await Swal.fire({title:'Delete Product?',text:'This cannot be undone!',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
-  if(r.isConfirmed){
-    await db.collection('products').doc(id).delete();
-    fireToast('Product deleted');
-    loadProducts();updateDashboard();
-  }
+  if(r.isConfirmed){await db.collection('products').doc(id).delete();fireToast('Product deleted');loadProducts();updateDashboard();}
 }
 
 // ============ MESSAGES ============
@@ -632,28 +669,15 @@ function renderMessages(){
   wrap.innerHTML=allMessages.map(m=>{
     const date=m.createdAt?.toDate?m.createdAt.toDate().toLocaleString():'—';
     return `<div class="msg-card">
-      <div class="msg-head">
-        <div class="msg-name"><i class="fas fa-user-circle"></i> ${m.name||'Anonymous'}</div>
-        <button class="btn btn-secondary btn-xs" onclick="replyMsg('${m.email}')"><i class="fas fa-reply"></i> Reply</button>
-      </div>
+      <div class="msg-head"><div class="msg-name"><i class="fas fa-user-circle"></i> ${m.name||'Anonymous'}</div>
+      <button class="btn btn-secondary btn-xs" onclick="replyMsg('${m.email}')"><i class="fas fa-reply"></i> Reply</button></div>
       <div class="msg-body">${m.message||''}</div>
-      <div class="msg-meta">
-        <span><i class="fas fa-envelope"></i> ${m.email||'—'}</span>
-        <span><i class="fas fa-phone"></i> ${m.phone||'—'}</span>
-        <span><i class="fas fa-clock"></i> ${date}</span>
-        <span style="margin-left:auto"><button class="btn btn-danger btn-xs" onclick="deleteMessage('${m.id}')"><i class="fas fa-trash"></i></button></span>
-      </div>
+      <div class="msg-meta"><span><i class="fas fa-envelope"></i> ${m.email||'—'}</span><span><i class="fas fa-phone"></i> ${m.phone||'—'}</span><span><i class="fas fa-clock"></i> ${date}</span><span style="margin-left:auto"><button class="btn btn-danger btn-xs" onclick="deleteMessage('${m.id}')"><i class="fas fa-trash"></i></button></span></div>
     </div>`;
   }).join('');
 }
 function replyMsg(email){
-  Swal.fire({
-    title:`Reply to ${email}`,
-    input:'textarea',
-    inputPlaceholder:'Type your reply...',
-    showCancelButton:true,confirmButtonColor:'#3b82f6',
-    background:'#0f172a',color:'#e2e8f0'
-  }).then(r=>{if(r.isConfirmed&&r.value){fireToast('Opening email client...');window.location.href=`mailto:${email}?body=${encodeURIComponent(r.value)}`;}});
+  Swal.fire({title:`Reply to ${email}`,input:'textarea',inputPlaceholder:'Type your reply...',showCancelButton:true,confirmButtonColor:'#3b82f6',background:'#0f172a',color:'#e2e8f0'}).then(r=>{if(r.isConfirmed&&r.value){fireToast('Opening email...');window.location.href=`mailto:${email}?body=${encodeURIComponent(r.value)}`;}});
 }
 async function deleteMessage(id){
   const r=await Swal.fire({title:'Delete Message?',icon:'warning',showCancelButton:true,confirmButtonColor:'#ef4444',background:'#0f172a',color:'#e2e8f0'});
@@ -672,63 +696,29 @@ function updateDashboard(){
   document.getElementById('navMsgBadge').textContent=allMessages.length;
   renderSalesChart();
 }
-
 function renderSalesChart(){
-  const canvas=document.getElementById('salesChart');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  if(!ctx)return;
-  try{
-    if(window.salesChart&&typeof window.salesChart.destroy==='function'){
-      window.salesChart.destroy();
-    }
-  }catch(e){console.warn('Chart destroy err:',e);}
+  const canvas=document.getElementById('salesChart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');if(!ctx)return;
+  try{if(window.salesChart&&typeof window.salesChart.destroy==='function'){window.salesChart.destroy();}}catch(e){}
   window.salesChart=null;
-
   const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const now=new Date();
   const totals=new Array(7).fill(0);
-  allOrders.forEach(o=>{
-    if(!o.createdAt?.toDate)return;
-    const d=o.createdAt.toDate();
-    const diff=Math.floor((now-d)/(1000*60*60*24));
-    if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);
-  });
-
+  allOrders.forEach(o=>{if(!o.createdAt?.toDate)return;const d=o.createdAt.toDate();const diff=Math.floor((now-d)/(1000*60*60*24));if(diff>=0&&diff<7)totals[6-diff]+=Number(o.total_price||0);});
   try{
-    window.salesChart=new Chart(ctx,{
-      type:'line',
-      data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
-    });
-  }catch(e){console.error('Chart creation error:',e);}
+    window.salesChart=new Chart(ctx,{type:'line',data:{labels:days,datasets:[{label:'Sales (PKR)',data:totals,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.12)',tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'#06b6d4',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8',callback:v=>'Rs. '+v.toLocaleString()}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}});
+  }catch(e){console.error('Chart error:',e);}
 }
-
 function loadAnalytics(){
-  const canvas=document.getElementById('catChart');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  if(!ctx)return;
-  try{
-    if(window.catChart&&typeof window.catChart.destroy==='function'){
-      window.catChart.destroy();
-    }
-  }catch(e){console.warn('CatChart destroy err:',e);}
+  const canvas=document.getElementById('catChart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');if(!ctx)return;
+  try{if(window.catChart&&typeof window.catChart.destroy==='function'){window.catChart.destroy();}}catch(e){}
   window.catChart=null;
-
   const cats={Sneakers:0,Formal:0,Casual:0,Boots:0};
-  allOrders.forEach(o=>(o.items||[]).forEach(it=>{
-    const p=allProducts.find(x=>x.id===it.id);
-    if(p&&cats[p.category]!==undefined)cats[p.category]+=Number(it.price||0)*Number(it.qty||1);
-  }));
-
+  allOrders.forEach(o=>(o.items||[]).forEach(it=>{const p=allProducts.find(x=>x.id===it.id);if(p&&cats[p.category]!==undefined)cats[p.category]+=Number(it.price||0)*Number(it.qty||1);}));
   try{
-    window.catChart=new Chart(ctx,{
-      type:'bar',
-      data:{labels:Object.keys(cats),datasets:[{label:'Sales (Rs.)',data:Object.values(cats),backgroundColor:['rgba(59,130,246,0.8)','rgba(6,182,212,0.8)','rgba(16,185,129,0.8)','rgba(245,158,11,0.8)'],borderRadius:10}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}
-    });
-  }catch(e){console.error('CatChart creation error:',e);}
+    window.catChart=new Chart(ctx,{type:'bar',data:{labels:Object.keys(cats),datasets:[{label:'Sales (Rs.)',data:Object.values(cats),backgroundColor:['rgba(59,130,246,0.8)','rgba(6,182,212,0.8)','rgba(16,185,129,0.8)','rgba(245,158,11,0.8)'],borderRadius:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#e2e8f0'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}},x:{grid:{color:'rgba(148,163,184,0.1)'},ticks:{color:'#94a3b8'}}}}});
+  }catch(e){console.error('CatChart error:',e);}
 }
 
 // ============ LOGOUT ============
